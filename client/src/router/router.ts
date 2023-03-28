@@ -1,13 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { get_cookie, remove_cookie } from "@/util/cookie";
 import HomeView from '@/views/HomeView.vue'
-import LoginView from '@/views/LoginView.vue'
-import ResetView from '@/views/ResetView.vue'
-import ResetRequestView from '@/views/ResetRequestView.vue'
-import RegisterView from '@/views/RegisterView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import PrivacyView from '@/views/PrivacyView.vue'
-import DocsView from "@/views/DocsView.vue";
+import DetailsView from "@/views/DetailsView.vue";
+import ShiftingsView from "@/views/ShiftingsView.vue";
+import GuestsView from "@/views/GuestsView.vue";
+import JoinView from "@/views/JoinView.vue";
 import { store } from "@/util/store";
 
 const router = createRouter({
@@ -19,24 +18,24 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/login/:challenge?',
-      name: 'login',
-      component: LoginView
+      path: '/details',
+      name: 'details',
+      component: DetailsView
     },
     {
-      path: '/reset',
-      name: 'reset_request',
-      component: ResetRequestView
+      path: '/shiftings',
+      name: 'shiftings',
+      component: ShiftingsView
     },
     {
-      path: '/reset/:challenge',
-      name: 'reset',
-      component: ResetView
+      path: '/guests',
+      name: 'guests',
+      component: GuestsView
     },
     {
-      path: '/register',
-      name: 'register',
-      component: RegisterView
+      path: '/join',
+      name: 'join',
+      component: JoinView
     },
     {
       path: '/profile',
@@ -48,11 +47,6 @@ const router = createRouter({
       name: 'privacy',
       component: PrivacyView
     },
-    {
-      path: '/docs',
-      name: 'docs',
-      component: DocsView
-    }
   ]
 })
 

@@ -52,6 +52,10 @@
       "de": "\uD83C\uDDE9\uD83C\uDDEA German",
       "en": "\uD83C\uDDEC\uD83C\uDDE7 English"
     },
+    "details": "Details",
+    "shiftings": "Shifts",
+    "guests": "Guests",
+    "join": "JOIN!",
     "login": "Login",
     "register": "Register",
     "profile": "Profile",

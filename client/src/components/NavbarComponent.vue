@@ -12,14 +12,17 @@
           <li class="nav-item">
             <router-link class="nav-link" to="/">{{ $t("nav.home") }}</router-link>
           </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/details">{{ $t("nav.details") }}</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link class="nav-link" to="/help">{{ $t("nav.shiftings") }}</router-link>
+          </li>
           <li>
             <router-link class="nav-link" to="/privacy">{{ $t("nav.privacy") }}</router-link>
           </li>
           <li>
-            <router-link class="nav-link" to="/docs">{{ $t("nav.docs") }}</router-link>
-          </li>
-          <li>
-            <a class="nav-link" href="https://github.com/EliasSchaut/Movie-Monday-Manager" target="_blank">GitHub</a>
+            <a class="nav-link" href="https://github.com/EliasSchaut/Winvite" target="_blank">GitHub</a>
           </li>
         </ul>
 
@@ -48,10 +51,8 @@
             <option value="en">{{ $t("nav.lang.en") }}</option>
             <option value="de">{{ $t("nav.lang.de") }}</option>
           </select>
-          <router-link class="btn btn-success" type="button" to="/login" v-if="!store.logged_in">{{ $t("nav.login") }}</router-link>
-          <router-link class="btn btn-primary" type="button" to="/register" v-if="!store.logged_in">{{ $t("nav.register") }}</router-link>
-          <router-link class="btn btn-outline-primary" type="button" to="/profile" v-if="store.logged_in">{{ $t("nav.profile") }}</router-link>
-          <router-link class="btn btn-danger" type="button" to="/logout" v-if="store.logged_in">{{ $t("nav.logout") }}</router-link>
+          <router-link class="navbar me-lg-3" to="/guests">{{ $t("nav.guests") }}</router-link>
+          <router-link class="btn btn-success" type="button" to="/join">{{ $t("nav.join") }}</router-link>
         </div>
       </div>
     </div>

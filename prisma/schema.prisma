@@ -10,16 +10,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id           Int      @id @default(autoincrement())
-  created_at   DateTime @default(now())
-  username     String   @unique
-  password     String
-  name         String
-  verified     Boolean  @default(false)
-  pw_reset     Boolean  @default(false)
-  challenge    String   @unique @default(cuid())
-  use_gravatar Boolean  @default(false)
-  gravatar_url String   @default("https://www.gravatar.com/avatar/00")
-  email_opt_in Boolean  @default(false)
+model Server {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  server_name String
+}
+
+model Guest {
+  id         Int      @id @default(autoincrement())
+  server_id  Int
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  first_name String
+  last_name  String
+  challenge  String   @unique @default(cuid())
+
+  @@unique([server_id, id])
+  @@unique([server_id, first_name, last_name])
+}
+
+model Options {
+  id          Int      @id @default(autoincrement())
+  server_id   Int
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  option_name String
+  option_desc String
+
+  @@unique([server_id, id])
+}
+
+model GuestOptions {
+  id         Int      @id @default(autoincrement())
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  guest_id   Int
+  option_id  Int
+
+  @@unique([guest_id, option_id])
+}
+
+model Shiftings {
+  id                                 Int      @id @default(autoincrement())
+  server_id                          Int
+  created_at                         DateTime @default(now())
+  updated_at                         DateTime @updatedAt
+  shift_name                         String
+  shift_desc                         String
+  shift_start                        DateTime
+  shift_duration                     String
+  shift_num_of_slots                 Int
+  shift_num_of_participants_per_slot Int
+  shift_min_slot_overlap             Int
+
+  @@unique([server_id, id])
+}
+
+model GuestShiftings {
+  id          Int      @id @default(autoincrement())
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+  guest_id    Int
+  shifting_id Int
+  slot_number Int
+
+  @@unique([guest_id, shifting_id])
 }
