@@ -1,0 +1,25 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  created_at   DateTime @default(now())
+  username     String   @unique
+  password     String
+  name         String
+  verified     Boolean  @default(false)
+  pw_reset     Boolean  @default(false)
+  challenge    String   @unique @default(cuid())
+  use_gravatar Boolean  @default(false)
+  gravatar_url String   @default("https://www.gravatar.com/avatar/00")
+  email_opt_in Boolean  @default(false)
+}

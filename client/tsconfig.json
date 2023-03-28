@@ -1,0 +1,21 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": ["env.d.ts", "src/**/*", "src/**/*.vue", "../src/types/*"],
+  "exclude": ["node_modules", "dist", "tests"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "isolatedModules": true,
+    "strict": true,
+
+    "paths": {
+      "@/types/*": ["../src/types/*"],
+      "@/*": ["./src/*"]
+    },
+  },
+
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
+}
