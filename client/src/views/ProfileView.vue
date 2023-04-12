@@ -3,7 +3,7 @@
     <div class="d-flex flex-column justify-content-between">
       <div class="mb-3">
         <img v-if="user.use_gravatar" class="card-img-top" :src="user.gravatar_url" :alt="$t('profile.avatar.gravatar')" id="profile_picture">
-        <img v-else class="card-img-top" src="../assets/img/Portrait_Placeholder.png" :alt="$t('profile.avatar.placeholder')" id="profile_picture">
+        <img v-else class="card-img-top" :src="'@/assets/img/Portrait_Placeholder.png'" :alt="$t('profile.avatar.placeholder')" id="profile_picture">
         <h5 class="card-title">{{ user.name }}</h5>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_profile">{{ $t('profile.button.profile') }}</button>
       </div>

@@ -33,8 +33,8 @@
     </div>
 </template>
 
-<script>
-import {get_members, get_members_counter} from '../assets/js/api.js';
+<script lang="ts">
+import {get_members, get_members_counter} from '@/assets/js/api.js';
 import {ref} from 'vue'
 
 export default {

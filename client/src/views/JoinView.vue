@@ -65,10 +65,10 @@
     <!----------------------------------------------------------------->
 </template>
 
-<script>
+<script lang="ts">
 import {ref} from "vue"
 import router from "../router/router";
-import {add_member} from "../assets/js/api";
+import {add_member} from "@/assets/js/api";
 
 let loading = ref(false)
 

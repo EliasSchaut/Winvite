@@ -16,7 +16,7 @@
             <router-link class="nav-link" to="/details">{{ $t("nav.details") }}</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/help">{{ $t("nav.shiftings") }}</router-link>
+            <router-link class="nav-link" to="/shiftings">{{ $t("nav.shiftings") }}</router-link>
           </li>
           <li>
             <router-link class="nav-link" to="/privacy">{{ $t("nav.privacy") }}</router-link>

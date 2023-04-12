@@ -28,17 +28,17 @@
     <p class="center" v-html="help.desc"></p>
 
     <div class="arrows">
-        <img id="arrow-down" class="arrow" src="/svg/arrow-down-circle-fill.svg" alt="arrow-down">
+        <img id="arrow-down" class="arrow" src="@/assets/svg/arrow-down-circle-fill.svg" alt="arrow-down">
         <div>
-            <img id="arrow-right" class="arrow" src="/svg/arrow-right-circle-fill.svg" alt="arrow-right">
+            <img id="arrow-right" class="arrow" src="@/assets/svg/arrow-right-circle-fill.svg" alt="arrow-right">
             <router-link class="btn btn-success join_margin" type="button" to="/help">Wähle deine Schicht!</router-link>
-            <img id="arrow-left" class="arrow" src="/svg/arrow-left-circle-fill.svg" alt="arrow-left">
+            <img id="arrow-left" class="arrow" src="@/assets/svg/arrow-left-circle-fill.svg" alt="arrow-left">
         </div>
-        <img id="arrow-up" class="arrow" src="/svg/arrow-up-circle-fill.svg" alt="arrow-up">
+        <img id="arrow-up" class="arrow" src="@/assets/svg/arrow-up-circle-fill.svg" alt="arrow-up">
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     name: "ShiftingsView",
     data() {
