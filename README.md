@@ -21,7 +21,7 @@ There is already a first [demo](https://github.com/EliasSchaut/Winvite-Demo) for
 
 ## Misc
 ### Cloud
-The source code will be open for everybody. However there will be a monetised option, that will host the project for you and will give you your own ssl encrypted subdomain of winvite.site for all of your winvites.
+The source code will be open for everybody. However there will be a monetised option, that will host the project for you and will give you your own ssl encrypted subdomain of winvite.cloud for all of your winvites.
 
 ### Trivia
 Winvite can also be interpreted as **invite** who **win**s the **invite**d which uses [**vite**](https://vitejs.dev/) to **win** also the **invite**r.\
