@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
 import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
 import { config_validation_schema } from '@/common/validation/config.validation';
+import { GuestsModule } from '@/graphql/guests/guests.module';
 
 @Module({
   imports: [
@@ -24,6 +27,11 @@ import { config_validation_schema } from '@/common/validation/config.validation'
         '../src/types/generated/i18n.generated.ts',
       ),
     }),
+    GraphQLModule.forRoot<ApolloDriverConfig>({
+      driver: ApolloDriver,
+      autoSchemaFile: true,
+    }),
+    GuestsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client', 'dist'),
     }),

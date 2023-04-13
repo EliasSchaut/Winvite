@@ -13,7 +13,7 @@ datasource db {
 model Server {
   id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  updated_at  DateTime @default(now()) @updatedAt
   server_name String
 }
 
@@ -21,7 +21,7 @@ model Guest {
   id         Int      @id @default(autoincrement())
   server_id  Int
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  updated_at DateTime @default(now()) @updatedAt
   first_name String
   last_name  String
   challenge  String   @unique @default(cuid())
@@ -34,7 +34,7 @@ model Options {
   id          Int      @id @default(autoincrement())
   server_id   Int
   created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  updated_at  DateTime @default(now()) @updatedAt
   option_name String
   option_desc String
 
@@ -44,7 +44,7 @@ model Options {
 model GuestOptions {
   id         Int      @id @default(autoincrement())
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  updated_at DateTime @default(now()) @updatedAt
   guest_id   Int
   option_id  Int
 
@@ -55,7 +55,7 @@ model Shiftings {
   id                                 Int      @id @default(autoincrement())
   server_id                          Int
   created_at                         DateTime @default(now())
-  updated_at                         DateTime @updatedAt
+  updated_at                         DateTime @default(now()) @updatedAt
   shift_name                         String
   shift_desc                         String
   shift_start                        DateTime
@@ -70,7 +70,7 @@ model Shiftings {
 model GuestShiftings {
   id          Int      @id @default(autoincrement())
   created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  updated_at  DateTime @default(now()) @updatedAt
   guest_id    Int
   shifting_id Int
   slot_number Int
