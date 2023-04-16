@@ -11,42 +11,57 @@ datasource db {
 }
 
 model Server {
-  id          Int      @id @default(autoincrement())
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now()) @updatedAt
-  server_name String
+  id             Int              @id @default(autoincrement())
+  created_at     DateTime         @default(now())
+  updated_at     DateTime         @default(now()) @updatedAt
+  server_name    String
+  guests         Guest[]
+  options        Options[]
+  GuestOptions   GuestOptions[]
+  Shiftings      Shiftings[]
+  GuestShiftings GuestShiftings[]
 }
 
 model Guest {
-  id         Int      @id @default(autoincrement())
-  server_id  Int
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-  first_name String
-  last_name  String
-  challenge  String   @unique @default(cuid())
+  id            Int            @id @default(autoincrement())
+  server_id     Int
+  server        Server         @relation(fields: [server_id], references: [id])
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @default(now()) @updatedAt
+  first_name    String
+  last_name     String
+  anonymous     Boolean        @default(false)
+  challenge     String         @unique @default(cuid())
+  guest_options GuestOptions[]
 
   @@unique([server_id, id])
   @@unique([server_id, first_name, last_name])
 }
 
 model Options {
-  id          Int      @id @default(autoincrement())
-  server_id   Int
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now()) @updatedAt
-  option_name String
-  option_desc String
+  id            Int            @id @default(autoincrement())
+  server_id     Int
+  server        Server         @relation(fields: [server_id], references: [id])
+  created_at    DateTime       @default(now())
+  updated_at    DateTime       @default(now()) @updatedAt
+  name          String
+  label         String
+  warning       String?
+  guest_options GuestOptions[]
 
-  @@unique([server_id, id])
+  @@unique([server_id, name])
 }
 
 model GuestOptions {
   id         Int      @id @default(autoincrement())
+  server_id  Int
+  server     Server   @relation(fields: [server_id], references: [id])
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
   guest_id   Int
+  guest      Guest    @relation(fields: [guest_id], references: [id])
   option_id  Int
+  option     Options  @relation(fields: [option_id], references: [id])
 
   @@unique([guest_id, option_id])
 }
@@ -54,6 +69,7 @@ model GuestOptions {
 model Shiftings {
   id                                 Int      @id @default(autoincrement())
   server_id                          Int
+  server                             Server   @relation(fields: [server_id], references: [id])
   created_at                         DateTime @default(now())
   updated_at                         DateTime @default(now()) @updatedAt
   shift_name                         String
@@ -69,6 +85,8 @@ model Shiftings {
 
 model GuestShiftings {
   id          Int      @id @default(autoincrement())
+  server_id   Int
+  server      Server   @relation(fields: [server_id], references: [id])
   created_at  DateTime @default(now())
   updated_at  DateTime @default(now()) @updatedAt
   guest_id    Int

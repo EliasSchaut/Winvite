@@ -8,6 +8,7 @@ import { join } from 'path';
 
 import { config_validation_schema } from '@/common/validation/config.validation';
 import { GuestsModule } from '@/graphql/guests/guests.module';
+import { OptionsModule } from '@/graphql/options/options.module';
 
 @Module({
   imports: [
@@ -29,9 +30,16 @@ import { GuestsModule } from '@/graphql/guests/guests.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: true,
+      autoSchemaFile: join(
+        process.cwd(),
+        'src',
+        'types',
+        'generated',
+        'schema.gql',
+      ),
     }),
     GuestsModule,
+    OptionsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client', 'dist'),
     }),

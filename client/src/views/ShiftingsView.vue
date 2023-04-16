@@ -1,17 +1,17 @@
 <template>
-    <p class="capture center huge handwritten"><b>{{ this.table.title }}</b></p>
+    <p class="capture center huge handwritten"><b>{{ table.title }}</b></p>
 
     <table class="table table-bordered border-dark" style="width: min(600px, 90vw); margin: auto">
         <thead>
         <tr>
-            <th scope="col">{{ this.table.head_stand }}</th>
-            <th scope="col">{{ this.table.head_time }}</th>
-            <th scope="col">{{ this.table.head_assist }}</th>
+            <th scope="col">{{ table.head_stand }}</th>
+            <th scope="col">{{ table.head_time }}</th>
+            <th scope="col">{{ table.head_assist }}</th>
         </tr>
         </thead>
 
         <!-- Aufbau -->
-        <tbody v-for="stand in this.table.stands">
+        <tbody v-for="stand in table.stands">
             <tr v-for="(assist, number) in stand.assists">
                 <td v-if="number === 0" :rowspan="stand.assists.length">{{ stand.name }}</td>
                 <td>{{ assist.time }}</td>

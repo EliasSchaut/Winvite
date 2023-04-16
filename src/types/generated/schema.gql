@@ -1,0 +1,69 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type OptionModel {
+  id: Int!
+
+  """Key of option."""
+  name: String!
+
+  """Visible short description of option."""
+  label: String!
+
+  """If the guests wants to be displayed publicly."""
+  warning: String
+}
+
+type GuestModel {
+  id: Int!
+
+  """The first name of the guest."""
+  first_name: String!
+
+  """The last name of the guest."""
+  last_name: String!
+
+  """If the guests wants to be displayed publicly."""
+  anonymous: Boolean!
+
+  """The challenge of the guest, the user has to provide to authenticate."""
+  challenge: String!
+
+  """The options the guest has selected."""
+  options: [OptionModel!]!
+}
+
+type GuestsModel {
+  """All guests."""
+  guests: [GuestModel!]!
+
+  """Count of all guests."""
+  count: Int!
+}
+
+type Query {
+  """Get all guests information."""
+  guests: GuestsModel!
+
+  """Get all options."""
+  options: [OptionModel!]!
+}
+
+type Mutation {
+  guest(guest_input_data: GuestInputModel!): GuestModel!
+}
+
+input GuestInputModel {
+  """The first name of the guest."""
+  first_name: String!
+
+  """The last name of the guest."""
+  last_name: String!
+
+  """If the guests wants to be displayed publicly."""
+  anonymous: Boolean!
+
+  """The options the guest has selected."""
+  option_ids: [Int!]!
+}

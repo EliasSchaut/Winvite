@@ -6,6 +6,7 @@
     "baseUrl": ".",
     "isolatedModules": true,
     "strict": true,
+    "experimentalDecorators": true,
 
     "paths": {
       "@/types/*": ["../src/types/*"],

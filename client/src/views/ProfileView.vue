@@ -90,10 +90,11 @@ import InputComponent from "@/components/form/InputComponent.vue";
 import { defineComponent, ref } from "vue";
 import router from "@/router/router";
 import CardComponent from "@/components/CardComponent.vue";
-import type { UserSlimType } from "@/types/user/user_slim.type";
 import FormVal from "@/components/form/FormValComponent.vue";
+type UserSlimType = { name: string, username: string, use_gravatar: boolean, email_opt_in: boolean, gravatar_url: string }
 const user = ref({} as UserSlimType)
 
+// @TODO: Fix Profile
 export default defineComponent({
   name: "ProfileComponent",
   components: {
@@ -164,7 +165,7 @@ function fetch_user(): Promise<void> {
     if (data.use_gravatar) {
       data.gravatar_url += "?s=100"
     }
-    user.value = data;
+    user.value = data as UserSlimType;
   });
 }
 </script>

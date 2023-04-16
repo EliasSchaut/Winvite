@@ -1,32 +1,32 @@
 <template>
     <div v-if="$route.params.status === 'success'" class="alert alert-success" role="alert" id="alert_success"
          style="text-align: center">
-        {{ this.status.success }}
+        {{ status.success }}
     </div>
     <div v-if="$route.params.status === 'error'" class="alert alert-danger" role="alert" id="alert_error"
          style="text-align: center">
-        {{ this.status.error }}
+        {{ status.error }}
     </div>
 
     <div class="numbers">
-        <p class="">{{ this.guests.count.pre }}</p>
-        <p id="member_count" class="huge">{{ this.guests.count.value }}</p>
-        <p class="big">{{ this.guests.count.post }}</p>
+        <p class="">{{ guests.count.pre }}</p>
+        <p id="member_count" class="huge">{{ gql_guests.count }}</p>
+        <p class="big">{{ guests.count.post }}</p>
     </div>
 
     <div class="guests">
-        <p class="big text-decoration-underline"><b> {{ this.guests.title }} </b></p>
+        <p class="big text-decoration-underline"><b> {{ guests.title }} </b></p>
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">{{ this.guests.forename }}</th>
-                <th scope="col">{{ this.guests.surname }}</th>
+                <th scope="col">{{ guests.forename }}</th>
+                <th scope="col">{{ guests.surname }}</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="guest in this.guests.list.value">
-                <td>{{ guest.forename }}</td>
-                <td>{{ guest.surname }}</td>
+            <tr v-for="guest of gql_guests.guests">
+                <td>{{ guest.first_name }}</td>
+                <td>{{ guest.last_name }}</td>
             </tr>
             </tbody>
         </table>
@@ -34,8 +34,9 @@
 </template>
 
 <script lang="ts">
-import {get_members, get_members_counter} from '@/assets/js/api.js';
-import {ref} from 'vue'
+import { computed, ref } from "vue";
+import { useQuery } from "@vue/apollo-composable";
+import gql from "graphql-tag";
 
 export default {
     name: "GuestsView",
@@ -61,48 +62,25 @@ export default {
             }
         }
     },
-    created() {
-        set_guest_counter(this.guests.count, this.api_base)
-        fill_guest_list(this.guests.list, this.api_base)
-    }
-}
+    setup() {
+        const { result } = useQuery(
+            gql`
+                query get_guests {
+                    guests {
+                        count,
+                        guests {
+                            first_name,
+                            last_name
+                        }
+                    }
+                }
+            `
+        );
 
-async function set_guest_counter(counter, api_base) {
-    try {
-        const res = await get_members_counter(api_base)
-        if (res.status === 200) {
-            counter.value = await res.text()
-
-        } else {
-            print_alert_error()
-        }
-
-    } catch (error) {
-        console.log(error)
-        print_alert_error()
-    }
-}
-
-async function fill_guest_list(list, api_base) {
-    try {
-        const res = await get_members(api_base)
-
-        if (res.status === 200) {
-            list.value = await res.json()
-
-
-        } else {
-            print_alert_error()
-        }
-
-    } catch (error) {
-        console.log(error)
-        print_alert_error()
-    }
-}
-
-function print_alert_error() {
-
+        return {
+            gql_guests: computed(() => result.value?.guests ?? [])
+        };
+    },
 }
 </script>
 

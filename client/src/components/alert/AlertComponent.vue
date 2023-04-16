@@ -1,6 +1,6 @@
 <template>
   <component v-if="store.alert.show" :is="tabs[store.alert.type]">
-    <br>{{ store.alert.msg }}
+    <br><span v-html="store.alert.msg" />
   </component>
 </template>
 

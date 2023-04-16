@@ -1,4 +1,3 @@
-
 import { get_cookie } from '@/util/cookie'
 import { store } from '@/util/store';
 import i18next from 'i18next';

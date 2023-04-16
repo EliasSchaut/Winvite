@@ -40,7 +40,7 @@ export const store = reactive({
     }
   },
 
-  show_alert(type: string, msg: string) {
+  show_alert(type: "info" | "danger" | "warning" | "success", msg: string) {
     this.alert.type = type;
     this.alert.msg = msg;
     this.alert.show = true;
