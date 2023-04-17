@@ -6,7 +6,7 @@ import {
 import { PrismaService } from '@/common/db/prisma.service';
 import { GuestInputModel } from '@/types/models/inputs/guest.input';
 import { Prisma } from '@prisma/client';
-import { BadRequestError } from '@apollo/server/dist/esm/internalErrorClasses';
+import { GuestModel } from '@/types/models/guest.model';
 
 @Injectable()
 export class GuestsService {
@@ -18,6 +18,12 @@ export class GuestsService {
   async find_all_public() {
     return this.prisma.guest.findMany({
       where: { server_id: this.server_id, anonymous: false },
+    });
+  }
+
+  async find_by_id(guest_id: number): Promise<GuestModel | null> {
+    return this.prisma.guest.findUnique({
+      where: { id: guest_id },
     });
   }
 

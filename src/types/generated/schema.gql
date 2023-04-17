@@ -42,9 +42,19 @@ type GuestsModel {
   count: Int!
 }
 
+type AuthModel {
+  """The access token."""
+  access_token: String!
+}
+
 type Query {
+  sign_in(challenge: String!): AuthModel!
+
   """Get all guests information."""
   guests: GuestsModel!
+
+  """Get specific guest information."""
+  guest: GuestModel!
 
   """Get all options."""
   options: [OptionModel!]!

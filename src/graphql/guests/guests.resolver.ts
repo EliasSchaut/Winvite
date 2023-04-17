@@ -10,6 +10,9 @@ import { GuestsService } from '@/graphql/guests/guests.service';
 import { GuestModel } from '@/types/models/guest.model';
 import { GuestsModel } from '@/types/models/guests.model';
 import { GuestInputModel } from '@/types/models/inputs/guest.input';
+import { AuthGuard } from '@/graphql/auth/auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { UserID } from '@/graphql/auth/user.decorator';
 
 @Resolver(() => GuestModel)
 export class GuestsResolver {
@@ -24,6 +27,15 @@ export class GuestsResolver {
     const count = this.guestsService.count_all();
     return { guests, count };
   }
+
+  @UseGuards(AuthGuard)
+  @Query(() => GuestModel, {
+    description: 'Get specific guest information.',
+  })
+  async guest(@UserID() user_id: number) {
+    return this.guestsService.find_by_id(user_id);
+  }
+
   @Mutation(() => GuestModel, { name: 'guest' })
   async add_guest(
     @Args({ name: 'guest_input_data', type: () => GuestInputModel })

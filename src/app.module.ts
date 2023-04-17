@@ -9,6 +9,7 @@ import { join } from 'path';
 import { config_validation_schema } from '@/common/validation/config.validation';
 import { GuestsModule } from '@/graphql/guests/guests.module';
 import { OptionsModule } from '@/graphql/options/options.module';
+import { AuthModule } from '@/graphql/auth/auth.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { OptionsModule } from '@/graphql/options/options.module';
         'schema.gql',
       ),
     }),
+    AuthModule,
     GuestsModule,
     OptionsModule,
     ServeStaticModule.forRoot({
