@@ -16,6 +16,9 @@
             <router-link class="nav-link" to="/details">{{ $t("nav.details") }}</router-link>
           </li>
           <li class="nav-item">
+            <router-link class="nav-link" to="/guests">{{ $t("nav.guests") }}</router-link>
+          </li>
+          <li class="nav-item">
             <router-link class="nav-link" to="/shiftings">{{ $t("nav.shiftings") }}</router-link>
           </li>
           <li>
@@ -51,7 +54,7 @@
             <option value="en">{{ $t("nav.lang.en") }}</option>
             <option value="de">{{ $t("nav.lang.de") }}</option>
           </select>
-          <router-link class="navbar me-lg-3" to="/guests">{{ $t("nav.guests") }}</router-link>
+          <router-link class="btn btn-outline-primary" type="button" to="/profile">{{ $t("nav.profile") }}</router-link>
           <router-link class="btn btn-success" type="button" to="/join">{{ $t("nav.join") }}</router-link>
         </div>
       </div>

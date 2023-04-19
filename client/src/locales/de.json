@@ -2,26 +2,13 @@
   "common": {
     "loading": "Lade...",
     "form": {
-      "username": {
-        "label": "E-Mail",
-        "invalid_feedback": "Bitte gib eine gültige E-Mail Adresse ein!"
-      },
-      "name": {
-        "label": "Name",
+      "first_name": {
+        "label": "Vorname",
         "invalid_feedback": "Muss zwischen 3 und 20 Zeichen lang sein und mit einem Großbuchstaben beginnen!"
       },
-      "password": {
-        "label": {
-          "single": "Passwort",
-          "retype": "Passwort erneut eingeben",
-          "old": "Altes Passwort",
-          "submit": "Mit Passwort bestätigen"
-        },
-        "invalid_feedback": {
-          "single": "Mindestens acht Zeichen, mindestens ein Buchstabe und eine Zahl!",
-          "double": "- Mindestens 8 Zeichen<br>- Enthält einen Großbuchstaben, einen Kleinbuchstaben und eine Zahl<br>- Kann Sonderzeichen enthalten",
-          "double_retype": "Sollte mit dem Passwort identisch sein!"
-        }
+      "last_name": {
+        "label": "Nachname",
+        "invalid_feedback": "Muss zwischen 3 und 20 Zeichen lang sein und mit einem Großbuchstaben beginnen!"
       },
       "valid_feedback": "Sieht gut aus!",
       "submit": "Bestätigen",
@@ -42,80 +29,37 @@
       "auto": "Auto"
     }
   },
-
   "nav": {
     "home": "Start",
     "history": "Verlauf",
     "privacy": "Datenschutz",
-    "docs": "Doks",
     "lang": {
       "de": "\uD83C\uDDE9\uD83C\uDDEA Deutsch",
       "en": "\uD83C\uDDEC\uD83C\uDDE7 Englisch"
     },
     "details": "Details",
     "shiftings": "Schichten",
-    "guests": "Gästeliste",
+    "guests": "Gäste",
     "join": "JOIN!",
-    "login": "Anmelden",
-    "register": "Registrieren",
     "profile": "Profil",
     "logout": "Abmelden"
   },
-
-  "docs": {
-    "title": "Verfügbare Dokumentation",
-    "api": "Api Doks",
-    "backend": "Backend Doks"
-  },
-
   "profile": {
     "header": "Profil",
-    "avatar": {
-      "title": "Avatar",
-      "placeholder": "Platzhalterbild",
-      "gravatar": "Profilbild"
-    },
     "button": {
-      "profile": "Profil bearbeiten",
-      "username": "E-Mail ändern",
-      "password": "Passwort ändern"
+      "profile": "Namen bearbeiten"
     },
     "form": {
-      "profile": {
-        "gravatar": "Gravatar verwenden"
-      },
-      "username": {
-        "new": "Neue E-Mail"
-      },
       "delete_account": {
         "desc": "Alle von Ihnen vorgeschlagenen Filme, Stimmen und Benutzerdaten gehen unwiederbringlich verloren!"
       }
     },
     "option": {
       "title": "Optionen",
-      "email_opt_in": "Empfange E-Mails",
       "get_user_data": "Alle Benutzerdaten abrufen",
       "delete_account": "Konto löschen"
     }
   },
-
-  "login": {
-    "title": "Anmeldung",
-    "forgot_password": "Passwort vergessen"
-  },
-
-  "register": {
-    "title": "Registrierung"
-  },
-
-  "reset_request": {
-    "title": "Anfrage auf Passwortrücksetzung"
-  },
-
-  "reset": {
-    "title": "Passwortrücksetzung"
-  },
-
   "privacy": {
     "imprint": {
       "title": "Impressum",

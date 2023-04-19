@@ -20,17 +20,9 @@
     <p>Damit stehst du automatisch auf der Gästeliste und bist dabei!</p>
   </div>
 
-  <form @submit.prevent="form_submit" class="form needs-validation">
-    <div class="mb-3">
-      <label for="from_forename" class="form-label">Vorname</label>
-      <input type="text" class="form-control" id="from_forename" placeholder="Max" name="forename" required>
-    </div>
-
-    <div class="mb-3">
-      <label for="from_surname" class="form-label">Nachname</label>
-      <input type="text" class="form-control" id="from_surname" placeholder="Mustermann" name="surname" required>
-    </div>
-
+  <FormComponent :submit="form_submit" class="form">
+    <FirstNameComponent />
+    <LastNameComponent />
     <div v-for="option in gql_options" class="form-check">
       <input v-if="option.warning !== null" :id="'form_check_' + option.name" :name="option.name"
              class="form-check-input" type="checkbox" data-bs-toggle="modal"
@@ -52,7 +44,7 @@
       <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
       {{ form.submit.loading }}
     </button>
-  </form>
+  </FormComponent>
   <!----------------------------------------------------------------->
 
 
@@ -65,17 +57,20 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue';
-import { useMutation, useQuery } from '@vue/apollo-composable';
+import { defineComponent, ref } from 'vue';
 import gql from 'graphql-tag';
 import ModalComponent from '@/components/ModalComponent.vue';
 import type { OptionModel } from '@/types/models/option.model';
 import { store } from '@/util/store';
-import { set_cookie } from '@/util/cookie';
+import FirstNameComponent from '@/components/form/FirstNameComponent.vue';
+import LastNameComponent from '@/components/form/LastNameComponent.vue';
+import FormComponent from '@/components/form/FormComponent.vue';
+import router from '@/router/router';
+import { mutation, query } from '@/util/graphql';
 
 export default defineComponent({
   name: 'JoinView',
-  components: { ModalComponent },
+  components: { FormComponent, FirstNameComponent, LastNameComponent, ModalComponent },
   data() {
     return {
       loading: ref(false),
@@ -115,13 +110,11 @@ export default defineComponent({
       this.loading = true;
       this.add_guest({
         guest_input_data: {
-          first_name: form_data.get('forename'),
-          last_name: form_data.get('surname'),
+          first_name: form_data.get('first_name'),
+          last_name: form_data.get('last_name'),
           anonymous: form_data.get('anonymous') === 'on',
           option_ids: option_ids
         }
-      }).catch((e) => {
-        store.show_alert("warning", e.message)
       }).then((res) => {
         const challenge = res!.data.guest.challenge
         store.show_alert("success", `Du hast dich erfolgreich angemeldet!<br>
@@ -129,39 +122,44 @@ export default defineComponent({
         Bitte notiere dir diesen Code, da du ihn brauchst,
         um in anderen Browsern oder Geräten deine Daten nachträglich zu ändern!
         Du wirst diesen Code kein zweites Mal sehen!`)
-        set_cookie("guest_challenge", challenge, 365)
+        localStorage.setItem("guest_challenge", challenge)
+        router.push({ name: 'ProfileView', params: { challenge: challenge } })
       }).finally(() => {
         this.loading = false;
       });
     }
   },
   setup() {
-    const { mutate: add_guest } = useMutation(gql`
+    const gql_options = ref([] as OptionModel[]);
+    const gql_options_filtered = ref([] as OptionModel[]);
+
+    const mutate = mutation(gql`
         mutation add_guest($guest_input_data: GuestInputModel!) {
           guest(guest_input_data: $guest_input_data) {
             id
             challenge
           }
         }
-      `)
+      `);
 
-    const { result } = useQuery(
-      gql`
-                query get_join {
-                    options {
-                        id
-                        name
-                        label
-                        warning
-                    }
-                }
-            `
-    );
+    query(gql`
+        query get_join {
+            options {
+                id
+                name
+                label
+                warning
+            }
+        }
+    `).then((res) => {
+      gql_options.value = res.options as OptionModel[];
+      gql_options_filtered.value = (res.options as OptionModel[]).filter((option) => option.warning !== null);
+    })
 
     return {
-      add_guest,
-      gql_options: computed(() => result.value?.options as OptionModel[] ?? []),
-      gql_options_filtered: computed(() => (result.value?.options as OptionModel[]).filter((option) => option.warning !== null) ?? [])
+      add_guest: mutate,
+      gql_options,
+      gql_options_filtered,
     };
   }
 });

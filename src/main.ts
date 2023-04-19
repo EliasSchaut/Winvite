@@ -19,6 +19,7 @@ async function bootstrap() {
           styleSrc: [
             `'self'`,
             `'unsafe-inline'`,
+            'data:',
             'https://fonts.googleapis.com',
           ],
           scriptSrc: ["'self'", "https: 'unsafe-inline'"],

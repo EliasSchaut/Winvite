@@ -22,7 +22,7 @@ export class AuthService {
 
     const payload = { username: guest.id, sub: null };
     return {
-      access_token: await this.jwtService.signAsync(payload),
+      barrier_token: await this.jwtService.signAsync(payload),
     };
   }
 }

@@ -43,8 +43,8 @@ type GuestsModel {
 }
 
 type AuthModel {
-  """The access token."""
-  access_token: String!
+  """The barrier token."""
+  barrier_token: String!
 }
 
 type Query {

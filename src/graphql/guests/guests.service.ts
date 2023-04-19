@@ -1,12 +1,9 @@
-import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/common/db/prisma.service';
 import { GuestInputModel } from '@/types/models/inputs/guest.input';
 import { Prisma } from '@prisma/client';
 import { GuestModel } from '@/types/models/guest.model';
+import { GraphQLError } from 'graphql/error';
 
 @Injectable()
 export class GuestsService {
@@ -68,11 +65,13 @@ export class GuestsService {
       })
       .catch((error: Prisma.PrismaClientKnownRequestError) => {
         if (error.code === 'P2002') {
-          throw new ConflictException('Guest already exists.');
+          throw new GraphQLError('Guest already exists', {
+            extensions: { code: 'CONFLICT' },
+          });
         } else {
-          throw new InternalServerErrorException(
-            'Could not create guest. Try again later.',
-          );
+          throw new GraphQLError('Could not create guest. Try again later.', {
+            extensions: { code: 'INTERNAL_SERVER_ERROR' },
+          });
         }
       });
   }

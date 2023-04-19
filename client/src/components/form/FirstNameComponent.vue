@@ -1,11 +1,11 @@
 <template>
   <InputComponent
-    :label="$t('common.form.name.label')"
+    :label="$t('common.form.first_name.label')"
     type="text"
-    placeholder="Max Mustermann"
-    name="name"
+    placeholder="Max"
+    name="first_name"
     pattern="^[A-Z].{2,20}$"
-    :invalid_feedback="$t('common.form.name.invalid_feedback')"
+    :invalid_feedback="$t('common.form.first_name.invalid_feedback')"
     required />
 </template>
 
@@ -13,7 +13,7 @@
 import InputComponent from "@/components/form/InputComponent.vue";
 import { defineComponent } from "vue";
 export default defineComponent({
-  name: "NameComponent",
+  name: "FirstNameComponent",
   components: { InputComponent }
 });
 </script>

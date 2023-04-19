@@ -1,5 +1,5 @@
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
-import { DefaultApolloClient } from '@vue/apollo-composable'
+import { DefaultApolloClient, provideApolloClient  } from '@vue/apollo-composable'
 import { createApp, provide, h } from "vue";
 import App from './App.vue';
 import i18next from "i18next";
@@ -22,6 +22,10 @@ const httpLink = createHttpLink({
 const cache = new InMemoryCache()
 const apollo_client = new ApolloClient({
   link: httpLink,
+  headers: {
+    authorization: localStorage.getItem("barrier_token") || "",
+    accept_language: localStorage.getItem("lang") || "en",
+  },
   cache,
 })
 // ------------
@@ -36,6 +40,7 @@ i18next.init({
   const app = createApp({
     setup() {
       provide(DefaultApolloClient, apollo_client)
+      provideApolloClient(apollo_client)
     },
     render: () => h(App)
   })

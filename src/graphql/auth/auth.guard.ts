@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 import * as process from 'process';
 import { GqlExecutionContext } from '@nestjs/graphql';
+import { GraphQLError } from 'graphql/error';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -26,7 +27,9 @@ export class AuthGuard implements CanActivate {
       });
       req['user'] = Number(payload.username);
     } catch {
-      throw new UnauthorizedException();
+      throw new GraphQLError('Invalid token', {
+        extensions: { code: 'UNAUTHORIZED' },
+      });
     }
     return true;
   }

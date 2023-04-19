@@ -38,7 +38,7 @@ const router = createRouter({
       component: JoinView
     },
     {
-      path: '/profile',
+      path: '/profile/:challenge?',
       name: 'profile',
       component: ProfileView
     },
