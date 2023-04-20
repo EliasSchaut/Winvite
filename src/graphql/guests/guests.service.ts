@@ -75,4 +75,47 @@ export class GuestsService {
         }
       });
   }
+
+  async update_guest(guest_id: number, guest_update_data: GuestInputModel) {
+    return this.prisma.guest
+      .update({
+        where: { id: guest_id },
+        data: {
+          first_name: guest_update_data.first_name,
+          last_name: guest_update_data.last_name,
+          anonymous: guest_update_data.anonymous,
+          guest_options: {
+            deleteMany: { server_id: this.server_id },
+            createMany: {
+              data: guest_update_data.option_ids.map((option_id) => ({
+                option_id: option_id,
+                server_id: this.server_id,
+              })),
+            },
+          },
+        },
+      })
+      .catch((error: Prisma.PrismaClientKnownRequestError) => {
+        console.log(error);
+        if (error.code === 'P2002') {
+          throw new GraphQLError('Guest name already exists in server', {
+            extensions: { code: 'CONFLICT' },
+          });
+        } else if (error.code === 'P2003') {
+          throw new GraphQLError('Given guest options does not exist', {
+            extensions: { code: 'NOT_FOUND' },
+          });
+        } else {
+          throw new GraphQLError('Could not update guest. Try again later.', {
+            extensions: { code: 'INTERNAL_SERVER_ERROR' },
+          });
+        }
+      });
+  }
+
+  async delete_guest(guest_id: number) {
+    return this.prisma.guest.delete({
+      where: { id: guest_id },
+    });
+  }
 }

@@ -109,6 +109,7 @@ export default defineComponent({
             last_name
             anonymous
             options {
+              id
               name
               label
               warning
@@ -117,6 +118,9 @@ export default defineComponent({
         }
       `).then((data) => {
         this.user = data.guest as GuestModel;
+        for (const option of this.user.options!) {
+          document.getElementById(`form_check_${option.name}`)?.setAttribute('checked', 'true')
+        }
       });
     },
     delete_account(e: Event) {

@@ -59,7 +59,7 @@ model GuestOptions {
   created_at DateTime @default(now())
   updated_at DateTime @default(now()) @updatedAt
   guest_id   Int
-  guest      Guest    @relation(fields: [guest_id], references: [id])
+  guest      Guest    @relation(fields: [guest_id], references: [id], onDelete: Cascade)
   option_id  Int
   option     Options  @relation(fields: [option_id], references: [id])
 

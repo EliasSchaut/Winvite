@@ -61,7 +61,8 @@ type Query {
 }
 
 type Mutation {
-  guest(guest_input_data: GuestInputModel!): GuestModel!
+  guest(guest_update_data: GuestInputModel!): GuestModel!
+  delete_guest: GuestModel!
 }
 
 input GuestInputModel {

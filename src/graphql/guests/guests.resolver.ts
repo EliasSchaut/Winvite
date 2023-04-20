@@ -44,6 +44,22 @@ export class GuestsResolver {
     return this.guestsService.add_guest(guest_input_data);
   }
 
+  @UseGuards(AuthGuard)
+  @Mutation(() => GuestModel, { name: 'guest' })
+  async update_guest(
+    @Args({ name: 'guest_update_data', type: () => GuestInputModel })
+    guest_update_data: GuestInputModel,
+    @UserID() user_id: number,
+  ) {
+    return this.guestsService.update_guest(user_id, guest_update_data);
+  }
+
+  @UseGuards(AuthGuard)
+  @Mutation(() => GuestModel, { name: 'delete_guest' })
+  async delete_guest(@UserID() user_id: number) {
+    return this.guestsService.delete_guest(user_id);
+  }
+
   @ResolveField()
   async options(@Parent() guest: GuestModel) {
     return this.guestsService.find_options_by_guest(guest.id);
