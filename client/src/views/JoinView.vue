@@ -23,17 +23,7 @@
   <FormComponent :submit="form_submit" class="form">
     <FirstNameComponent />
     <LastNameComponent />
-    <div v-for="option in gql_options" class="form-check">
-      <input v-if="option.warning !== null" :id="'form_check_' + option.name" :name="option.name"
-             class="form-check-input" type="checkbox" data-bs-toggle="modal"
-             :data-bs-target="'#modal_' + option.name">
-      <input v-else :id="'form_check_' + option.name" :name="option.name" class="form-check-input" type="checkbox">
-      <label v-text="option.label" class="form-check-label" :for="'form_check_' + option.name" />
-    </div>
-    <div class="form-check">
-      <input id="form_check_anonymous" name="anonymous" class="form-check-input" type="checkbox">
-      <label v-html="form.anonym.label" class="form-check-label" for="form_check_anonymous" />
-    </div>
+    <OptionsComponent :options="gql_options" show_warnings show_anonym />
 
     <button v-if="!loading" id="button_submit" type="submit" class="btn btn-primary form-submit"
             data-bs-placement="bottom">
@@ -45,14 +35,6 @@
       {{ form.submit.loading }}
     </button>
   </FormComponent>
-  <!----------------------------------------------------------------->
-
-
-  <!-- Modals ------------------------------------------------------->
-  <ModalComponent v-for="option in gql_options_filtered" :title="form.modal.title"
-                  :id="'modal_' + option.name" show_dismiss_button show_only_once>
-    {{ option.warning }}
-  </ModalComponent>
   <!----------------------------------------------------------------->
 </template>
 
@@ -67,28 +49,20 @@ import LastNameComponent from '@/components/form/LastNameComponent.vue';
 import FormComponent from '@/components/form/FormComponent.vue';
 import router from '@/router/router';
 import { mutation, query } from '@/util/graphql';
+import OptionsComponent from '@/components/form/OptionsComponent.vue';
 
 export default defineComponent({
   name: 'JoinView',
-  components: { FormComponent, FirstNameComponent, LastNameComponent, ModalComponent },
+  components: { OptionsComponent, FormComponent, FirstNameComponent, LastNameComponent, ModalComponent },
   data() {
     return {
       loading: ref(false),
-      api_base: 'https://api.schaut.dev/bday/',
-
       status: {
         error: 'Error! Es gab einen Fehler bei der Anmeldung! Du bist noch nicht registriert!',
         not_acceptable: 'Error! Dein Name ist ungültig! Dein Name darf nur deutsche <b>Buchstaben</b> und folgende Zeichen enthalten: Leerzeichen, Punkt, Strich, Apostroph (\').<br>Zudem muss jedes Feld mindestens einen Buchstaben enthalten und dein Name darf nicht mehr als 40 Zeichen beinhalten.',
         duplicate: 'Error! Dieser Name ist schon in der Datenbank vorhanden! Falls du dich schon einmal angemeldet hast, solltest du dich nicht nochmal anmelden!'
       },
-
       form: {
-        anonym: {
-          label: 'Ich möchte <b>nicht</b> in der <router-link to="/guests/">öffentlichen Gästeliste</router-link> gelistet werden'
-        },
-        modal: {
-          title: 'Achtung!'
-        },
         submit: {
           name: 'Bestätigen',
           loading: 'Fertigstellen...'
@@ -131,8 +105,6 @@ export default defineComponent({
   },
   setup() {
     const gql_options = ref([] as OptionModel[]);
-    const gql_options_filtered = ref([] as OptionModel[]);
-
     const mutate = mutation(gql`
         mutation add_guest($guest_input_data: GuestInputModel!) {
           guest(guest_input_data: $guest_input_data) {
@@ -141,25 +113,21 @@ export default defineComponent({
           }
         }
       `);
-
     query(gql`
         query get_join {
             options {
                 id
                 name
                 label
-                warning
             }
         }
     `).then((res) => {
       gql_options.value = res.options as OptionModel[];
-      gql_options_filtered.value = (res.options as OptionModel[]).filter((option) => option.warning !== null);
     })
 
     return {
       add_guest: mutate,
       gql_options,
-      gql_options_filtered,
     };
   }
 });

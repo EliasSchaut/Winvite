@@ -8,6 +8,12 @@
 
       <CardComponent :header="$t('profile.option.title')" nobody>
         <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <div class="form-switch">
+              <input class="form-check-input" type="checkbox" role="switch" id="switch_emails" :checked="user.anonymous" name="anonymous" @click="update_anonymous">
+              <label class="form-check-label ms-2" for="switch_emails">{{ $t('common.guest.anonym') }}</label>
+            </div>
+          </li>
           <li class="list-group-item"><a @click.prevent="" href="">{{ $t('profile.option.get_user_data') }}</a></li>
           <li class="list-group-item"><a @click.prevent="" data-bs-toggle="modal" data-bs-target="#modal_delete_account" style="color: red" href="">{{ $t('profile.option.delete_account') }}</a></li>
         </ul>
@@ -17,10 +23,11 @@
 
   <!-- Modal: Change Profile -->
   <ModalComponent id="modal_profile" :title="$t('profile.button.profile')">
-    <FormComponent :submit="on_submit" class="d-flex flex-column">
+    <FormComponent :submit="update_profile" class="d-flex flex-column">
       <FirstNameComponent />
       <LastNameComponent />
-      <SubmitComponent inner_text="Update" />
+      <OptionsComponent :options="gql_options" />
+      <SubmitComponent class="mt-3" inner_text="Update" />
     </FormComponent>
   </ModalComponent>
 
@@ -46,11 +53,14 @@ import LastNameComponent from '@/components/form/LastNameComponent.vue';
 import gql from 'graphql-tag';
 import { query } from '@/util/graphql';
 import type { GuestModel } from '@/types/models/guest.model';
+import OptionsComponent from '@/components/form/OptionsComponent.vue';
+import type { OptionModel } from '@/types/models/option.model';
 
 // @TODO: Fix Profile
 export default defineComponent({
   name: "ProfileComponent",
   components: {
+    OptionsComponent,
     FormComponent,
     CardComponent,
     InputComponent,
@@ -85,7 +95,10 @@ export default defineComponent({
     }
   },
   methods: {
-    on_submit(e: Event) {
+    update_profile(e: Event) {
+
+    },
+    update_anonymous(e: Event) {
 
     },
     fetch_user() {
@@ -108,6 +121,25 @@ export default defineComponent({
     },
     delete_account(e: Event) {
 
+    }
+  },
+  setup() {
+    const gql_options = ref([] as OptionModel[]);
+    query(gql`
+        query get_join {
+            options {
+                id
+                name
+                label
+                warning
+            }
+        }
+    `).then((res) => {
+      gql_options.value = res.options as OptionModel[];
+    })
+
+    return {
+      gql_options
     }
   }
 });

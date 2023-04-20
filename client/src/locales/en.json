@@ -15,6 +15,7 @@
       "search": "Search"
     },
     "modal": {
+      "warning": "Attention!",
       "close": "Close"
     },
     "alert": {
@@ -27,6 +28,9 @@
       "light": "Light",
       "dark": "Dark",
       "auto": "Auto"
+    },
+    "guest": {
+      "anonym": "Anonymous"
     }
   },
   "nav": {
@@ -56,6 +60,7 @@
     },
     "option": {
       "title": "Options",
+      "anonym": "I do not want to be listed in the public guest list",
       "get_user_data": "Get all user data",
       "delete_account": "Delete account"
     }
