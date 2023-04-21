@@ -86,14 +86,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { set_cookie } from '@/util/cookie';
 import { store } from '@/util/store';
 
 export default defineComponent({
   name: "NavbarComponent",
   data() {
     return {
-      lang: ref(this.$i18next.language || "en"),
+      lang: ref(this.$i18n.locale || 'en')
     }
   },
   setup() {
@@ -103,10 +102,10 @@ export default defineComponent({
   },
   methods: {
     change_lang: function (event: any) {
-      const new_lang = event.target.value as "en" | "de"
-      this.store.hide_alert()
-      this.$i18next.changeLanguage(new_lang)
-      set_cookie("lang", new_lang, 365)
+      const new_lang = event.target.value as 'en' | 'de';
+      this.store.hide_alert();
+      this.$i18n.locale = new_lang;
+      localStorage.setItem('lang', new_lang);
     }
   }
 });

@@ -1,9 +1,7 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
-import { DefaultApolloClient, provideApolloClient  } from '@vue/apollo-composable'
-import { createApp, provide, h } from "vue";
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
+import { DefaultApolloClient, provideApolloClient } from '@vue/apollo-composable';
+import { createApp, h, provide } from 'vue';
 import App from './App.vue';
-import i18next from "i18next";
-import I18NextVue from "i18next-vue";
 import router from '@/router/router';
 
 import '@/plugins/bootstrap';
@@ -11,15 +9,17 @@ import '@/assets/css/main.css';
 
 import en from '@/locales/en.json';
 import de from '@/locales/de.json';
-import { get_cookie } from "@/util/cookie";
+import { createI18n } from 'vue-i18n';
+
+type MessageSchema = typeof en
 
 // ------------
 // Apollo setup
 // ------------
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3000/graphql',
-})
-const cache = new InMemoryCache()
+  uri: 'http://localhost:3000/graphql'
+});
+const cache = new InMemoryCache();
 const apollo_client = new ApolloClient({
   link: httpLink,
   headers: {
@@ -30,21 +30,22 @@ const apollo_client = new ApolloClient({
 })
 // ------------
 
-i18next.init({
-  lng: get_cookie("lang") || "en",
-  resources: {
-    en: { translation: en },
-    de: { translation: de },
+const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
+  locale: localStorage.getItem('lang') || 'en',
+  fallbackLocale: 'en',
+  messages: {
+    'en': en,
+    'de': de
   }
-}).then(() => {
-  const app = createApp({
-    setup() {
-      provide(DefaultApolloClient, apollo_client)
-      provideApolloClient(apollo_client)
-    },
-    render: () => h(App)
-  })
-  app.use(I18NextVue, { i18next })
-  app.use(router)
-  app.mount('#app')
 });
+
+const app = createApp({
+  setup() {
+    provide(DefaultApolloClient, apollo_client);
+    provideApolloClient(apollo_client);
+  },
+  render: () => h(App)
+});
+app.use(i18n);
+app.use(router);
+app.mount('#app');

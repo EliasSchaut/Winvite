@@ -22,7 +22,7 @@ async function bootstrap() {
             'data:',
             'https://fonts.googleapis.com',
           ],
-          scriptSrc: ["'self'", "https: 'unsafe-inline'"],
+          scriptSrc: ["'self'", "'unsafe-eval'"],
           objectSrc: ["'self'"],
           defaultSrc: [`'self'`],
         },
