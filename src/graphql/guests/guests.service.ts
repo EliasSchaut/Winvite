@@ -4,6 +4,7 @@ import { GuestInputModel } from '@/types/models/inputs/guest.input';
 import { Prisma } from '@prisma/client';
 import { GuestModel } from '@/types/models/guest.model';
 import { GraphQLError } from 'graphql/error';
+import { GuestUpdateInputModel } from '@/types/models/inputs/guest_update.input';
 
 @Injectable()
 export class GuestsService {
@@ -76,24 +77,27 @@ export class GuestsService {
       });
   }
 
-  async update_guest(guest_id: number, guest_update_data: GuestInputModel) {
+  async update_guest(
+    guest_id: number,
+    guest_update_data: GuestUpdateInputModel,
+  ) {
+    if (guest_update_data.option_ids) {
+      (guest_update_data as Prisma.GuestUpdateInput).guest_options = {
+        deleteMany: { server_id: this.server_id },
+        createMany: {
+          data: guest_update_data.option_ids.map((option_id) => ({
+            option_id: option_id,
+            server_id: this.server_id,
+          })),
+        },
+      };
+      delete guest_update_data.option_ids;
+    }
+
     return this.prisma.guest
       .update({
         where: { id: guest_id },
-        data: {
-          first_name: guest_update_data.first_name,
-          last_name: guest_update_data.last_name,
-          anonymous: guest_update_data.anonymous,
-          guest_options: {
-            deleteMany: { server_id: this.server_id },
-            createMany: {
-              data: guest_update_data.option_ids.map((option_id) => ({
-                option_id: option_id,
-                server_id: this.server_id,
-              })),
-            },
-          },
-        },
+        data: guest_update_data,
       })
       .catch((error: Prisma.PrismaClientKnownRequestError) => {
         console.log(error);

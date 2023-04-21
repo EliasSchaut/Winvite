@@ -2,7 +2,7 @@
   <CardComponent id="card_profile" :header="$t('profile.header')">
     <div class="d-flex flex-column justify-content-between">
       <div class="mb-3">
-        <h5 class="card-title">{{ user.first_name + " " + user.last_name }}</h5>
+        <h5 class="card-title">{{ user!.first_name + ' ' + user!.last_name }}</h5>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_profile">{{ $t('profile.button.profile') }}</button>
       </div>
 
@@ -10,7 +10,8 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="form-switch">
-              <input class="form-check-input" type="checkbox" role="switch" id="switch_emails" :checked="user.anonymous" name="anonymous" @click="update_anonymous">
+              <input id="switch_emails" :checked="user!.anonymous" class="form-check-input" name="anonymous"
+                     role="switch" type="checkbox" @click="update_anonymous">
               <label class="form-check-label ms-2" for="switch_emails">{{ $t('common.guest.anonym') }}</label>
             </div>
           </li>
@@ -24,9 +25,9 @@
   <!-- Modal: Change Profile -->
   <ModalComponent id="modal_profile" :title="$t('profile.button.profile')">
     <FormComponent :submit="update_profile" class="d-flex flex-column">
-      <FirstNameComponent />
-      <LastNameComponent />
-      <OptionsComponent :options="gql_options" />
+      <FirstNameComponent :value="user!.first_name" />
+      <LastNameComponent :value="user!.last_name" />
+      <OptionsComponent />
       <SubmitComponent class="mt-3" inner_text="Update" />
     </FormComponent>
   </ModalComponent>
@@ -42,28 +43,26 @@
 </template>
 
 <script lang="ts">
-import ModalComponent from "@/components/ModalComponent.vue";
-import SubmitComponent from "@/components/form/SubmitComponent.vue";
-import InputComponent from "@/components/form/InputComponent.vue";
+import ModalComponent from '@/components/ModalComponent.vue';
+import SubmitComponent from '@/components/form/SubmitComponent.vue';
 import { defineComponent, ref } from 'vue';
-import CardComponent from "@/components/CardComponent.vue";
-import FormComponent from "@/components/form/FormComponent.vue";
+import CardComponent from '@/components/CardComponent.vue';
+import FormComponent from '@/components/form/FormComponent.vue';
 import FirstNameComponent from '@/components/form/FirstNameComponent.vue';
 import LastNameComponent from '@/components/form/LastNameComponent.vue';
 import gql from 'graphql-tag';
-import { query } from '@/util/graphql';
+import { log_in, log_out, mutation, query } from '@/util/graphql';
 import type { GuestModel } from '@/types/models/guest.model';
 import OptionsComponent from '@/components/form/OptionsComponent.vue';
-import type { OptionModel } from '@/types/models/option.model';
 
-// @TODO: Fix Profile
+const user = ref<GuestModel>({ id: -1, challenge: '', first_name: '‎', last_name: '‎', anonymous: false, options: [] });
+
 export default defineComponent({
-  name: "ProfileComponent",
+  name: 'ProfileComponent',
   components: {
     OptionsComponent,
     FormComponent,
     CardComponent,
-    InputComponent,
     FirstNameComponent,
     LastNameComponent,
     SubmitComponent,
@@ -72,34 +71,52 @@ export default defineComponent({
   data() {
     return {
       submit: "Update",
-      user: ref({} as GuestModel)
+      user: user
     };
   },
   mounted() {
-    const challenge = this.$route.params.challenge;
+    const challenge = this.$route.params.challenge as string;
     if (challenge !== "") {
-      query(gql`
-        query sign_in {
-          sign_in(challenge: "${challenge}") {
-            barrier_token
-          }
-        }
-      `).then((data) => {
-        if (data.sign_in.barrier_token !== null) {
-          localStorage.setItem('barrier_token', data.sign_in.barrier_token);
-          this.fetch_user();
-        }
+      log_in(challenge).then((success) => {
+        if (success) this.fetch_user();
       });
     } else {
       this.fetch_user();
     }
   },
   methods: {
-    update_profile(e: Event) {
-
+    update_profile(e: Event, data: FormData) {
+      this.update_user({
+        user_data: {
+          first_name: data.get('first_name') as string,
+          last_name: data.get('last_name') as string,
+          option_ids: data.getAll('options').map((option) => Number(option))
+        }
+      }).then(() => {
+        this.fetch_user();
+        const form = e.target as HTMLFormElement;
+        form.setAttribute('data-bs-dismiss', 'modal');
+        form.click();
+        form.removeAttribute('data-bs-dismiss');
+      });
     },
     update_anonymous(e: Event) {
-
+      this.update_user({
+        user_data: {
+          anonymous: (e.target as HTMLInputElement).checked
+        }
+      });
+    },
+    delete_account(e: Event) {
+      this.delete_user()
+        .then(() => {
+          log_out();
+          const form = e.target as HTMLFormElement;
+          form.setAttribute('data-bs-dismiss', 'modal');
+          form.click();
+          form.removeAttribute('data-bs-dismiss');
+          this.$router.push('/');
+        });
     },
     fetch_user() {
       query(gql`
@@ -117,34 +134,34 @@ export default defineComponent({
           }
         }
       `).then((data) => {
-        this.user = data.guest as GuestModel;
-        for (const option of this.user.options!) {
-          document.getElementById(`form_check_${option.name}`)?.setAttribute('checked', 'true')
+        user.value = data.guest as GuestModel;
+        for (const option of user.value.options!) {
+          document.getElementById(`form_check_${option.name}`)?.setAttribute('checked', 'true');
         }
-      });
-    },
-    delete_account(e: Event) {
-
+      })
     }
   },
   setup() {
-    const gql_options = ref([] as OptionModel[]);
-    query(gql`
-        query get_join {
-            options {
+    const update_user = mutation(gql`
+        mutation update_user($user_data: GuestUpdateInputModel!) {
+            update_guest(guest_update_data: $user_data) {
                 id
-                name
-                label
-                warning
             }
         }
-    `).then((res) => {
-      gql_options.value = res.options as OptionModel[];
-    })
+    `);
+
+    const delete_user = mutation(gql`
+        mutation delete_user {
+            delete_guest {
+                id
+            }
+        }
+    `);
 
     return {
-      gql_options
-    }
+      update_user,
+      delete_user
+    };
   }
 });
 </script>

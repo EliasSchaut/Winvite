@@ -34,37 +34,40 @@
 </template>
 
 <script lang="ts">
-import { computed, ref } from "vue";
-import { useQuery } from "@vue/apollo-composable";
-import gql from "graphql-tag";
+import { ref } from 'vue';
+import gql from 'graphql-tag';
+import type { GuestsModel } from '@/types/models/guests.model';
+import { query } from '@/util/graphql';
+
+const gql_guests = ref<GuestsModel>({ count: 0, guests: [] });
 
 export default {
-    name: "GuestsView",
+    name: 'GuestsView',
     data() {
         return {
+            gql_guests: gql_guests,
             guests: {
-                title: "Gästeliste",
-                forename: "Vorname",
-                surname: "Nachname",
+                title: 'Gästeliste',
+                forename: 'Vorname',
+                surname: 'Nachname',
                 count: {
-                    pre: "Schon",
-                    value: ref("??"),
-                    post: "SIND DABEI!"
+                    pre: 'Schon',
+                    value: ref('??'),
+                    post: 'SIND DABEI!'
                 },
                 list: ref([])
             },
 
-            api_base: "https://api.schaut.dev/bday/",
+            api_base: 'https://api.schaut.dev/bday/',
 
             status: {
-                success: "Du hast dich erfolgreich registriert!",
-                error: "Error! Cannot fetch bday_members!"
+                success: 'Du hast dich erfolgreich registriert!',
+                error: 'Error! Cannot fetch bday_members!'
             }
         }
     },
-    setup() {
-        const { result } = useQuery(
-            gql`
+    mounted() {
+        query(gql`
                 query get_guests {
                     guests {
                         count,
@@ -75,11 +78,9 @@ export default {
                     }
                 }
             `
-        );
-
-        return {
-            gql_guests: computed(() => result.value?.guests ?? [])
-        };
+        ).then((data) => {
+            gql_guests.value = data.guests;
+        });
     },
 }
 </script>

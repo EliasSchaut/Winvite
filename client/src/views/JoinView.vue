@@ -23,7 +23,7 @@
   <FormComponent :submit="form_submit" class="form">
     <FirstNameComponent />
     <LastNameComponent />
-    <OptionsComponent :options="gql_options" show_warnings show_anonym />
+    <OptionsComponent show_anonym show_warnings />
 
     <button v-if="!loading" id="button_submit" type="submit" class="btn btn-primary form-submit"
             data-bs-placement="bottom">
@@ -41,19 +41,16 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
 import gql from 'graphql-tag';
-import ModalComponent from '@/components/ModalComponent.vue';
-import type { OptionModel } from '@/types/models/option.model';
 import { store } from '@/util/store';
 import FirstNameComponent from '@/components/form/FirstNameComponent.vue';
 import LastNameComponent from '@/components/form/LastNameComponent.vue';
 import FormComponent from '@/components/form/FormComponent.vue';
-import router from '@/router/router';
-import { mutation, query } from '@/util/graphql';
+import { log_in, mutation } from '@/util/graphql';
 import OptionsComponent from '@/components/form/OptionsComponent.vue';
 
 export default defineComponent({
   name: 'JoinView',
-  components: { OptionsComponent, FormComponent, FirstNameComponent, LastNameComponent, ModalComponent },
+  components: { OptionsComponent, FormComponent, FirstNameComponent, LastNameComponent },
   data() {
     return {
       loading: ref(false),
@@ -73,21 +70,13 @@ export default defineComponent({
   methods: {
     async form_submit(event: Event) {
       const form_data = new FormData(event.target as HTMLFormElement);
-
-      const option_ids = []
-      for (const option of this.gql_options) {
-        if (form_data.get(option.name) === 'on') {
-          option_ids.push(Number(option.id));
-        }
-      }
-
       this.loading = true;
       this.add_guest({
         guest_input_data: {
           first_name: form_data.get('first_name'),
           last_name: form_data.get('last_name'),
           anonymous: form_data.get('anonymous') === 'on',
-          option_ids: option_ids
+          option_ids: form_data.getAll('options').map((option_id) => Number(option_id))
         }
       }).then((res) => {
         const challenge = res!.data.guest.challenge
@@ -96,15 +85,14 @@ export default defineComponent({
         Bitte notiere dir diesen Code, da du ihn brauchst,
         um in anderen Browsern oder Geräten deine Daten nachträglich zu ändern!
         Du wirst diesen Code kein zweites Mal sehen!`)
-        localStorage.setItem("guest_challenge", challenge)
-        router.push({ name: 'ProfileView', params: { challenge: challenge } })
+        localStorage.setItem('guest_challenge', challenge);
+        log_in(challenge).then(() => this.$router.push(`/profile`));
       }).finally(() => {
         this.loading = false;
       });
     }
   },
   setup() {
-    const gql_options = ref([] as OptionModel[]);
     const mutate = mutation(gql`
         mutation add_guest($guest_input_data: GuestInputModel!) {
           guest(guest_input_data: $guest_input_data) {
@@ -113,21 +101,9 @@ export default defineComponent({
           }
         }
       `);
-    query(gql`
-        query get_join {
-            options {
-                id
-                name
-                label
-            }
-        }
-    `).then((res) => {
-      gql_options.value = res.options as OptionModel[];
-    })
 
     return {
       add_guest: mutate,
-      gql_options,
     };
   }
 });

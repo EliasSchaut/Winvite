@@ -51,11 +51,11 @@
   "profile": {
     "header": "Profile",
     "button": {
-      "profile": "Edit Name"
+      "profile": "Edit profile"
     },
     "form": {
       "delete_account": {
-        "desc": "All your proposed movies, votes and user data will be irretrievable lost!"
+        "desc": "Attention: Herewith you log out of the event! All user data will be irretrievably lost."
       }
     },
     "option": {

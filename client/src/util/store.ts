@@ -1,5 +1,5 @@
-import { reactive } from  'vue';
-import { get_cookie, set_cookie } from "@/util/cookie";
+import { reactive } from 'vue';
+import { get_cookie, set_cookie } from '@/util/cookie';
 
 export const store = reactive({
   logged_in: false,
@@ -14,18 +14,6 @@ export const store = reactive({
 
   update_loading(loading: boolean) {
     this.loading = loading;
-  },
-
-  async update_logged_in() {
-    const check = (await fetch("/api/user/check", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + (get_cookie("access_token") ?? ""),
-      }
-    }));
-    const data = await check.text()
-    this.logged_in = data === "true"
   },
 
   generate_type(http_code: number) {

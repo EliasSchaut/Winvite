@@ -44,18 +44,40 @@
             <ul class="dropdown-menu">
               <li v-if="store.theme_without_auto === 'dark'" ><button class="dropdown-item d-flex align-items-center" @click="store.update_theme('light')"><img src="../assets/svg/brightness-high-fill-white.svg" alt="Theme Light">&nbsp;&nbsp;{{ $t("common.theme.light") }}</button></li>
               <li v-if="store.theme_without_auto === 'dark'" ><button class="dropdown-item d-flex align-items-center" @click="store.update_theme('dark')"><img src="../assets/svg/moon-stars-fill-white.svg" alt="Theme Dark">&nbsp;&nbsp;{{ $t("common.theme.dark") }}</button></li>
-              <li v-if="store.theme_without_auto === 'dark'" ><button class="dropdown-item d-flex align-items-center" @click="store.update_theme('auto')"><img src="../assets/svg/circle-half-white.svg" alt="Theme Auto">&nbsp;&nbsp;{{ $t("common.theme.auto") }}</button></li>
-              <li v-if="store.theme_without_auto !== 'dark'"><button class="dropdown-item d-flex align-items-center" @click="store.update_theme('light')"><img src="../assets/svg/brightness-high-fill.svg" alt="Theme Light">&nbsp;&nbsp;{{ $t("common.theme.light") }}</button></li>
-              <li v-if="store.theme_without_auto !== 'dark'"><button class="dropdown-item d-flex align-items-center" @click="store.update_theme('dark')"><img src="../assets/svg/moon-stars-fill.svg" alt="Theme Dark">&nbsp;&nbsp;{{ $t("common.theme.dark") }}</button></li>
-              <li v-if="store.theme_without_auto !== 'dark'"><button class="dropdown-item d-flex align-items-center" @click="store.update_theme('auto')"><img src="../assets/svg/circle-half.svg" alt="Theme Auto">&nbsp;&nbsp;{{ $t("common.theme.auto") }}</button></li>
+              <li v-if="store.theme_without_auto === 'dark'">
+                <button class="dropdown-item d-flex align-items-center" @click="store.update_theme('auto')"><img
+                  alt="Theme Auto" src="../assets/svg/circle-half-white.svg">&nbsp;&nbsp;{{ $t('common.theme.auto') }}
+                </button>
+              </li>
+              <li v-if="store.theme_without_auto !== 'dark'">
+                <button class="dropdown-item d-flex align-items-center" @click="store.update_theme('light')"><img
+                  alt="Theme Light" src="../assets/svg/brightness-high-fill.svg">&nbsp;&nbsp;{{ $t('common.theme.light')
+                  }}
+                </button>
+              </li>
+              <li v-if="store.theme_without_auto !== 'dark'">
+                <button class="dropdown-item d-flex align-items-center" @click="store.update_theme('dark')"><img
+                  alt="Theme Dark" src="../assets/svg/moon-stars-fill.svg">&nbsp;&nbsp;{{ $t('common.theme.dark') }}
+                </button>
+              </li>
+              <li v-if="store.theme_without_auto !== 'dark'">
+                <button class="dropdown-item d-flex align-items-center" @click="store.update_theme('auto')"><img
+                  alt="Theme Auto" src="../assets/svg/circle-half.svg">&nbsp;&nbsp;{{ $t('common.theme.auto') }}
+                </button>
+              </li>
             </ul>
           </div>
           <select class="form-select" aria-label="Select Lang" @change="change_lang" v-model="lang">
-            <option value="en">{{ $t("nav.lang.en") }}</option>
-            <option value="de">{{ $t("nav.lang.de") }}</option>
+            <option value="en">{{ $t('nav.lang.en') }}</option>
+            <option value="de">{{ $t('nav.lang.de') }}</option>
           </select>
-          <router-link class="btn btn-outline-primary" type="button" to="/profile">{{ $t("nav.profile") }}</router-link>
-          <router-link class="btn btn-success" type="button" to="/join">{{ $t("nav.join") }}</router-link>
+          <router-link v-if="store.logged_in" class="btn btn-outline-primary" to="/profile" type="button">
+            {{ $t('nav.profile') }}
+          </router-link>
+          <router-link v-if="store.logged_in" class="btn btn-danger" to="/logout" type="button">{{ $t('nav.logout') }}
+          </router-link>
+          <router-link v-if="!store.logged_in" class="btn btn-success" to="/join" type="button">{{ $t('nav.join') }}
+          </router-link>
         </div>
       </div>
     </div>
@@ -63,9 +85,9 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent } from "vue";
-import { set_cookie } from "@/util/cookie";
-import { store } from "@/util/store";
+import { defineComponent, ref } from 'vue';
+import { set_cookie } from '@/util/cookie';
+import { store } from '@/util/store';
 
 export default defineComponent({
   name: "NavbarComponent",

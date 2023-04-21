@@ -1,10 +1,10 @@
 import {
-  Resolver,
+  Args,
+  Mutation,
+  Parent,
   Query,
   ResolveField,
-  Parent,
-  Mutation,
-  Args,
+  Resolver,
 } from '@nestjs/graphql';
 import { GuestsService } from '@/graphql/guests/guests.service';
 import { GuestModel } from '@/types/models/guest.model';
@@ -13,6 +13,7 @@ import { GuestInputModel } from '@/types/models/inputs/guest.input';
 import { AuthGuard } from '@/graphql/auth/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { UserID } from '@/graphql/auth/user.decorator';
+import { GuestUpdateInputModel } from '@/types/models/inputs/guest_update.input';
 
 @Resolver(() => GuestModel)
 export class GuestsResolver {
@@ -45,10 +46,10 @@ export class GuestsResolver {
   }
 
   @UseGuards(AuthGuard)
-  @Mutation(() => GuestModel, { name: 'guest' })
+  @Mutation(() => GuestModel, { name: 'update_guest' })
   async update_guest(
-    @Args({ name: 'guest_update_data', type: () => GuestInputModel })
-    guest_update_data: GuestInputModel,
+    @Args({ name: 'guest_update_data', type: () => GuestUpdateInputModel })
+    guest_update_data: GuestUpdateInputModel,
     @UserID() user_id: number,
   ) {
     return this.guestsService.update_guest(user_id, guest_update_data);

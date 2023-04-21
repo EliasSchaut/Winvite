@@ -61,7 +61,8 @@ type Query {
 }
 
 type Mutation {
-  guest(guest_update_data: GuestInputModel!): GuestModel!
+  guest(guest_input_data: GuestInputModel!): GuestModel!
+  update_guest(guest_update_data: GuestUpdateInputModel!): GuestModel!
   delete_guest: GuestModel!
 }
 
@@ -77,4 +78,18 @@ input GuestInputModel {
 
   """The options the guest has selected."""
   option_ids: [Int!]!
+}
+
+input GuestUpdateInputModel {
+  """The first name of the guest."""
+  first_name: String
+
+  """The last name of the guest."""
+  last_name: String
+
+  """If the guests wants to be displayed publicly."""
+  anonymous: Boolean
+
+  """The options the guest has selected."""
+  option_ids: [Int!]
 }
