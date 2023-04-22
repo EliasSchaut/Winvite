@@ -9,12 +9,20 @@ const codes_warning = [
   'UNAUTHORIZED',
   'FORBIDDEN',
   'NOT_FOUND',
-  'UNAUTHENTICATED'
+  'UNAUTHENTICATED',
+  'BAD_REQUEST'
 ];
 
 function on_error(e: ApolloError) {
   const error_code = e.graphQLErrors[0].extensions.code as string;
   if (codes_warning.includes(error_code)) {
+    if (error_code === 'UNAUTHENTICATED') {
+      log_out();
+      store.show_alert('warning', 'You have been logged out.');
+    } else if (error_code === 'BAD_REQUEST') {
+      e.message = (e.graphQLErrors[0].extensions.originalError as any).message;
+    }
+
     store.show_alert('warning', e.message);
   } else {
     store.show_alert('danger', e.message);

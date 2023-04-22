@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import cookieParser from 'cookie-parser';
 import { AppModule } from '@/app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,19 +11,15 @@ async function bootstrap() {
     helmet({
       contentSecurityPolicy: {
         directives: {
-          imgSrc: [
-            "'self'",
-            'data:',
-            'https://www.gravatar.com',
-            'https://validator.swagger.io',
-          ],
+          imgSrc: ["'self'", 'data:', 'https://cdn.jsdelivr.net'],
           styleSrc: [
             `'self'`,
             `'unsafe-inline'`,
             'data:',
+            'https://cdn.jsdelivr.net',
             'https://fonts.googleapis.com',
           ],
-          scriptSrc: ["'self'", "'unsafe-eval'"],
+          scriptSrc: ["'self'", "https: 'unsafe-inline'", "'unsafe-eval'"],
           objectSrc: ["'self'"],
           defaultSrc: [`'self'`],
         },
@@ -31,7 +28,7 @@ async function bootstrap() {
     }),
   );
   app.use(cookieParser());
-
+  app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.PORT as string);
   console.log(`Application is running on: ${await app.getUrl()}`);
 }

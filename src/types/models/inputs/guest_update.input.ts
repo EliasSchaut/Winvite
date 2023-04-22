@@ -1,13 +1,16 @@
 import { Field, InputType, Int } from '@nestjs/graphql';
+import { IsName } from '@/common/validation/IsName.validation';
 
 @InputType()
 export class GuestUpdateInputModel {
+  @IsName()
   @Field(() => String, {
     description: 'The first name of the guest.',
     nullable: true,
   })
   first_name?: string;
 
+  @IsName()
   @Field(() => String, {
     description: 'The last name of the guest.',
     nullable: true,
