@@ -1,38 +1,19 @@
 <template>
-  <div
-    v-if="$route.params.status === 'success'"
-    id="alert_success"
-    class="alert alert-success"
-    role="alert"
-    style="text-align: center"
-  >
-    {{ status.success }}
-  </div>
-  <div
-    v-if="$route.params.status === 'error'"
-    id="alert_error"
-    class="alert alert-danger"
-    role="alert"
-    style="text-align: center"
-  >
-    {{ status.error }}
-  </div>
-
   <div class="numbers">
-    <p class="">{{ guests.count.pre }}</p>
+    <p class="">{{ $t('guests.count.pre') }}</p>
     <p id="member_count" class="huge">{{ gql_guests.count }}</p>
-    <p class="big">{{ guests.count.post }}</p>
+    <p class="big">{{ $t('guests.count.post') }}</p>
   </div>
 
   <div class="guests">
     <p class="big text-decoration-underline">
-      <b> {{ guests.title }} </b>
+      <b> {{ $t('guests.title') }} </b>
     </p>
     <table class="table table-striped">
       <thead>
       <tr>
-        <th scope="col">{{ guests.forename }}</th>
-        <th scope="col">{{ guests.surname }}</th>
+        <th scope="col">{{ $t('common.form.first_name.label') }}</th>
+        <th scope="col">{{ $t('common.form.last_name.label') }}</th>
       </tr>
       </thead>
       <tbody>
@@ -58,24 +39,6 @@ export default {
   data() {
     return {
       gql_guests: gql_guests,
-      guests: {
-        title: 'Gästeliste',
-        forename: 'Vorname',
-        surname: 'Nachname',
-        count: {
-          pre: 'Schon',
-          value: ref('??'),
-          post: 'SIND DABEI!'
-        },
-        list: ref([])
-      },
-
-      api_base: 'https://api.schaut.dev/bday/',
-
-      status: {
-        success: 'Du hast dich erfolgreich registriert!',
-        error: 'Error! Cannot fetch bday_members!'
-      }
     };
   },
   mounted() {

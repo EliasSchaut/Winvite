@@ -12,7 +12,8 @@
       },
       "valid_feedback": "Sieht gut aus!",
       "submit": "Bestätigen",
-      "search": "Suchen"
+      "search": "Suchen",
+      "loading": "Fertigstellen..."
     },
     "modal": {
       "warning": "Achtung!",
@@ -38,8 +39,8 @@
     "history": "Verlauf",
     "privacy": "Datenschutz",
     "lang": {
-      "de": "\uD83C\uDDE9\uD83C\uDDEA Deutsch",
-      "en": "\uD83C\uDDEC\uD83C\uDDE7 Englisch"
+      "de": "🇩🇪 Deutsch",
+      "en": "🇬🇧 Englisch"
     },
     "details": "Details",
     "shiftings": "Schichten",
@@ -92,5 +93,23 @@
         "body": "Nach DSGVO und BDSG kannst du jederzeit Auskunft, Aktualisierung, Sperrung oder Löschung aller deiner Daten verlangen. Dein Ansprechpartner hierfür ist der oben genannte Betreiber dieser Webseite. Außerdem bin ich verpflichtet, dich an dein Recht zu erinnern, dieser Zustimmung jederzeit zu widersprechen und dich ggf. bei einer Aufsichtsbehörde über mich zu beschweren."
       }
     }
+  },
+  "home": {
+    "title": "Was erwartet dich?",
+    "join": {
+      "title": "Registriere dich jetzt!",
+      "button": "JETZT ANMELDEN"
+    }
+  },
+  "guests": {
+    "title": "Gästeliste",
+    "count": {
+      "post": "sind dabei!",
+      "pre": "Schon"
+    }
+  },
+  "join": {
+    "title": "Melde dich an!",
+    "subtitle": "Damit stehst du automatisch auf der Gästeliste und bist dabei!"
   }
 }

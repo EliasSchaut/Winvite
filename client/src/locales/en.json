@@ -12,7 +12,8 @@
       },
       "valid_feedback": "Looks good!",
       "submit": "Submit",
-      "search": "Search"
+      "search": "Search",
+      "loading": "Finish..."
     },
     "modal": {
       "warning": "Attention!",
@@ -38,8 +39,8 @@
     "history": "History",
     "privacy": "Privacy",
     "lang": {
-      "de": "\uD83C\uDDE9\uD83C\uDDEA German",
-      "en": "\uD83C\uDDEC\uD83C\uDDE7 English"
+      "de": "🇩🇪 German",
+      "en": "🇬🇧 English"
     },
     "details": "Details",
     "shiftings": "Shifts",
@@ -92,5 +93,23 @@
         "body": "According to DSGVO and BDSG, you can request information, updating, blocking or deletion of all your data at any time. Your contact person for this is the above-mentioned operator of this website. In addition, I am obliged to remind you of your right to object to this consent at any time and, if necessary, to complain to a supervisory authority about me."
       }
     }
+  },
+  "home": {
+    "title": "What awaits you?",
+    "join": {
+      "title": "Register now!",
+      "button": "JOIN NOW"
+    }
+  },
+  "guests": {
+    "title": "Guestlist",
+    "count": {
+      "post": "are in!",
+      "pre": "Already"
+    }
+  },
+  "join": {
+    "title": "Sign up!",
+    "subtitle": "This automatically puts you on the guest list and you're in!"
   }
 }

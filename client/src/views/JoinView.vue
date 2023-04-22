@@ -1,35 +1,7 @@
 <template>
-  <!-- Alerts ------------------------------------------------------->
-  <div
-    v-if="$route.params.status === 'error'"
-    id="alert_error"
-    class="form alert alert-danger"
-    role="alert"
-  >
-    <span v-html="status.error" />
-  </div>
-  <div
-    v-if="$route.params.status === 'not_acceptable'"
-    id="alert_invalid_name"
-    class="form alert alert-danger"
-    role="alert"
-  >
-    <span v-html="status.not_acceptable" />
-  </div>
-  <div
-    v-if="$route.params.status === 'duplicate'"
-    id="alert_not_acceptable"
-    class="form alert alert-danger"
-    role="alert"
-  >
-    <span v-html="status.duplicate" />
-  </div>
-  <!----------------------------------------------------------------->
-
-  <!-- From ------------------------------------------------------->
   <div class="form-intro">
-    <p class="big"><b>Melde dich an!</b></p>
-    <p>Damit stehst du automatisch auf der Gästeliste und bist dabei!</p>
+    <p class="big"><b>{{ $t('join.title') }}</b></p>
+    <p>{{ $t('join.subtitle') }}</p>
   </div>
 
   <FormComponent :submit="form_submit" class="form">
@@ -44,7 +16,7 @@
       data-bs-placement="bottom"
       type="submit"
     >
-      {{ form.submit.name }}
+      {{ $t('common.form.submit') }}
     </button>
 
     <button
@@ -55,10 +27,9 @@
       type="submit"
     >
       <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-      {{ form.submit.loading }}
+      {{ $t('common.form.loading') }}
     </button>
   </FormComponent>
-  <!----------------------------------------------------------------->
 </template>
 
 <script lang="ts">
@@ -77,19 +48,6 @@ export default defineComponent({
   data() {
     return {
       loading: ref(false),
-      status: {
-        error: 'Error! Es gab einen Fehler bei der Anmeldung! Du bist noch nicht registriert!',
-        not_acceptable:
-          'Error! Dein Name ist ungültig! Dein Name darf nur deutsche <b>Buchstaben</b> und folgende Zeichen enthalten: Leerzeichen, Punkt, Strich, Apostroph (\').<br>Zudem muss jedes Feld mindestens einen Buchstaben enthalten und dein Name darf nicht mehr als 40 Zeichen beinhalten.',
-        duplicate:
-          'Error! Dieser Name ist schon in der Datenbank vorhanden! Falls du dich schon einmal angemeldet hast, solltest du dich nicht nochmal anmelden!'
-      },
-      form: {
-        submit: {
-          name: 'Bestätigen',
-          loading: 'Fertigstellen...'
-        }
-      }
     }
   },
   methods: {

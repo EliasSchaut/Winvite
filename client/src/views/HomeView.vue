@@ -9,7 +9,7 @@
     </div>
 
     <p class="capture center huge handwritten">
-      <b>{{ adds_title }}</b>
+      <b>{{ $t('home.title') }}</b>
     </p>
 
     <div class="adds">
@@ -31,7 +31,7 @@
     </div>
 
     <p class="capture center huge handwritten">
-      <b>{{ join_title }}</b>
+      <b>{{ $t('home.join.title') }}</b>
     </p>
 
     <div class="arrows">
@@ -48,9 +48,8 @@
           class="arrow"
           src="@/assets/svg/arrow-right-circle-fill.svg"
         />
-        <router-link class="btn btn-success join_margin" to="/join" type="button">{{
-            join
-          }}
+        <router-link class="btn btn-success join_margin" to="/join" type="button">
+          {{ $t('home.join.button') }}>
         </router-link>
         <img
           id="arrow-left"
@@ -66,13 +65,12 @@
 
 <script lang="ts">
 export default {
-  name: 'Home',
+  name: 'HomeView',
   data() {
     return {
       video: 'vid/was_geht.mp4',
       video_sub: 'Halte dir die Nacht vom 03. auf den 04. Juni frei!',
 
-      adds_title: 'Was erwartet dich?',
       adds: [
         {
           title: 'Karaoke (Ultrastar)',
@@ -117,9 +115,6 @@ export default {
           img: 'img/mystery.png'
         }
       ],
-
-      join_title: 'Registriere dich jetzt!',
-      join: 'JOIN NOW'
     }
   }
 }
