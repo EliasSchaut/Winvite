@@ -3,20 +3,47 @@
     <div class="d-flex flex-column justify-content-between">
       <div class="mb-3">
         <h5 class="card-title">{{ user!.first_name + ' ' + user!.last_name }}</h5>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_profile">{{ $t('profile.button.profile') }}</button>
+        <button
+          class="btn btn-primary"
+          data-bs-target="#modal_profile"
+          data-bs-toggle="modal"
+          type="button"
+        >
+          {{ $t('profile.button.profile') }}
+        </button>
       </div>
 
       <CardComponent :header="$t('profile.option.title')" nobody>
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
             <div class="form-switch">
-              <input id="switch_emails" :checked="user!.anonymous" class="form-check-input" name="anonymous"
-                     role="switch" type="checkbox" @click="update_anonymous">
-              <label class="form-check-label ms-2" for="switch_emails">{{ $t('common.guest.anonym') }}</label>
+              <input
+                id="switch_emails"
+                :checked="user!.anonymous"
+                class="form-check-input"
+                name="anonymous"
+                role="switch"
+                type="checkbox"
+                @click="update_anonymous"
+              />
+              <label class="form-check-label ms-2" for="switch_emails">{{
+                  $t('common.guest.anonym')
+                }}</label>
             </div>
           </li>
-          <li class="list-group-item"><a @click.prevent="" href="">{{ $t('profile.option.get_user_data') }}</a></li>
-          <li class="list-group-item"><a @click.prevent="" data-bs-toggle="modal" data-bs-target="#modal_delete_account" style="color: red" href="">{{ $t('profile.option.delete_account') }}</a></li>
+          <li class="list-group-item">
+            <a href="" @click.prevent="">{{ $t('profile.option.get_user_data') }}</a>
+          </li>
+          <li class="list-group-item">
+            <a
+              data-bs-target="#modal_delete_account"
+              data-bs-toggle="modal"
+              href=""
+              style="color: red"
+              @click.prevent=""
+            >{{ $t('profile.option.delete_account') }}</a
+            >
+          </li>
         </ul>
       </CardComponent>
     </div>
@@ -35,7 +62,7 @@
   <!-- Modal: Delete Account -->
   <ModalComponent id="modal_delete_account" :title="$t('profile.option.delete_account')">
     <p style="color: red">{{ $t('profile.form.delete_account.desc') }}</p>
-    <br>
+    <br />
     <FormComponent :submit="delete_account" class="d-flex flex-column justify-content-around">
       <SubmitComponent inner_text="Delete" class="btn btn-danger form-submit" />
     </FormComponent>
@@ -55,7 +82,14 @@ import { log_in, log_out, mutation, query } from '@/util/graphql';
 import type { GuestModel } from '@/types/models/guest.model';
 import OptionsComponent from '@/components/form/OptionsComponent.vue';
 
-const user = ref<GuestModel>({ id: -1, challenge: '', first_name: '‎', last_name: '‎', anonymous: false, options: [] });
+const user = ref<GuestModel>({
+  id: -1,
+  challenge: '',
+  first_name: '‎',
+  last_name: '‎',
+  anonymous: false,
+  options: []
+});
 
 export default defineComponent({
   name: 'ProfileComponent',
@@ -70,13 +104,13 @@ export default defineComponent({
   },
   data() {
     return {
-      submit: "Update",
+      submit: 'Update',
       user: user
-    };
+    }
   },
   mounted() {
     const challenge = this.$route.params.challenge as string;
-    if (challenge !== "") {
+    if (challenge !== '') {
       log_in(challenge).then((success) => {
         if (success) this.fetch_user();
       });
@@ -98,25 +132,24 @@ export default defineComponent({
         form.setAttribute('data-bs-dismiss', 'modal');
         form.click();
         form.removeAttribute('data-bs-dismiss');
-      });
+      })
     },
     update_anonymous(e: Event) {
       this.update_user({
         user_data: {
           anonymous: (e.target as HTMLInputElement).checked
         }
-      });
+      })
     },
     delete_account(e: Event) {
-      this.delete_user()
-        .then(() => {
-          log_out();
-          const form = e.target as HTMLFormElement;
-          form.setAttribute('data-bs-dismiss', 'modal');
-          form.click();
-          form.removeAttribute('data-bs-dismiss');
-          this.$router.push('/');
-        });
+      this.delete_user().then(() => {
+        log_out();
+        const form = e.target as HTMLFormElement;
+        form.setAttribute('data-bs-dismiss', 'modal');
+        form.click();
+        form.removeAttribute('data-bs-dismiss');
+        this.$router.push('/');
+      });
     },
     fetch_user() {
       query(gql`
@@ -143,33 +176,33 @@ export default defineComponent({
   },
   setup() {
     const update_user = mutation(gql`
-        mutation update_user($user_data: GuestUpdateInputModel!) {
-            update_guest(guest_update_data: $user_data) {
-                id
-            }
+      mutation update_user($user_data: GuestUpdateInputModel!) {
+        update_guest(guest_update_data: $user_data) {
+          id
         }
-    `);
+      }
+    `)
 
     const delete_user = mutation(gql`
-        mutation delete_user {
-            delete_guest {
-                id
-            }
+      mutation delete_user {
+        delete_guest {
+          id
         }
-    `);
+      }
+    `)
 
     return {
       update_user,
       delete_user
     };
   }
-});
+})
 </script>
 
 <style scoped>
 #card_profile {
-  width: min(500px, 90vw);
-  margin: 20px auto
+    width: min(500px, 90vw);
+    margin: 20px auto;
 }
 
 p {

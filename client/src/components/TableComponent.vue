@@ -1,14 +1,27 @@
 <template>
   <div class="d-flex flex-column">
     <div v-if="filterable" class="dropdown mb-2 align-self-end">
-      <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false"
-              data-bs-auto-close="outside">
-        <img src="../assets/svg/filter.svg" alt="filter_icon">
+      <button
+        aria-expanded="false"
+        class="btn btn-primary dropdown-toggle"
+        data-bs-auto-close="outside"
+        data-bs-toggle="dropdown"
+        type="button"
+      >
+        <img alt="filter_icon" src="../assets/svg/filter.svg" />
       </button>
       <div class="dropdown-menu">
-        <label v-for="(column, index) in head" class="dropdown-item d-flex justify-content-between"
-               :for="'movie_filter_' + column">
-          <input :id="'movie_filter_' + column" type="checkbox" :checked="filter_values[index]" @input="(e: Event) => filter(id, index, (e.target as HTMLInputElement).checked)">
+        <label
+          v-for="(column, index) in head"
+          :for="'movie_filter_' + column"
+          class="dropdown-item d-flex justify-content-between"
+        >
+          <input
+            :id="'movie_filter_' + column"
+            :checked="filter_values[index]"
+            type="checkbox"
+            @input="(e: Event) => filter(id, index, (e.target as HTMLInputElement).checked)"
+          />
           <div v-html="'&nbsp;&nbsp;' + column" />
         </label>
       </div>
@@ -18,8 +31,10 @@
       <table :id="id" class="table table-striped table-bordered table-active">
         <thead>
         <tr class="table-dark align-middle">
-          <th v-if="sortable" v-for="(column, index) in head"
-              @click="(e) => {
+          <th
+            v-for="(column, index) in head"
+            v-if="sortable"
+            @click="(e) => {
                 for(i = 0; i < head.length; i++) {
                   if (i !== index) {
                     sort_dir[i] = 'none';
@@ -29,13 +44,22 @@
                 }
                 current_sort_cell = (e.currentTarget as HTMLTableCellElement).cellIndex;
                 current_sort_dir = sort_dir[index];
-              }">
+              }"
+          >
             <div class="d-flex justify-content-between flex-row">
               <div />
               <div v-html="column" class="me-1" />
-              <img v-if="sort_dir[index] === 'asc'" src="../assets/svg/sort-alpha-down.svg" alt="sort_icon_down">
-              <img v-else-if="sort_dir[index] === 'desc'" src="../assets/svg/sort-alpha-up.svg" alt="sort_icon_up">
-              <img v-else src="../assets/svg/filter.svg" alt="sort_icon_none">
+              <img
+                v-if="sort_dir[index] === 'asc'"
+                alt="sort_icon_down"
+                src="../assets/svg/sort-alpha-down.svg"
+              />
+              <img
+                v-else-if="sort_dir[index] === 'desc'"
+                alt="sort_icon_up"
+                src="../assets/svg/sort-alpha-up.svg"
+              />
+              <img v-else alt="sort_icon_none" src="../assets/svg/filter.svg" />
             </div>
           </th>
           <th v-else v-for="column in head" v-html="column" />
@@ -50,27 +74,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
-import { get_cookie, set_cookie } from "@/util/cookie";
+import { defineComponent, ref } from 'vue';
+import { get_cookie, set_cookie } from '@/util/cookie';
 
 export default defineComponent({
-  name: "TableComponent",
+  name: 'TableComponent',
   data() {
     return {
       sort_loop: {
-        none: "asc",
-        asc: "desc",
-        desc: "asc"
+        none: 'asc',
+        asc: 'desc',
+        desc: 'asc'
       } as any,
       i: 0,
       filter_values: this.get_filter_cookie(),
       first_update: true,
-      loop_update: true,
+      loop_update: true
     };
   },
   setup(props) {
-    let current_sort_cell = 1
-    let current_sort_dir = "asc"
+    let current_sort_cell = 1;
+    let current_sort_dir = 'asc';
 
     if (props.sort_default.length === 2) {
       current_sort_cell = props.sort_default[0] as number
@@ -80,8 +104,8 @@ export default defineComponent({
     return {
       current_sort_cell: current_sort_cell,
       current_sort_dir: current_sort_dir,
-      sort_dir: ref(Array(props.head.length).fill("none")),
-    };
+      sort_dir: ref(Array(props.head.length).fill('none'))
+    }
   },
   updated() {
     if (this.loop_update) {
@@ -94,7 +118,7 @@ export default defineComponent({
     }
     if (this.first_update) {
       this.loop_update = false;
-      this.first_update = false
+      this.first_update = false;
     }
   },
   props: {
@@ -133,18 +157,18 @@ export default defineComponent({
       while (not_sorted) {
         not_sorted = false;
 
-        for (let i = 1; i < (rows.length - 1); i++) {
-          let x = rows[i].getElementsByTagName("td")[cell_index] as HTMLElement;
-          let y = rows[i + 1].getElementsByTagName("td")[cell_index] as HTMLElement;
+        for (let i = 1; i < rows.length - 1; i++) {
+          let x = rows[i].getElementsByTagName('td')[cell_index] as HTMLElement;
+          let y = rows[i + 1].getElementsByTagName('td')[cell_index] as HTMLElement;
 
-          if (sort_dir === "asc") {
+          if (sort_dir === 'asc') {
             if (x.title.toLowerCase() > y.title.toLowerCase()) {
-              (rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i]);
+              ;(rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i]);
               not_sorted = true;
             }
-          } else if (sort_dir === "desc") {
+          } else if (sort_dir === 'desc') {
             if (x.title.toLowerCase() < y.title.toLowerCase()) {
-              (rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i]);
+              ;(rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i]);
               not_sorted = true;
             }
           }
@@ -157,7 +181,7 @@ export default defineComponent({
 
       for (const row of rows) {
         const td = row.cells[cell_index];
-        td.style.display = (set_visible) ? "" : "none";
+        td.style.display = set_visible ? '' : 'none';
       }
       this.filter_values[cell_index] = set_visible;
       this.set_filter_cookie(this.filter_values);
@@ -167,28 +191,26 @@ export default defineComponent({
         this.filter(this.id, i, this.filter_values[i]);
       }
     },
-    get_filter_cookie() : boolean[] {
-      const filter_cookie = get_cookie("table_filter_" + this.id)
+    get_filter_cookie(): boolean[] {
+      const filter_cookie = get_cookie('table_filter_' + this.id);
       if (filter_cookie) {
-        const filter = JSON.parse(filter_cookie) as boolean[]
+        const filter = JSON.parse(filter_cookie) as boolean[];
         if (filter.length === this.head.length) {
-          return filter
+          return filter;
         }
       }
 
       if (this.filter_default.length) {
-        return this.filter_default as boolean[]
+        return this.filter_default as boolean[];
       } else {
         return Array(this.head.length).fill(true) as boolean[];
       }
     },
     set_filter_cookie(filter_values: boolean[]) {
-      set_cookie("table_filter_" + this.id, JSON.stringify(filter_values), 365)
+      set_cookie('table_filter_' + this.id, JSON.stringify(filter_values), 365);
     }
   }
-});
+})
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

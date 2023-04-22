@@ -24,7 +24,7 @@
       "warning": "Warning!",
       "danger": "Danger!"
     },
-    "theme":{
+    "theme": {
       "light": "Light",
       "dark": "Dark",
       "auto": "Auto"

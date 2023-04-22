@@ -1,94 +1,125 @@
 <template>
   <div class="content">
-
     <div class="video">
       <video :src="video" volume="0.5" controls></video>
 
       <p class="capture big center">
-        <b >{{ video_sub }}</b>
+        <b>{{ video_sub }}</b>
       </p>
     </div>
 
-    <p class="capture center huge handwritten"><b>{{ adds_title }}</b></p>
+    <p class="capture center huge handwritten">
+      <b>{{ adds_title }}</b>
+    </p>
 
     <div class="adds">
       <div v-for="add in adds" class="add card">
-        <img v-if='add.img !== ""' class="card-img-top" :src="add.img" :alt="add.title" width="600">
+        <img
+          v-if="add.img !== ''"
+          :alt="add.title"
+          :src="add.img"
+          class="card-img-top"
+          width="600"
+        />
         <div class="card-body">
-          <p class="card-title capture big"><b>{{ add.title }}</b></p>
+          <p class="card-title capture big">
+            <b>{{ add.title }}</b>
+          </p>
           <p class="card-text" v-html="add.desc"></p>
         </div>
       </div>
     </div>
 
-    <p class="capture center huge handwritten"><b>{{ join_title }}</b></p>
+    <p class="capture center huge handwritten">
+      <b>{{ join_title }}</b>
+    </p>
 
     <div class="arrows">
-      <img id="arrow-down" class="arrow" src="@/assets/svg/arrow-down-circle-fill.svg" alt="arrow-down">
+      <img
+        id="arrow-down"
+        alt="arrow-down"
+        class="arrow"
+        src="@/assets/svg/arrow-down-circle-fill.svg"
+      />
       <div>
-        <img id="arrow-right" class="arrow" src="@/assets/svg/arrow-right-circle-fill.svg" alt="arrow-right">
-        <router-link class="btn btn-success join_margin" type="button" to="/join">{{ join }}</router-link>
-        <img id="arrow-left" class="arrow" src="@/assets/svg/arrow-left-circle-fill.svg" alt="arrow-left">
+        <img
+          id="arrow-right"
+          alt="arrow-right"
+          class="arrow"
+          src="@/assets/svg/arrow-right-circle-fill.svg"
+        />
+        <router-link class="btn btn-success join_margin" to="/join" type="button">{{
+            join
+          }}
+        </router-link>
+        <img
+          id="arrow-left"
+          alt="arrow-left"
+          class="arrow"
+          src="@/assets/svg/arrow-left-circle-fill.svg"
+        />
       </div>
-      <img id="arrow-up" class="arrow" src="@/assets/svg/arrow-up-circle-fill.svg" alt="arrow-up">
+      <img id="arrow-up" alt="arrow-up" class="arrow" src="@/assets/svg/arrow-up-circle-fill.svg" />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 export default {
-  name: "Home",
+  name: 'Home',
   data() {
     return {
-      video: "vid/was_geht.mp4",
-      video_sub: "Halte dir die Nacht vom 03. auf den 04. Juni frei!",
+      video: 'vid/was_geht.mp4',
+      video_sub: 'Halte dir die Nacht vom 03. auf den 04. Juni frei!',
 
-      adds_title: "Was erwartet dich?",
+      adds_title: 'Was erwartet dich?',
       adds: [
         {
-          title: "Karaoke (Ultrastar)",
-          desc: "Lass deine Stimmbänder zu epischer Karaoke vibrieren - mit einer Songauswahl von über 5.000 Songs an 4 Mikros bis 1 Uhr!<br>" +
-            "Song Liste: <a href=\"https://schaut.dev/p/ultrastar/\">https://schaut.dev/p/ultrastar/</a>",
-          img: "img/karaoke.jpg"
+          title: 'Karaoke (Ultrastar)',
+          desc:
+            'Lass deine Stimmbänder zu epischer Karaoke vibrieren - mit einer Songauswahl von über 5.000 Songs an 4 Mikros bis 1 Uhr!<br>' +
+            'Song Liste: <a href="https://schaut.dev/p/ultrastar/">https://schaut.dev/p/ultrastar/</a>',
+          img: 'img/karaoke.jpg'
         },
         {
-          title: "Club-Atmosphere mit Lightshow!",
-          desc: "Erlebe ab 1:30 Uhr einen epischen Dancefloor mit immersiver Lightshow. Wir haben Nebel, Strobo, über 1000 einzeln ansteuerbare RGB-Leuchten, banger Boxen und vllt einen DJ!",
-          img: "img/dj.png"
+          title: 'Club-Atmosphere mit Lightshow!',
+          desc: 'Erlebe ab 1:30 Uhr einen epischen Dancefloor mit immersiver Lightshow. Wir haben Nebel, Strobo, über 1000 einzeln ansteuerbare RGB-Leuchten, banger Boxen und vllt einen DJ!',
+          img: 'img/dj.png'
         },
         {
-          title: "Freies Billard die ganze Nacht!",
-          desc: "Du wolltest mal wieder Billard spielen, aber nicht dafür zahlen? Perfekt! Während des gesamten Geburtstags kannst du kostenfrei so viel Billard spielen, wie du willst. Wir haben brandneue Bälle und ein semi anständiges Queue-Set!",
-          img: "img/billard.png"
+          title: 'Freies Billard die ganze Nacht!',
+          desc: 'Du wolltest mal wieder Billard spielen, aber nicht dafür zahlen? Perfekt! Während des gesamten Geburtstags kannst du kostenfrei so viel Billard spielen, wie du willst. Wir haben brandneue Bälle und ein semi anständiges Queue-Set!',
+          img: 'img/billard.png'
         },
         {
-          title: "Grillen mit Ausblick auf der Dachterrasse!",
-          desc: "Wir haben den besten Grillminister am Start, der bis Mitternacht eure mitgebrachten Köstlichkeiten auf den Grill schmeißt! Einfaches Grillgut wie Baguettes, Würstchen werden sogar kostenlos zur Verfügung gestellt. Wunderschöner knallroter Sonnenuntergang und Ausblick auf Wald und Wiese inklusive!",
-          img: "img/grill.JPG"
+          title: 'Grillen mit Ausblick auf der Dachterrasse!',
+          desc: 'Wir haben den besten Grillminister am Start, der bis Mitternacht eure mitgebrachten Köstlichkeiten auf den Grill schmeißt! Einfaches Grillgut wie Baguettes, Würstchen werden sogar kostenlos zur Verfügung gestellt. Wunderschöner knallroter Sonnenuntergang und Ausblick auf Wald und Wiese inklusive!',
+          img: 'img/grill.JPG'
         },
         {
-          title: "Freibier (gezapft)",
-          desc: "Genieße frisch gezapftes Bier völlig frei (solange der Vorrat reicht)! Zusätzlich kann auch Zitronenlimonade eingemischt werden, um frisches Radler genießen zu können.",
-          img: "img/zapfe.jpg"
+          title: 'Freibier (gezapft)',
+          desc: 'Genieße frisch gezapftes Bier völlig frei (solange der Vorrat reicht)! Zusätzlich kann auch Zitronenlimonade eingemischt werden, um frisches Radler genießen zu können.',
+          img: 'img/zapfe.jpg'
         },
         {
-          title: "Große Getränkewahl zum kleinen Preis!",
-          desc: "Die K2-Bar hat eine große Auswahl vielfältiger Getränke, die zum kleinen Preis genossen werden können.\nDenkt also daran, auch etwas Kleingeld mitzunehmen!<br>Getränkekarte in höherer Auflösung: [<a href=\"/img/drinks_full.png\">png</a>]",
-          img: "img/drinks.png"
+          title: 'Große Getränkewahl zum kleinen Preis!',
+          desc: 'Die K2-Bar hat eine große Auswahl vielfältiger Getränke, die zum kleinen Preis genossen werden können.\nDenkt also daran, auch etwas Kleingeld mitzunehmen!<br>Getränkekarte in höherer Auflösung: [<a href="/img/drinks_full.png">png</a>]',
+          img: 'img/drinks.png'
         },
         {
-          title: "Der Klassenkampf in ganz neuer Form!",
-          desc: "Zwei Teams kämpfen gegeneinander in Kampf-, Gewinn- oder eigenen Spielen, um anteilig mehr von einem Preis zu gewinnen! Erfahre mehr in den <router-link to=\"/details#wie-funktioniert-der-klassenkampf\">Details</router-link>!",
-          img: "img/fight.JPG"
+          title: 'Der Klassenkampf in ganz neuer Form!',
+          desc: 'Zwei Teams kämpfen gegeneinander in Kampf-, Gewinn- oder eigenen Spielen, um anteilig mehr von einem Preis zu gewinnen! Erfahre mehr in den <router-link to="/details#wie-funktioniert-der-klassenkampf">Details</router-link>!',
+          img: 'img/fight.JPG'
         },
         {
-          title: "Supergeheimes Meta-Programm für Hardcore-Nerds!",
-          desc: "Für die richtigen Hardcore-Nerds ist ein Meta-Programm parallel zum Geburtstag zum Spielen vorhanden. Wer teilnehmen will, muss bei der Anmeldung auf dieser Website den Haken <i>Ich will bei einem nerdigen Spiel teilnehmen</i> setzten",
-          img: "img/mystery.png"
-        }],
+          title: 'Supergeheimes Meta-Programm für Hardcore-Nerds!',
+          desc: 'Für die richtigen Hardcore-Nerds ist ein Meta-Programm parallel zum Geburtstag zum Spielen vorhanden. Wer teilnehmen will, muss bei der Anmeldung auf dieser Website den Haken <i>Ich will bei einem nerdigen Spiel teilnehmen</i> setzten',
+          img: 'img/mystery.png'
+        }
+      ],
 
-      join_title: "Registriere dich jetzt!",
-      join: "JOIN NOW"
+      join_title: 'Registriere dich jetzt!',
+      join: 'JOIN NOW'
     }
   }
 }

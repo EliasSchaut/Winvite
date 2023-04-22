@@ -23,21 +23,21 @@ const cache = new InMemoryCache();
 const apollo_client = new ApolloClient({
   link: httpLink,
   headers: {
-    authorization: localStorage.getItem("barrier_token") || "",
-    accept_language: localStorage.getItem("lang") || "en",
+    authorization: localStorage.getItem('barrier_token') || '',
+    accept_language: localStorage.getItem('lang') || 'en'
   },
-  cache,
-})
+  cache
+});
 // ------------
 
 const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
   locale: localStorage.getItem('lang') || 'en',
   fallbackLocale: 'en',
   messages: {
-    'en': en,
-    'de': de
+    en: en,
+    de: de
   }
-});
+})
 
 const app = createApp({
   setup() {

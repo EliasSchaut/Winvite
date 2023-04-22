@@ -1,18 +1,30 @@
 <template>
   <!-- Alerts ------------------------------------------------------->
-  <div v-if="$route.params.status === 'error'" id="alert_error" class="form alert alert-danger" role="alert">
+  <div
+    v-if="$route.params.status === 'error'"
+    id="alert_error"
+    class="form alert alert-danger"
+    role="alert"
+  >
     <span v-html="status.error" />
   </div>
-  <div v-if="$route.params.status === 'not_acceptable'" id="alert_invalid_name" class="form alert alert-danger"
-       role="alert">
+  <div
+    v-if="$route.params.status === 'not_acceptable'"
+    id="alert_invalid_name"
+    class="form alert alert-danger"
+    role="alert"
+  >
     <span v-html="status.not_acceptable" />
   </div>
-  <div v-if="$route.params.status === 'duplicate'" id="alert_not_acceptable" class="form alert alert-danger"
-       role="alert">
+  <div
+    v-if="$route.params.status === 'duplicate'"
+    id="alert_not_acceptable"
+    class="form alert alert-danger"
+    role="alert"
+  >
     <span v-html="status.duplicate" />
   </div>
   <!----------------------------------------------------------------->
-
 
   <!-- From ------------------------------------------------------->
   <div class="form-intro">
@@ -25,12 +37,23 @@
     <LastNameComponent />
     <OptionsComponent show_anonym show_warnings />
 
-    <button v-if="!loading" id="button_submit" type="submit" class="btn btn-primary form-submit"
-            data-bs-placement="bottom">
+    <button
+      v-if="!loading"
+      id="button_submit"
+      class="btn btn-primary form-submit"
+      data-bs-placement="bottom"
+      type="submit"
+    >
       {{ form.submit.name }}
     </button>
 
-    <button v-if="loading" id="button_loading" type="submit" class="btn btn-primary form-submit" disabled>
+    <button
+      v-if="loading"
+      id="button_loading"
+      class="btn btn-primary form-submit"
+      disabled
+      type="submit"
+    >
       <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
       {{ form.submit.loading }}
     </button>
@@ -56,8 +79,10 @@ export default defineComponent({
       loading: ref(false),
       status: {
         error: 'Error! Es gab einen Fehler bei der Anmeldung! Du bist noch nicht registriert!',
-        not_acceptable: 'Error! Dein Name ist ungültig! Dein Name darf nur deutsche <b>Buchstaben</b> und folgende Zeichen enthalten: Leerzeichen, Punkt, Strich, Apostroph (\').<br>Zudem muss jedes Feld mindestens einen Buchstaben enthalten und dein Name darf nicht mehr als 40 Zeichen beinhalten.',
-        duplicate: 'Error! Dieser Name ist schon in der Datenbank vorhanden! Falls du dich schon einmal angemeldet hast, solltest du dich nicht nochmal anmelden!'
+        not_acceptable:
+          'Error! Dein Name ist ungültig! Dein Name darf nur deutsche <b>Buchstaben</b> und folgende Zeichen enthalten: Leerzeichen, Punkt, Strich, Apostroph (\').<br>Zudem muss jedes Feld mindestens einen Buchstaben enthalten und dein Name darf nicht mehr als 40 Zeichen beinhalten.',
+        duplicate:
+          'Error! Dieser Name ist schon in der Datenbank vorhanden! Falls du dich schon einmal angemeldet hast, solltest du dich nicht nochmal anmelden!'
       },
       form: {
         submit: {
@@ -65,7 +90,7 @@ export default defineComponent({
           loading: 'Fertigstellen...'
         }
       }
-    };
+    }
   },
   methods: {
     async form_submit(event: Event) {
@@ -78,35 +103,40 @@ export default defineComponent({
           anonymous: form_data.get('anonymous') === 'on',
           option_ids: form_data.getAll('options').map((option_id) => Number(option_id))
         }
-      }).then((res) => {
-        const challenge = res!.data.guest.challenge
-        store.show_alert("success", `Du hast dich erfolgreich angemeldet!<br>
+      })
+        .then((res) => {
+          const challenge = res!.data.guest.challenge;
+          store.show_alert(
+            'success',
+            `Du hast dich erfolgreich angemeldet!<br>
         Deine Challenge ist: <b>${challenge}</b><br>
         Bitte notiere dir diesen Code, da du ihn brauchst,
         um in anderen Browsern oder Geräten deine Daten nachträglich zu ändern!
-        Du wirst diesen Code kein zweites Mal sehen!`)
-        localStorage.setItem('guest_challenge', challenge);
-        log_in(challenge).then(() => this.$router.push(`/profile`));
-      }).finally(() => {
-        this.loading = false;
-      });
+        Du wirst diesen Code kein zweites Mal sehen!`
+          );
+          localStorage.setItem('guest_challenge', challenge);
+          log_in(challenge).then(() => this.$router.push(`/profile`));
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     }
   },
   setup() {
     const mutate = mutation(gql`
-        mutation add_guest($guest_input_data: GuestInputModel!) {
-          guest(guest_input_data: $guest_input_data) {
-            id
-            challenge
-          }
+      mutation add_guest($guest_input_data: GuestInputModel!) {
+        guest(guest_input_data: $guest_input_data) {
+          id
+          challenge
         }
-      `);
+      }
+    `);
 
     return {
-      add_guest: mutate,
+      add_guest: mutate
     };
   }
-});
+})
 </script>
 
 <style scoped>
@@ -125,7 +155,6 @@ export default defineComponent({
 }
 
 .form-submit {
-    margin-top: 20px
+    margin-top: 20px;
 }
-
 </style>

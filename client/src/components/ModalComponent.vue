@@ -4,14 +4,21 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">{{ title }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            aria-label="Close"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            type="button"
+          ></button>
         </div>
         <slot v-if="spawn_over_body" />
         <div v-else class="modal-body">
           <slot />
         </div>
         <div v-if="show_dismiss_button" class="modal-footer">
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{{ dispose }}</button>
+          <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
+            {{ dispose }}
+          </button>
         </div>
       </div>
     </div>
@@ -19,27 +26,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "CardComponent",
+  name: 'CardComponent',
   data() {
     return {
-      dispose: "Verstanden"
+      dispose: 'Verstanden'
     };
   },
   mounted() {
     if (this.show_only_once) {
       const modal = document.getElementById(this.id)!;
-      modal.addEventListener("hide.bs.modal", () => {
-        modal.remove()
-      })
+      modal.addEventListener('hide.bs.modal', () => {
+        modal.remove();
+      });
     }
   },
   props: {
     title: {
       type: String,
-      required: true,
+      required: true
     },
     id: {
       type: String,
@@ -57,10 +64,8 @@ export default defineComponent({
       type: Boolean,
       default: false
     }
-  },
-});
+  }
+})
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

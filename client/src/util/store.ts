@@ -8,8 +8,8 @@ export const store = reactive({
   theme_without_auto: 'dark',
   alert: {
     show: false,
-    msg: "",
-    type: "success",
+    msg: '',
+    type: 'success'
   },
 
   update_loading(loading: boolean) {
@@ -18,17 +18,17 @@ export const store = reactive({
 
   generate_type(http_code: number) {
     if (http_code >= 200 && http_code < 300) {
-      return "success";
+      return 'success';
     } else if (http_code >= 400 && http_code < 500) {
-      return "warning";
+      return 'warning';
     } else if (http_code >= 500 && http_code < 600) {
-      return "danger";
+      return 'danger';
     } else {
-      return "info";
+      return 'info';
     }
   },
 
-  show_alert(type: "info" | "danger" | "warning" | "success", msg: string) {
+  show_alert(type: 'info' | 'danger' | 'warning' | 'success', msg: string) {
     this.alert.type = type;
     this.alert.msg = msg;
     this.alert.show = true;
@@ -39,16 +39,16 @@ export const store = reactive({
   },
 
   update_theme(theme: string) {
-    set_cookie("theme", theme)
-    this.theme = theme
+    set_cookie('theme', theme);
+    this.theme = theme;
     if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-bs-theme', 'dark')
       this.theme_without_auto = 'dark'
     } else {
-      this.theme_without_auto = (theme === 'auto') ? 'light' : theme
-      document.documentElement.setAttribute('data-bs-theme', theme)
+      this.theme_without_auto = theme === 'auto' ? 'light' : theme;
+      document.documentElement.setAttribute('data-bs-theme', theme);
     }
-  },
+  }
 })
 
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
@@ -58,7 +58,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 })
 
 function get_theme() {
-  const theme = get_cookie("theme")
+  const theme = get_cookie('theme');
   if (theme) {
     return theme
   }

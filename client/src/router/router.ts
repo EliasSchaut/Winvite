@@ -47,7 +47,7 @@ const router = createRouter({
       component: PrivacyView
     }
   ]
-});
+})
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/logout') {
@@ -56,6 +56,6 @@ router.beforeEach((to, from, next) => {
   } else {
     return next();
   }
-});
+})
 
 export default router;

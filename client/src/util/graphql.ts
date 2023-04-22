@@ -26,6 +26,7 @@ function on_error(e: ApolloError) {
     store.show_alert('warning', e.message);
   } else {
     store.show_alert('danger', e.message);
+    console.error(e);
   }
 }
 
@@ -39,7 +40,7 @@ export async function query(query: DocumentNode): Promise<any> {
         }
       },
       fetchPolicy: 'network-only'
-    });
+    })
     onError((e) => {
       on_error(e);
       reject(e);
@@ -48,7 +49,6 @@ export async function query(query: DocumentNode): Promise<any> {
       resolve(r.data);
     });
   })
-    ;
 }
 
 export function mutation(mutation: DocumentNode) {
@@ -72,7 +72,7 @@ export async function log_in(challenge: string) {
             barrier_token
           }
         }
-      `);
+      `)
   if (data.sign_in.barrier_token !== null) {
     localStorage.setItem('barrier_token', data.sign_in.barrier_token);
     store.logged_in = true;

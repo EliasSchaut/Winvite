@@ -1,13 +1,13 @@
 <template>
-<h1>Not Implemented yet!</h1>
+  <h1>Not Implemented yet!</h1>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "NotImplementedComponent"
-});
+  name: 'NotImplementedComponent'
+})
 </script>
 
 <style scoped>
