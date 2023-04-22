@@ -3,14 +3,20 @@ import { IsName } from '@/common/validation/IsName.validation';
 
 @InputType()
 export class GuestUpdateInputModel {
-  @IsName()
+  @IsName({
+    message:
+      'First name must be between 3 and 20 characters long and start with a capital letter.',
+  })
   @Field(() => String, {
     description: 'The first name of the guest.',
     nullable: true,
   })
   first_name?: string;
 
-  @IsName()
+  @IsName({
+    message:
+      'First name must be between 3 and 20 characters long and start with a capital letter.',
+  })
   @Field(() => String, {
     description: 'The last name of the guest.',
     nullable: true,

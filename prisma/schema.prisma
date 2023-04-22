@@ -25,7 +25,7 @@ model Server {
 model Guest {
   id            Int            @id @default(autoincrement())
   server_id     Int
-  server        Server         @relation(fields: [server_id], references: [id])
+  server        Server         @relation(fields: [server_id], references: [id], onDelete: Cascade)
   created_at    DateTime       @default(now())
   updated_at    DateTime       @default(now()) @updatedAt
   first_name    String
@@ -41,27 +41,32 @@ model Guest {
 model Options {
   id            Int            @id @default(autoincrement())
   server_id     Int
-  server        Server         @relation(fields: [server_id], references: [id])
-  created_at    DateTime       @default(now())
-  updated_at    DateTime       @default(now()) @updatedAt
+  server        Server         @relation(fields: [server_id], references: [id], onDelete: Cascade)
   name          String
-  label         String
-  warning       String?
   guest_options GuestOptions[]
+  options_info  OptionsInfo[]
 
   @@unique([server_id, name])
 }
 
+model OptionsInfo {
+  option_id Int
+  option    Options @relation(fields: [option_id], references: [id], onDelete: Cascade)
+  lang      String
+  label     String
+  warning   String?
+
+  @@unique([option_id, lang])
+}
+
 model GuestOptions {
-  id         Int      @id @default(autoincrement())
-  server_id  Int
-  server     Server   @relation(fields: [server_id], references: [id])
-  created_at DateTime @default(now())
-  updated_at DateTime @default(now()) @updatedAt
-  guest_id   Int
-  guest      Guest    @relation(fields: [guest_id], references: [id], onDelete: Cascade)
-  option_id  Int
-  option     Options  @relation(fields: [option_id], references: [id])
+  id        Int     @id @default(autoincrement())
+  server_id Int
+  server    Server  @relation(fields: [server_id], references: [id], onDelete: Cascade)
+  guest_id  Int
+  guest     Guest   @relation(fields: [guest_id], references: [id], onDelete: Cascade)
+  option_id Int
+  option    Options @relation(fields: [option_id], references: [id], onDelete: Cascade)
 
   @@unique([guest_id, option_id])
 }
@@ -69,9 +74,7 @@ model GuestOptions {
 model Shiftings {
   id                                 Int      @id @default(autoincrement())
   server_id                          Int
-  server                             Server   @relation(fields: [server_id], references: [id])
-  created_at                         DateTime @default(now())
-  updated_at                         DateTime @default(now()) @updatedAt
+  server                             Server   @relation(fields: [server_id], references: [id], onDelete: Cascade)
   shift_name                         String
   shift_desc                         String
   shift_start                        DateTime
@@ -84,11 +87,9 @@ model Shiftings {
 }
 
 model GuestShiftings {
-  id          Int      @id @default(autoincrement())
+  id          Int    @id @default(autoincrement())
   server_id   Int
-  server      Server   @relation(fields: [server_id], references: [id])
-  created_at  DateTime @default(now())
-  updated_at  DateTime @default(now()) @updatedAt
+  server      Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
   guest_id    Int
   shifting_id Int
   slot_number Int

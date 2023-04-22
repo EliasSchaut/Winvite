@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
-import { AcceptLanguageResolver, I18nModule } from 'nestjs-i18n';
+import { I18nModule } from 'nestjs-i18n';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
@@ -10,6 +10,7 @@ import { config_validation_schema } from '@/common/validation/config.validation'
 import { GuestsModule } from '@/graphql/guests/guests.module';
 import { OptionsModule } from '@/graphql/options/options.module';
 import { AuthModule } from '@/graphql/auth/auth.module';
+import { I18nLangResolver } from '@/common/middleware/i18n.resolver';
 
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { AuthModule } from '@/graphql/auth/auth.module';
         path: join(__dirname, '../src/locales'),
         watch: true,
       },
-      resolvers: [AcceptLanguageResolver],
+      resolvers: [I18nLangResolver],
       typesOutputPath: join(
         __dirname,
         '../src/types/generated/i18n.generated.ts',
@@ -31,6 +32,10 @@ import { AuthModule } from '@/graphql/auth/auth.module';
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
+      subscriptions: {
+        'graphql-ws': true,
+      },
+      context: (ctx: any) => ctx,
       autoSchemaFile: join(
         process.cwd(),
         'src',

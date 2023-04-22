@@ -37,6 +37,9 @@ export async function query(query: DocumentNode): Promise<any> {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('barrier_token')}`,
           Accept_Language: localStorage.getItem('lang')
+        },
+        metadata: {
+          'lang': localStorage.getItem('lang') || 'en'
         }
       },
       fetchPolicy: 'network-only'
