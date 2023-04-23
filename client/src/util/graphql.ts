@@ -53,7 +53,9 @@ export async function query(query: DocumentNode): Promise<any> {
 }
 
 export function mutation(mutation: DocumentNode) {
-  const { mutate, onError } = useMutation(mutation, {
+  const { mutate, onError } = useMutation(mutation);
+  onError(on_error);
+  return (vars?: any) => mutate(vars, {
     context: {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('barrier_token')}`,
@@ -62,8 +64,6 @@ export function mutation(mutation: DocumentNode) {
     },
     fetchPolicy: 'network-only'
   });
-  onError(on_error);
-  return mutate;
 }
 
 export async function log_in(challenge: string) {
@@ -79,7 +79,6 @@ export async function log_in(challenge: string) {
     store.logged_in = true;
     return true;
   }
-
   return false;
 }
 

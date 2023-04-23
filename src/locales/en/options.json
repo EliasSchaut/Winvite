@@ -1,0 +1,5 @@
+{
+  "invalid": {
+    "not_found": "The specified guest options do not exist. Please specify the correct IDs."
+  }
+}

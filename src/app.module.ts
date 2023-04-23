@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common';
+import { ContextType, Module } from '@nestjs/common';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { ConfigModule } from '@nestjs/config';
-import { I18nModule } from 'nestjs-i18n';
+import { I18nJsonLoader, I18nModule } from 'nestjs-i18n';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
@@ -14,6 +14,10 @@ import { I18nLangResolver } from '@/common/middleware/i18n.resolver';
 import { AdsModule } from '@/graphql/ads/ads.module';
 import { DetailsModule } from '@/graphql/details/details.module';
 
+console.log(
+  join(__dirname, '..', 'src', 'types', 'generated', 'i18n.generated.ts'),
+);
+
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -23,13 +27,18 @@ import { DetailsModule } from '@/graphql/details/details.module';
     I18nModule.forRoot({
       fallbackLanguage: 'en',
       loaderOptions: {
-        path: join(__dirname, '../src/locales'),
+        path: join(__dirname, '..', 'src', 'locales'),
         watch: true,
       },
+      loader: I18nJsonLoader,
       resolvers: [I18nLangResolver],
       typesOutputPath: join(
         __dirname,
-        '../src/types/generated/i18n.generated.ts',
+        '..',
+        'src',
+        'types',
+        'generated',
+        'i18n.generated.ts',
       ),
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -37,7 +46,7 @@ import { DetailsModule } from '@/graphql/details/details.module';
       subscriptions: {
         'graphql-ws': true,
       },
-      context: (ctx: any) => ctx,
+      context: (ctx: ContextType) => ctx,
       autoSchemaFile: join(
         process.cwd(),
         'src',

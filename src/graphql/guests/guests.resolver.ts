@@ -60,6 +60,7 @@ export class GuestsResolver {
     @Args({ name: 'guest_input_data', type: () => GuestInputModel })
     guest_input_data: GuestInputModel,
   ) {
+    console.log(i18n.lang);
     return this.guestsService.add_guest(guest_input_data, { server_id, i18n });
   }
 

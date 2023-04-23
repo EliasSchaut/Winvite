@@ -1,0 +1,9 @@
+{
+  "invalid": {
+    "duplication": "Der Gast existiert bereits. Bitte versuchen Sie einen anderen Namen!",
+    "internal": {
+      "create": "Der Gast konnte nicht erstellt werden. Versuchen Sie es später noch einmal.",
+      "update": "Der Gast konnte nicht geupdated werden. Versuchen Sie es später noch einmal."
+    }
+  }
+}
