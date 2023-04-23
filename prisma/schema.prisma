@@ -20,6 +20,7 @@ model Server {
   GuestOptions   GuestOptions[]
   Shiftings      Shiftings[]
   GuestShiftings GuestShiftings[]
+  Ads            Ads[]
 }
 
 model Guest {
@@ -69,6 +70,26 @@ model GuestOptions {
   option    Options @relation(fields: [option_id], references: [id], onDelete: Cascade)
 
   @@unique([guest_id, option_id])
+}
+
+model Ads {
+  id        Int       @id @default(autoincrement())
+  server_id Int
+  server    Server    @relation(fields: [server_id], references: [id], onDelete: Cascade)
+  link      String?
+  image     String?
+  ads_info  AdsInfo[]
+}
+
+model AdsInfo {
+  id      Int    @id @default(autoincrement())
+  ads_id  Int
+  ads     Ads    @relation(fields: [ads_id], references: [id], onDelete: Cascade)
+  lang    String
+  title   String
+  content String
+
+  @@unique([ads_id, lang])
 }
 
 model Shiftings {

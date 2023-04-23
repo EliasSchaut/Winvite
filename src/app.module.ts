@@ -11,6 +11,7 @@ import { GuestsModule } from '@/graphql/guests/guests.module';
 import { OptionsModule } from '@/graphql/options/options.module';
 import { AuthModule } from '@/graphql/auth/auth.module';
 import { I18nLangResolver } from '@/common/middleware/i18n.resolver';
+import { AdsModule } from '@/graphql/ads/ads.module';
 
 @Module({
   imports: [
@@ -47,6 +48,7 @@ import { I18nLangResolver } from '@/common/middleware/i18n.resolver';
     AuthModule,
     GuestsModule,
     OptionsModule,
+    AdsModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'client', 'dist'),
     }),
