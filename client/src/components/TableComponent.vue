@@ -75,7 +75,6 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { get_cookie, set_cookie } from '@/util/cookie';
 
 export default defineComponent({
   name: 'TableComponent',
@@ -192,7 +191,7 @@ export default defineComponent({
       }
     },
     get_filter_cookie(): boolean[] {
-      const filter_cookie = get_cookie('table_filter_' + this.id);
+      const filter_cookie = localStorage.getItem('table_filter_' + this.id);
       if (filter_cookie) {
         const filter = JSON.parse(filter_cookie) as boolean[];
         if (filter.length === this.head.length) {
@@ -207,7 +206,7 @@ export default defineComponent({
       }
     },
     set_filter_cookie(filter_values: boolean[]) {
-      set_cookie('table_filter_' + this.id, JSON.stringify(filter_values), 365);
+      localStorage.setItem('table_filter_' + this.id, JSON.stringify(filter_values));
     }
   }
 })

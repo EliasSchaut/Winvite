@@ -1,5 +1,4 @@
 import { reactive } from 'vue';
-import { get_cookie, set_cookie } from '@/util/cookie';
 
 export const store = reactive({
   logged_in: false,
@@ -39,7 +38,7 @@ export const store = reactive({
   },
 
   update_theme(theme: string) {
-    set_cookie('theme', theme);
+    localStorage.setItem('theme', theme);
     this.theme = theme;
     if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-bs-theme', 'dark')
@@ -58,7 +57,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 })
 
 function get_theme() {
-  const theme = get_cookie('theme');
+  const theme = localStorage.getItem('theme');
   if (theme) {
     return theme
   }
