@@ -64,14 +64,7 @@ export default defineComponent({
       })
         .then((res) => {
           const challenge = res!.data.guest.challenge;
-          store.show_alert(
-            'success',
-            `Du hast dich erfolgreich angemeldet!<br>
-        Deine Challenge ist: <b>${challenge}</b><br>
-        Bitte notiere dir diesen Code, da du ihn brauchst,
-        um in anderen Browsern oder Geräten deine Daten nachträglich zu ändern!
-        Du wirst diesen Code kein zweites Mal sehen!`
-          );
+          store.show_alert('success', this.$t('join.success', { link: `${window.location.origin}/profile/${challenge}` }));
           log_in(challenge).then(() => this.$router.push(`/profile`));
         })
         .finally(() => {

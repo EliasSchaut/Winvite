@@ -1,0 +1,23 @@
+{
+  "auth": {
+    "invalid": {
+      "challenge": "Der Anmeldelink passt zu keinem Benutzer. Bitte gib einen richtigen Anmeldelink an!",
+      "no_token": "Es wurde kein Token bereitgestellt. Bitte melden Sie sich an!",
+      "token": "Invalider Token. Bitte melde dich erneut an!"
+    }
+  },
+  "guests": {
+    "invalid": {
+      "duplication": "Der Gast existiert bereits. Bitte versuchen Sie einen anderen Namen!",
+      "internal": {
+        "create": "Der Gast konnte nicht erstellt werden. Versuchen Sie es später noch einmal.",
+        "update": "Der Gast konnte nicht geupdated werden. Versuchen Sie es später noch einmal."
+      }
+    }
+  },
+  "options": {
+    "invalid": {
+      "not_found": "Die angegebenen Gastoptionen existieren nicht. Bitte geben Sie die richtigen IDs an."
+    }
+  }
+}

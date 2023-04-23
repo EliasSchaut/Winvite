@@ -17,7 +17,7 @@
         </div>
         <div v-if="show_dismiss_button" class="modal-footer">
           <button class="btn btn-primary" data-bs-dismiss="modal" type="button">
-            {{ dispose }}
+            {{ $t('common.modal.understood') }}
           </button>
         </div>
       </div>
@@ -30,11 +30,6 @@ import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'CardComponent',
-  data() {
-    return {
-      dispose: 'Verstanden'
-    };
-  },
   mounted() {
     if (this.show_only_once) {
       const modal = document.getElementById(this.id)!;

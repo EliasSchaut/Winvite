@@ -83,11 +83,11 @@ export class GuestsService {
       })
       .catch((error: Prisma.PrismaClientKnownRequestError) => {
         if (error.code === 'P2002') {
-          throw new GraphQLError('Guest already exists', {
+          throw new GraphQLError(ctx.i18n.t('guests.invalid.duplication'), {
             extensions: { code: 'CONFLICT' },
           });
         } else {
-          throw new GraphQLError('Could not create guest. Try again later.', {
+          throw new GraphQLError(ctx.i18n.t('guests.invalid.internal.create'), {
             extensions: { code: 'INTERNAL_SERVER_ERROR' },
           });
         }
@@ -116,15 +116,15 @@ export class GuestsService {
       .catch((error: Prisma.PrismaClientKnownRequestError) => {
         console.log(error);
         if (error.code === 'P2002') {
-          throw new GraphQLError('Guest name already exists in server', {
+          throw new GraphQLError(ctx.i18n.t('guests.invalid.duplication'), {
             extensions: { code: 'CONFLICT' },
           });
         } else if (error.code === 'P2003') {
-          throw new GraphQLError('Given guest options does not exist', {
+          throw new GraphQLError(ctx.i18n.t('options.invalid.not_found'), {
             extensions: { code: 'NOT_FOUND' },
           });
         } else {
-          throw new GraphQLError('Could not update guest. Try again later.', {
+          throw new GraphQLError(ctx.i18n.t('guests.invalid.internal.update'), {
             extensions: { code: 'INTERNAL_SERVER_ERROR' },
           });
         }

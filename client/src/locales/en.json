@@ -1,56 +1,103 @@
 {
   "common": {
-    "loading": "Loading...",
-    "form": {
-      "first_name": {
-        "label": "First Name",
-        "invalid_feedback": "Must be between 3 and 20 characters and start with a capital letter!"
-      },
-      "last_name": {
-        "label": "Last Name",
-        "invalid_feedback": "Must be between 3 and 20 characters and start with a capital letter!"
-      },
-      "valid_feedback": "Looks good!",
-      "submit": "Submit",
-      "search": "Search",
-      "loading": "Finish..."
-    },
-    "modal": {
-      "warning": "Attention!",
-      "close": "Close"
-    },
     "alert": {
+      "danger": "Danger!",
       "info": "Info!",
       "success": "Success!",
-      "warning": "Warning!",
-      "danger": "Danger!"
+      "warning": "Warning!"
     },
-    "theme": {
-      "light": "Light",
-      "dark": "Dark",
-      "auto": "Auto"
+    "form": {
+      "first_name": {
+        "invalid_feedback": "Must be between 3 and 20 characters and start with a capital letter!",
+        "label": "First Name"
+      },
+      "last_name": {
+        "invalid_feedback": "Must be between 3 and 20 characters and start with a capital letter!",
+        "label": "Last Name"
+      },
+      "loading": "Finish...",
+      "search": "Search",
+      "submit": "Submit",
+      "valid_feedback": "Looks good!"
     },
     "guest": {
       "anonym": "Anonymous"
+    },
+    "loading": "Loading...",
+    "modal": {
+      "close": "Close",
+      "understood": "Understood!",
+      "warning": "Attention!"
+    },
+    "theme": {
+      "auto": "Auto",
+      "dark": "Dark",
+      "light": "Light"
     }
   },
+  "guests": {
+    "count": {
+      "post": "are in!",
+      "pre": "Already"
+    },
+    "title": "Guestlist"
+  },
+  "home": {
+    "join": {
+      "button": "JOIN NOW",
+      "title": "Register now!"
+    },
+    "title": "What awaits you?"
+  },
+  "join": {
+    "subtitle": "This automatically puts you on the guest list and you're in!",
+    "success": "You have successfully logged in! Your login link is: <b><a href=\"{link}\">{link}</a></b><br><br>Please note this link, because you need it to change your data in other browsers or devices afterwards! You can only access this link via already logged in browsers!",
+    "title": "Sign up!"
+  },
   "nav": {
-    "home": "Home",
+    "details": "Details",
+    "guests": "Guests",
     "history": "History",
-    "privacy": "Privacy",
+    "home": "Home",
+    "join": "JOIN!",
     "lang": {
       "de": "🇩🇪 German",
       "en": "🇬🇧 English"
     },
-    "details": "Details",
-    "shiftings": "Shifts",
-    "guests": "Guests",
-    "join": "JOIN!",
+    "logout": "Logout",
+    "privacy": "Privacy",
     "profile": "Profile",
-    "logout": "Logout"
+    "shiftings": "Shifts"
+  },
+  "privacy": {
+    "imprint": {
+      "contact": "Contact",
+      "declaration": "Information according to § 5 TMG",
+      "email": "E-Mail",
+      "phone": "Phone",
+      "title": "Imprint"
+    },
+    "privacy": {
+      "access": {
+        "body": "Only the above-mentioned operator of this website has access to all data. The password provided is only stored in encrypted form and cannot be viewed. The e-mail address is only used for communication with the user and is not passed on to third parties. The respective given name is publicly viewable! If a user account is deleted, all data associated with this account will also be deleted. This also includes the film suggestions and film choices that the user has made.",
+        "title": "Who has access to my data and why?"
+      },
+      "cookies": {
+        "body": "This website does not use analytical tracking of any kind. This website uses cookies. These are small text files that the web browser stores on the end device. Cookies help to make the website more user-friendly, effective and secure. Some cookies are \"session cookies.\" Such cookies are deleted by themselves at the end of the browser session. In contrast, other cookies remain on your terminal device until they are manually deleted by yourself. Such cookies help to reuse settings made when returning to the website. With a modern web browser, the setting of cookies can be monitored, restricted or prevented. Many web browsers can be configured to automatically delete cookies when the program is closed. Disabling cookies may result in limited functionality of the website.",
+        "title": "Analytics/Cookies/External Resources etc.?"
+      },
+      "registration": {
+        "body": "If \"Confirm\" is clicked during registration, all information provided here will be sent to a database on a dedicated server of IONOS SE in Frankfurt, Germany and stored there at the latest until the end of the operation of this website.",
+        "title": "What happens to the information I provide during registration?"
+      },
+      "rights": {
+        "body": "According to DSGVO and BDSG, you can request information, updating, blocking or deletion of all your data at any time. Your contact person for this is the above-mentioned operator of this website. In addition, I am obliged to remind you of your right to object to this consent at any time and, if necessary, to complain to a supervisory authority about me.",
+        "title": "What are my rights?"
+      },
+      "title": "Privacy"
+    }
   },
   "profile": {
-    "header": "Profile",
     "button": {
       "profile": "Edit profile"
     },
@@ -59,57 +106,12 @@
         "desc": "Attention: Herewith you log out of the event! All user data will be irretrievably lost."
       }
     },
+    "header": "Profile",
     "option": {
-      "title": "Options",
       "anonym": "I do not want to be listed in the public guest list",
+      "delete_account": "Delete account",
       "get_user_data": "Get all user data",
-      "delete_account": "Delete account"
+      "title": "Options"
     }
-  },
-  "privacy": {
-    "imprint": {
-      "title": "Imprint",
-      "declaration": "Information according to § 5 TMG",
-      "contact": "Contact",
-      "email": "E-Mail",
-      "phone": "Phone"
-    },
-    "privacy": {
-      "title": "Privacy",
-      "registration": {
-        "title": "What happens to the information I provide during registration?",
-        "body": "If \"Confirm\" is clicked during registration, all information provided here will be sent to a database on a dedicated server of IONOS SE in Frankfurt, Germany and stored there at the latest until the end of the operation of this website."
-      },
-      "access": {
-        "title": "Who has access to my data and why?",
-        "body": "Only the above-mentioned operator of this website has access to all data. The password provided is only stored in encrypted form and cannot be viewed. The e-mail address is only used for communication with the user and is not passed on to third parties. The respective given name is publicly viewable! If a user account is deleted, all data associated with this account will also be deleted. This also includes the film suggestions and film choices that the user has made."
-      },
-      "cookies": {
-        "title": "Analytics/Cookies/External Resources etc.?",
-        "body": "This website does not use analytical tracking of any kind. This website uses cookies. These are small text files that the web browser stores on the end device. Cookies help to make the website more user-friendly, effective and secure. Some cookies are \"session cookies.\" Such cookies are deleted by themselves at the end of the browser session. In contrast, other cookies remain on your terminal device until they are manually deleted by yourself. Such cookies help to reuse settings made when returning to the website. With a modern web browser, the setting of cookies can be monitored, restricted or prevented. Many web browsers can be configured to automatically delete cookies when the program is closed. Disabling cookies may result in limited functionality of the website."
-      },
-      "rights": {
-        "title": "What are my rights?",
-        "body": "According to DSGVO and BDSG, you can request information, updating, blocking or deletion of all your data at any time. Your contact person for this is the above-mentioned operator of this website. In addition, I am obliged to remind you of your right to object to this consent at any time and, if necessary, to complain to a supervisory authority about me."
-      }
-    }
-  },
-  "home": {
-    "title": "What awaits you?",
-    "join": {
-      "title": "Register now!",
-      "button": "JOIN NOW"
-    }
-  },
-  "guests": {
-    "title": "Guestlist",
-    "count": {
-      "post": "are in!",
-      "pre": "Already"
-    }
-  },
-  "join": {
-    "title": "Sign up!",
-    "subtitle": "This automatically puts you on the guest list and you're in!"
   }
 }
