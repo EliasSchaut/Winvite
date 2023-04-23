@@ -9,21 +9,11 @@
     </p>
 
     <div class="adds">
-      <div v-for="ad in ads" class="add card">
-        <img
-          v-if="ad.img !== null"
-          :alt="ad.title"
-          :src="`/img/${ad.img}`"
-          class="card-img-top"
-          width="600"
-        />
-        <div class="card-body">
-          <p class="card-title capture big">
-            <b>{{ ad.title }}</b>
-          </p>
-          <p class="card-text" v-html="ad.content"></p>
-        </div>
-      </div>
+      <AdComponent v-for="ad in ads"
+                   :content="ad.content"
+                   :img="ad.img as string"
+                   :link="ad.link as string"
+                   :title="ad.title" />
     </div>
 
     <p class="capture center huge handwritten">
@@ -45,7 +35,7 @@
           src="@/assets/svg/arrow-right-circle-fill.svg"
         />
         <router-link class="btn btn-success join_margin" to="/join" type="button">
-          {{ $t('home.join.button') }}>
+          {{ $t('home.join.button') }}
         </router-link>
         <img
           id="arrow-left"
@@ -65,9 +55,11 @@ import gql from 'graphql-tag';
 import { defineComponent, ref, watch } from 'vue';
 import type { AdModel } from '@/types/models/ad.model';
 import { get_locale } from '@/main';
+import AdComponent from '@/components/AdComponent.vue';
 
 export default defineComponent({
   name: 'HomeView',
+  components: { AdComponent },
   setup() {
     const ads = ref<AdModel[]>([]);
     query(gql`
@@ -120,10 +112,5 @@ export default defineComponent({
     flex-wrap: wrap;
     justify-content: space-around;
     align-content: center;
-}
-
-.add {
-    width: 600px;
-    margin: 20px 0;
 }
 </style>
