@@ -6,10 +6,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import type { DetailModel } from '@/types/models/detail.model';
 import { query } from '@/util/graphql';
 import gql from 'graphql-tag';
+import { get_locale } from '@/main';
 
 export default defineComponent({
   name: 'DetailsView',
@@ -24,6 +25,18 @@ export default defineComponent({
       }
     `).then((data) => {
       details.value = data.details;
+    });
+
+    watch(get_locale, () => {
+      query(gql`
+        query {
+          details {
+            title
+            content
+          }
+        }`).then((data) => {
+        details.value = data.details;
+      });
     });
 
     return {
