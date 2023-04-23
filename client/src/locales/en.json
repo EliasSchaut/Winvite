@@ -99,8 +99,10 @@
   },
   "profile": {
     "button": {
+      "login_link": "Copy login link",
       "profile": "Edit profile"
     },
+    "copied": "Login link was copied to the clipboard!",
     "form": {
       "delete_account": {
         "desc": "Attention: Herewith you log out of the event! All user data will be irretrievably lost."

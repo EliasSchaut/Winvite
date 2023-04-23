@@ -11,6 +11,13 @@
         >
           {{ $t('profile.button.profile') }}
         </button>
+        <button class="btn btn-secondary ms-2"
+                @click.prevent="copy_to_clipboard(user!.challenge)">
+          <span class="d-flex flex-row align-items-center">
+            <span>{{ $t('profile.button.login_link') }}&nbsp;</span>
+            <img alt="copy_img" src="@/assets/svg/intersect.svg">
+          </span>
+        </button>
       </div>
 
       <CardComponent :header="$t('profile.option.title')" nobody>
@@ -81,6 +88,7 @@ import gql from 'graphql-tag';
 import { log_in, log_out, mutation, query } from '@/util/graphql';
 import type { GuestModel } from '@/types/models/guest.model';
 import OptionsComponent from '@/components/form/OptionsComponent.vue';
+import { store } from '@/util/store';
 
 const user = ref<GuestModel>({
   id: -1,
@@ -158,6 +166,7 @@ export default defineComponent({
             first_name
             last_name
             anonymous
+            challenge
             options {
               id
               name
@@ -172,6 +181,10 @@ export default defineComponent({
           document.getElementById(`form_check_${option.name}`)?.setAttribute('checked', 'true');
         }
       })
+    },
+    copy_to_clipboard(challenge: string) {
+      navigator.clipboard.writeText(`${window.location.origin}/profile/${challenge}`);
+      store.show_alert('info', this.$t('profile.copied'));
     }
   },
   setup() {

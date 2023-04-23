@@ -99,8 +99,10 @@
   },
   "profile": {
     "button": {
+      "login_link": "Anmeldelink kopieren",
       "profile": "Profil bearbeiten"
     },
+    "copied": "Anmeldelink wurde in die Zwischenablage kopiert!",
     "form": {
       "delete_account": {
         "desc": "Achtung: Hiermit melden Sie sich von der Veranstaltung ab! Alle Benutzerdaten gehen dabei unwiederbringlich verloren!"
