@@ -72,7 +72,6 @@ export default defineComponent({
         um in anderen Browsern oder Geräten deine Daten nachträglich zu ändern!
         Du wirst diesen Code kein zweites Mal sehen!`
           );
-          localStorage.setItem('guest_challenge', challenge);
           log_in(challenge).then(() => this.$router.push(`/profile`));
         })
         .finally(() => {

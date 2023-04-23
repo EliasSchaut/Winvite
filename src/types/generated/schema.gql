@@ -62,6 +62,15 @@ type AdModel {
   img: String
 }
 
+"""A detail block describing one aspect of the event specific."""
+type DetailModel {
+  """Title of Detail."""
+  title: String!
+
+  """Content of Detail."""
+  content: String!
+}
+
 type Query {
   sign_in(challenge: String!): AuthModel!
 
@@ -74,6 +83,7 @@ type Query {
   """Get all options."""
   options: [OptionModel!]!
   ads: [AdModel!]!
+  details: [DetailModel!]!
 }
 
 type Mutation {

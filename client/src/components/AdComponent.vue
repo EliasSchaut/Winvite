@@ -5,6 +5,7 @@
       :alt="title"
       :src="`/img/${img}`"
       class="card-img-top"
+      width="600"
     />
     <div class="card-body">
       <p class="card-title capture big">
@@ -44,10 +45,6 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.card-img-top {
-    width: 600px;
-}
-
 .add {
     width: 600px;
     margin: 20px 0;

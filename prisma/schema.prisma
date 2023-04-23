@@ -23,6 +23,7 @@ model Server {
   Shiftings      Shiftings[]
   GuestShiftings GuestShiftings[]
   Ads            Ads[]
+  Details        Details[]
 }
 
 model Guest {
@@ -92,6 +93,23 @@ model AdsInfo {
   content String
 
   @@unique([ads_id, lang])
+}
+
+model Details {
+  id           Int           @id @default(autoincrement())
+  server_id    Int
+  server       Server        @relation(fields: [server_id], references: [id], onDelete: Cascade)
+  details_info DetailsInfo[]
+}
+
+model DetailsInfo {
+  details_id Int
+  Details    Details @relation(fields: [details_id], references: [id], onDelete: Cascade)
+  lang       String
+  title      String
+  content    String
+
+  @@unique([details_id, lang])
 }
 
 model Shiftings {
