@@ -15,6 +15,7 @@ export class GuestsService {
   async find_all_public(ctx: CtxType): Promise<GuestModel[]> {
     return this.prisma.guest.findMany({
       where: { server_id: ctx.server_id, anonymous: false },
+      orderBy: { first_name: 'asc' },
     });
   }
 
