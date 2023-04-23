@@ -31,7 +31,7 @@ export class AdsService {
         title: ad.ads_info[0].title,
         content: ad.ads_info[0].content,
         link: ad.link,
-        image: ad.image,
+        img: ad.image,
       };
     });
   }

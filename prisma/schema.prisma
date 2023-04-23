@@ -14,7 +14,9 @@ model Server {
   id             Int              @id @default(autoincrement())
   created_at     DateTime         @default(now())
   updated_at     DateTime         @default(now()) @updatedAt
-  server_name    String
+  server_name    String           @unique
+  server_host    String           @unique
+  server_video   String?
   guests         Guest[]
   options        Options[]
   GuestOptions   GuestOptions[]

@@ -47,6 +47,21 @@ type AuthModel {
   barrier_token: String!
 }
 
+"""An ad is describing one feature of the event."""
+type AdModel {
+  """Title of Ad."""
+  title: String!
+
+  """Content of Ad."""
+  content: String!
+
+  """Potential link to something."""
+  link: String
+
+  """An img link describing the ad better."""
+  img: String
+}
+
 type Query {
   sign_in(challenge: String!): AuthModel!
 
@@ -58,6 +73,7 @@ type Query {
 
   """Get all options."""
   options: [OptionModel!]!
+  ads: [AdModel!]!
 }
 
 type Mutation {

@@ -3,6 +3,7 @@ import { store } from '@/util/store';
 import type { ApolloError } from '@apollo/client/errors';
 import type { DocumentNode } from 'graphql/language';
 import gql from 'graphql-tag';
+import { get_locale } from '@/main';
 
 const codes_warning = [
   'CONFLICT',
@@ -36,11 +37,8 @@ export async function query(query: DocumentNode): Promise<any> {
       context: {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('barrier_token')}`,
-          Accept_Language: localStorage.getItem('lang')
+          Accept_Language: get_locale()
         },
-        metadata: {
-          'lang': localStorage.getItem('lang') || 'en'
-        }
       },
       fetchPolicy: 'network-only'
     })
@@ -59,7 +57,7 @@ export function mutation(mutation: DocumentNode) {
     context: {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('barrier_token')}`,
-        Accept_Language: localStorage.getItem('lang')
+        Accept_Language: get_locale()
       }
     },
     fetchPolicy: 'network-only'

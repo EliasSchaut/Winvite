@@ -50,22 +50,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import ModalComponent from '@/components/ModalComponent.vue';
 import { query } from '@/util/graphql';
 import gql from 'graphql-tag';
 import type { OptionModel } from '@/types/models/option.model';
-
-const gql_options = ref<OptionModel[]>([]);
+import { get_locale } from '@/main';
 
 export default defineComponent({
   name: 'OptionsComponent',
   components: { ModalComponent },
-  data() {
-    return {
-      gql_options
-    };
-  },
   props: {
     show_anonym: {
       type: Boolean,
@@ -81,8 +75,10 @@ export default defineComponent({
     }
   },
   setup() {
+    const gql_options = ref<OptionModel[]>([]);
+
     query(gql`
-      query get_join {
+      query get_options {
         options {
           id
           name
@@ -91,10 +87,31 @@ export default defineComponent({
         }
       }
     `).then((res) => {
-      gql_options.value = res.options as OptionModel[];
-    })
+      gql_options.value = res.options;
+    });
+
+    watch(get_locale, () => {
+      query(gql`
+        query get_options {
+          options {
+            label
+            warning
+          }
+        }`)
+        .then((data) => {
+          gql_options.value = gql_options.value.map((gql_option, i) => {
+            gql_option.label = data.options[i].label;
+            gql_option.warning = data.options[i].warning;
+            return gql_option;
+          });
+        });
+    });
+
+    return {
+      gql_options
+    };
   }
-})
+});
 </script>
 
 <style scoped></style>

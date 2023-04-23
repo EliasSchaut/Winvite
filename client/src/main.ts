@@ -4,18 +4,20 @@ import { createApp, h, provide } from 'vue';
 import App from './App.vue';
 import router from '@/router/router';
 
+// ------------
+// Plugins setup
+// ------------
 import '@/plugins/bootstrap';
 import '@/assets/css/main.css';
-
+// ------------
+// ------------
+// Apollo setup
+// ------------
 import en from '@/locales/en.json';
 import de from '@/locales/de.json';
 import { createI18n } from 'vue-i18n';
 
 type MessageSchema = typeof en
-
-// ------------
-// Apollo setup
-// ------------
 const httpLink = createHttpLink({
   uri: 'http://localhost:3000/graphql'
 });
@@ -30,6 +32,9 @@ const apollo_client = new ApolloClient({
 });
 // ------------
 
+// ------------
+// Lang setup
+// ------------
 const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
   locale: localStorage.getItem('lang') || 'en',
   fallbackLocale: 'en',
@@ -37,7 +42,9 @@ const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
     en: en,
     de: de
   }
-})
+});
+export const get_locale: () => string = () => i18n.global.locale as string;
+// ------------
 
 const app = createApp({
   setup() {

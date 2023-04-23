@@ -181,8 +181,8 @@ export default defineComponent({
     change_lang: function(event: any) {
       const new_lang = event.target.value as 'en' | 'de';
       this.store.hide_alert();
-      this.$i18n.locale = new_lang;
       localStorage.setItem('lang', new_lang);
+      this.$i18n.locale = new_lang;
     }
   }
 });
