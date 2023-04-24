@@ -2,17 +2,18 @@
   <CardComponent id="card_profile" :header="$t('profile.header')">
     <div class="d-flex flex-column justify-content-between">
       <div class="mb-3">
-        <h5 class="card-title">{{ user!.first_name + ' ' + user!.last_name }}</h5>
+        <h5 class="card-title">{{ user.first_name + ' ' + user.last_name }}</h5>
         <button
           class="btn btn-primary"
           data-bs-target="#modal_profile"
           data-bs-toggle="modal"
           type="button"
+          @click="set_options"
         >
           {{ $t('profile.button.profile') }}
         </button>
         <button class="btn btn-secondary ms-2"
-                @click.prevent="copy_to_clipboard(user!.challenge)">
+                @click.prevent="copy_to_clipboard(user.challenge)">
           <span class="d-flex flex-row align-items-center">
             <span>{{ $t('profile.button.login_link') }}&nbsp;</span>
             <img alt="copy_img" src="@/assets/svg/intersect.svg">
@@ -26,7 +27,7 @@
             <div class="form-switch">
               <input
                 id="switch_emails"
-                :checked="user!.anonymous"
+                :checked="user.anonymous"
                 class="form-check-input"
                 name="anonymous"
                 role="switch"
@@ -59,8 +60,8 @@
   <!-- Modal: Change Profile -->
   <ModalComponent id="modal_profile" :title="$t('profile.button.profile')">
     <FormComponent :submit="update_profile" class="d-flex flex-column">
-      <FirstNameComponent :value="user!.first_name" />
-      <LastNameComponent :value="user!.last_name" />
+      <FirstNameComponent :value="user.first_name" />
+      <LastNameComponent :value="user.last_name" />
       <OptionsComponent />
       <SubmitComponent class="mt-3" inner_text="Update" />
     </FormComponent>
@@ -90,15 +91,6 @@ import type { GuestModel } from '@/types/models/guest.model';
 import OptionsComponent from '@/components/form/OptionsComponent.vue';
 import { store } from '@/util/store';
 
-const user = ref<GuestModel>({
-  id: -1,
-  challenge: '',
-  first_name: '‎',
-  last_name: '‎',
-  anonymous: false,
-  options: []
-});
-
 export default defineComponent({
   name: 'ProfileComponent',
   components: {
@@ -109,12 +101,6 @@ export default defineComponent({
     LastNameComponent,
     SubmitComponent,
     ModalComponent
-  },
-  data() {
-    return {
-      submit: 'Update',
-      user: user
-    }
   },
   mounted() {
     const challenge = this.$route.params.challenge as string;
@@ -147,7 +133,17 @@ export default defineComponent({
         user_data: {
           anonymous: (e.target as HTMLInputElement).checked
         }
-      })
+      }).then(() => {
+        query(gql`
+          query user {
+            guest {
+              anonymous
+            }
+          }
+        `).then((data) => {
+          this.user.anonymous = data.guest.anonymous;
+        });
+      });
     },
     delete_account(e: Event) {
       this.delete_user().then(() => {
@@ -176,11 +172,14 @@ export default defineComponent({
           }
         }
       `).then((data) => {
-        user.value = data.guest as GuestModel;
-        for (const option of user.value.options!) {
-          document.getElementById(`form_check_${option.name}`)?.setAttribute('checked', 'true');
-        }
+        this.user = data.guest as GuestModel;
       })
+    },
+    set_options() {
+      const ids = this.user.options!.map((option) => option.id);
+      for (const html_option of document.getElementsByName('options')) {
+        (html_option as HTMLInputElement).checked = ids.includes(Number((html_option as HTMLInputElement).value));
+      }
     },
     copy_to_clipboard(challenge: string) {
       navigator.clipboard.writeText(`${window.location.origin}/profile/${challenge}`);
@@ -188,13 +187,23 @@ export default defineComponent({
     }
   },
   setup() {
+    const user = ref<GuestModel>({
+      id: -1,
+      challenge: '',
+      first_name: '‎',
+      last_name: '‎',
+      anonymous: false,
+      options: []
+    });
+
+
     const update_user = mutation(gql`
       mutation update_user($user_data: GuestUpdateInputModel!) {
         update_guest(guest_update_data: $user_data) {
           id
         }
       }
-    `)
+    `);
 
     const delete_user = mutation(gql`
       mutation delete_user {
@@ -205,6 +214,7 @@ export default defineComponent({
     `)
 
     return {
+      user,
       update_user,
       delete_user
     };
