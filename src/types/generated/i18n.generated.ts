@@ -24,5 +24,10 @@ export type I18nTranslations = {
       not_found: string;
     };
   };
+  shifts: {
+    invalid: {
+      without_slots: string;
+    };
+  };
 };
 export type I18nPath = Path<I18nTranslations>;

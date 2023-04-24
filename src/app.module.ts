@@ -13,6 +13,7 @@ import { AuthModule } from '@/graphql/auth/auth.module';
 import { I18nLangResolver } from '@/common/middleware/i18n.resolver';
 import { AdsModule } from '@/graphql/ads/ads.module';
 import { DetailsModule } from '@/graphql/details/details.module';
+import { ShiftsModule } from '@/graphql/shifts//shifts.module';
 
 console.log(
   join(__dirname, '..', 'src', 'types', 'generated', 'i18n.generated.ts'),
@@ -55,14 +56,15 @@ console.log(
         'schema.gql',
       ),
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client', 'dist'),
+    }),
     AuthModule,
     GuestsModule,
     OptionsModule,
     AdsModule,
     DetailsModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'client', 'dist'),
-    }),
+    ShiftsModule,
   ],
   controllers: [],
   providers: [],

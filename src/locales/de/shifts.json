@@ -1,0 +1,5 @@
+{
+  "invalid": {
+    "without_slots": "Die Schicht hat keine Slots zugeteilt. Füge der Schicht mindestens einen Slot hinzu!"
+  }
+}

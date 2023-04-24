@@ -51,7 +51,7 @@ export class GuestsService {
           },
         },
       },
-      where: { guest_id: ctx.guest_id, server_id: ctx.server_id },
+      where: { guest_id: ctx.guest_id },
     });
 
     return guest_options.map((option) => {
@@ -98,7 +98,7 @@ export class GuestsService {
   async update_guest(guest_update_data: GuestUpdateInputModel, ctx: CtxType) {
     if (guest_update_data.option_ids) {
       (guest_update_data as Prisma.GuestUpdateInput).guest_options = {
-        deleteMany: { server_id: ctx.server_id },
+        deleteMany: { guest_id: ctx.guest_id },
         createMany: {
           data: guest_update_data.option_ids.map((option_id) => ({
             option_id: option_id,

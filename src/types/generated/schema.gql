@@ -71,6 +71,48 @@ type DetailModel {
   content: String!
 }
 
+"""
+Represents a time slot for a shift, which can be acquired by multiple participants.
+"""
+type SlotsModel {
+  """Unique identifier of the slot."""
+  id: String!
+
+  """Start time of the slot."""
+  start: DateTime!
+
+  """End time of the slot."""
+  end: DateTime!
+
+  """Number of participants that can be assigned to this slot."""
+  num_of_participants: Float!
+
+  """Number of free slots, than has not be assigned to participants."""
+  free_spots: Float!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""
+Represents a shift on a server, which holds multiple slots for participants to acquire.
+"""
+type ShiftModel {
+  """Unique identifier of the shift."""
+  id: Float!
+
+  """Name of the shift."""
+  name: String!
+
+  """Description of the shift."""
+  desc: String!
+
+  """Slots of the shift."""
+  slots: [SlotsModel!]!
+}
+
 type Query {
   sign_in(challenge: String!): AuthModel!
 
@@ -84,6 +126,7 @@ type Query {
   options: [OptionModel!]!
   ads: [AdModel!]!
   details: [DetailModel!]!
+  shifts: [ShiftModel!]!
 }
 
 type Mutation {

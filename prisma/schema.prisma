@@ -11,19 +11,17 @@ datasource db {
 }
 
 model Server {
-  id             Int              @id @default(autoincrement())
-  created_at     DateTime         @default(now())
-  updated_at     DateTime         @default(now()) @updatedAt
-  server_name    String           @unique
-  server_host    String           @unique
-  server_video   String?
-  guests         Guest[]
-  options        Options[]
-  GuestOptions   GuestOptions[]
-  Shiftings      Shiftings[]
-  GuestShiftings GuestShiftings[]
-  Ads            Ads[]
-  Details        Details[]
+  id           Int       @id @default(autoincrement())
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @default(now()) @updatedAt
+  server_name  String    @unique
+  server_host  String    @unique
+  server_video String?
+  guests       Guest[]
+  options      Options[]
+  Shiftings    Shifts[]
+  Ads          Ads[]
+  Details      Details[]
 }
 
 model Guest {
@@ -37,6 +35,7 @@ model Guest {
   anonymous     Boolean        @default(false)
   challenge     String         @unique @default(cuid())
   guest_options GuestOptions[]
+  guest_shifts  GuestShifts[]
 
   @@unique([server_id, id])
   @@unique([server_id, first_name, last_name])
@@ -65,8 +64,6 @@ model OptionsInfo {
 
 model GuestOptions {
   id        Int     @id @default(autoincrement())
-  server_id Int
-  server    Server  @relation(fields: [server_id], references: [id], onDelete: Cascade)
   guest_id  Int
   guest     Guest   @relation(fields: [guest_id], references: [id], onDelete: Cascade)
   option_id Int
@@ -112,28 +109,40 @@ model DetailsInfo {
   @@unique([details_id, lang])
 }
 
-model Shiftings {
-  id                                 Int      @id @default(autoincrement())
-  server_id                          Int
-  server                             Server   @relation(fields: [server_id], references: [id], onDelete: Cascade)
-  shift_name                         String
-  shift_desc                         String
-  shift_start                        DateTime
-  shift_duration                     String
-  shift_num_of_slots                 Int
-  shift_num_of_participants_per_slot Int
-  shift_min_slot_overlap             Int
-
-  @@unique([server_id, id])
+model Shifts {
+  id          Int           @id @default(autoincrement())
+  server_id   Int
+  server      Server        @relation(fields: [server_id], references: [id], onDelete: Cascade)
+  shift_info  ShiftsInfo[]
+  shift_slots ShiftsSlots[]
 }
 
-model GuestShiftings {
-  id          Int    @id @default(autoincrement())
-  server_id   Int
-  server      Server @relation(fields: [server_id], references: [id], onDelete: Cascade)
-  guest_id    Int
-  shifting_id Int
-  slot_number Int
+model ShiftsInfo {
+  shift_id Int
+  shift    Shifts @relation(fields: [shift_id], references: [id], onDelete: Cascade)
+  lang     String
+  name     String
+  desc     String
 
-  @@unique([guest_id, shifting_id])
+  @@unique([shift_id, lang])
+}
+
+model ShiftsSlots {
+  id                  Int           @id @default(autoincrement())
+  shift_id            Int
+  shift               Shifts        @relation(fields: [shift_id], references: [id], onDelete: Cascade)
+  start               DateTime
+  end                 DateTime
+  num_of_participants Int
+  guest_shifts        GuestShifts[]
+
+  @@unique([shift_id, start, end])
+}
+
+model GuestShifts {
+  id            Int         @id @default(autoincrement())
+  guest_id      Int
+  guest         Guest       @relation(fields: [guest_id], references: [id], onDelete: Cascade)
+  shift_slot_id Int
+  shift_slot    ShiftsSlots @relation(fields: [shift_slot_id], references: [id], onDelete: Cascade)
 }

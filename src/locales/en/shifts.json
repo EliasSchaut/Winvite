@@ -1,0 +1,5 @@
+{
+  "invalid": {
+    "without_slots": "The shift has no slots assigned. Add at least one slot to the shift!"
+  }
+}
