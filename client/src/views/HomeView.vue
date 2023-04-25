@@ -39,7 +39,7 @@
         {{ $t('home.join.button') }}
       </router-link>
       <router-link v-else class="btn btn-success join_margin" to="/shifts" type="button">
-        {{ $t('shifts.choose.title') }}
+        {{ $t('home.shift.button') }}
       </router-link>
     </BigButtonComponent>
   </div>

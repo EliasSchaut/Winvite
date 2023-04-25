@@ -1,91 +1,101 @@
 <template>
-  <p class="capture center huge handwritten">
-    <b>{{ $t('shifts.title') }}</b>
-  </p>
+  <div class="content">
+    <p class="capture center huge handwritten">
+      <b>{{ $t('shifts.title') }}</b>
+    </p>
 
-  <table class="table table-striped" style="width: min(600px, 90vw); margin: auto">
-    <thead>
-      <tr>
-        <th scope="col">{{ $t('shifts.table.info') }}</th>
-        <th scope="col">{{ $t('shifts.table.stand') }}</th>
-        <th scope="col">{{ $t('shifts.table.time') }}</th>
-        <th scope="col">{{ $t('shifts.table.used_spots') }}</th>
-        <th scope="col">{{ $t('shifts.table.take_slot') }}</th>
-      </tr>
-    </thead>
+    <div class="table-responsive">
+      <table class="table table-striped" style="width: min(600px, 90vw); margin: auto">
+        <thead>
+          <tr>
+            <th scope="col">{{ $t('shifts.table.info') }}</th>
+            <th scope="col">{{ $t('shifts.table.stand') }}</th>
+            <th scope="col">{{ $t('shifts.table.time') }}</th>
+            <th scope="col">{{ $t('shifts.table.used_spots') }}</th>
+            <th scope="col">{{ $t('shifts.table.take_slot') }}</th>
+          </tr>
+        </thead>
 
-    <!-- Aufbau -->
-    <tbody v-for="shift in shifts">
-      <tr v-for="(slot, number) in shift.slots" class="align-middle">
-        <td>
-          <button
-            class="btn btn-secondary"
-            data-bs-target="#shifts_modal"
-            data-bs-toggle="modal"
-            @click.prevent="
-              () => {
-                modal.title = shift.name
-                modal.body = shift.desc
-              }
-            "
-          >
-            <img alt="info" src="@/assets/svg/info-circle-fill.svg" />
-          </button>
-        </td>
-        <td v-if="number === 0" :rowspan="shift.slots.length">{{ shift.name }}</td>
-        <td>{{ `${dayjs(slot.start).format('LT')} - ${dayjs(slot.end).format('LT')}` }}</td>
-        <td v-if="slot.num_of_participants !== undefined && slot.free_spots !== undefined">
-          {{ `${slot!.num_of_participants - slot!.free_spots}/${slot!.num_of_participants}` }}
-        </td>
-        <td v-else>
-          {{ `?/?` }}
-        </td>
-
-        <td>
-          <button
-            v-if="user_slots.includes(slot.id)"
-            :disabled="!store.logged_in"
-            class="btn btn-dark"
-            @click.prevent="(e: Event) => update_user_shifts(e, slot.id)"
-          >
-            <img
-              v-if="user_slots.includes(slot.id)"
-              alt="took_slot"
-              src="@/assets/svg/toggle2-on.svg"
+        <!-- Aufbau -->
+        <tbody v-for="shift in shifts">
+          <tr v-for="(slot, number) in shift.slots" class="align-middle">
+            <td>
+              <button
+                class="btn btn-secondary"
+                data-bs-target="#shifts_modal"
+                data-bs-toggle="modal"
+                @click.prevent="
+                  () => {
+                    modal.title = shift.name
+                    modal.body = shift.desc
+                  }
+                "
+              >
+                <img alt="info" src="@/assets/svg/info-circle-fill.svg" />
+              </button>
+            </td>
+            <td v-if="number === 0" :rowspan="shift.slots.length">{{ shift.name }}</td>
+            <td
+              v-html="
+                `${dayjs(slot.start).format('LT')}&nbsp;&#8209;&nbsp;${dayjs(slot.end).format(
+                  'LT'
+                )}`
+              "
             />
-          </button>
-          <button
-            v-else-if="slot.free_spots === 0 || slot.free_spots === undefined"
-            class="btn btn-dark"
-            disabled
-          >
-            <img alt="cannot_take_slot" src="@/assets/svg/x-circle.svg" />
-          </button>
-          <button
-            v-else
-            :disabled="!store.logged_in"
-            class="btn btn-dark"
-            @click.prevent="(e: Event) => update_user_shifts(e, slot.id)"
-          >
-            <img alt="take_slot" src="@/assets/svg/toggle2-off.svg" />
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <td v-if="slot.num_of_participants !== undefined && slot.free_spots !== undefined">
+              {{ `${slot!.num_of_participants - slot!.free_spots}/${slot!.num_of_participants}` }}
+            </td>
+            <td v-else>
+              {{ `?/?` }}
+            </td>
 
-  <p class="capture center huge handwritten">
-    <b>{{ $t('shifts.choose.title') }}</b>
-  </p>
+            <td>
+              <button
+                v-if="user_slots.includes(slot.id)"
+                :disabled="!store.logged_in"
+                class="btn btn-dark"
+                @click.prevent="(e: Event) => update_user_shifts(e, slot.id)"
+              >
+                <img
+                  v-if="user_slots.includes(slot.id)"
+                  alt="took_slot"
+                  src="@/assets/svg/toggle2-on.svg"
+                />
+              </button>
+              <button
+                v-else-if="slot.free_spots === 0 || slot.free_spots === undefined"
+                class="btn btn-dark"
+                disabled
+              >
+                <img alt="cannot_take_slot" src="@/assets/svg/x-circle.svg" />
+              </button>
+              <button
+                v-else
+                :disabled="!store.logged_in"
+                class="btn btn-dark"
+                @click.prevent="(e: Event) => update_user_shifts(e, slot.id)"
+              >
+                <img alt="take_slot" src="@/assets/svg/toggle2-off.svg" />
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <p class="center">
-    <span>{{ $t('shifts.choose.want_help') }}</span>
-    <span v-if="!store.logged_in"><br />{{ $t('shifts.choose.please_log_in') }}</span>
-  </p>
+    <p class="capture center huge handwritten">
+      <b>{{ $t('shifts.choose.title') }}</b>
+    </p>
 
-  <ModalComponent id="shifts_modal" :title="modal.title" show_dismiss_button>
-    <p>{{ modal.body }}</p>
-  </ModalComponent>
+    <p class="center">
+      <span>{{ $t('shifts.choose.want_help') }}</span>
+      <span v-if="!store.logged_in"><br />{{ $t('shifts.choose.please_log_in') }}</span>
+    </p>
+
+    <ModalComponent id="shifts_modal" :title="modal.title" show_dismiss_button>
+      <p>{{ modal.body }}</p>
+    </ModalComponent>
+  </div>
 </template>
 
 <script lang="ts">
@@ -209,4 +219,9 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<style scoped>
+.content {
+  width: 90vw;
+  margin: 0 auto 30px;
+}
+</style>

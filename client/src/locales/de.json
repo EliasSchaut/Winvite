@@ -48,8 +48,11 @@
       "link": "Details"
     },
     "join": {
-      "button": "JETZT ANMELDEN",
+      "button": "ANMELDEN!",
       "title": "Registriere dich jetzt!"
+    },
+    "shift": {
+      "button": "Deine Schicht!"
     },
     "title": "Was erwartet dich?"
   },

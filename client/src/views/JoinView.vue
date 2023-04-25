@@ -1,37 +1,39 @@
 <template>
-  <div class="form-intro">
-    <p class="big">
-      <b>{{ $t('join.title') }}</b>
-    </p>
-    <p>{{ $t('join.subtitle') }}</p>
+  <div class="content">
+    <div class="form-intro">
+      <p class="big">
+        <b>{{ $t('join.title') }}</b>
+      </p>
+      <p>{{ $t('join.subtitle') }}</p>
+    </div>
+
+    <FormComponent :submit="form_submit" class="form">
+      <FirstNameComponent />
+      <LastNameComponent />
+      <OptionsComponent show_anonym show_warnings />
+
+      <button
+        v-if="!loading"
+        id="button_submit"
+        class="btn btn-primary form-submit"
+        data-bs-placement="bottom"
+        type="submit"
+      >
+        {{ $t('common.form.submit') }}
+      </button>
+
+      <button
+        v-if="loading"
+        id="button_loading"
+        class="btn btn-primary form-submit"
+        disabled
+        type="submit"
+      >
+        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+        {{ $t('common.form.loading') }}
+      </button>
+    </FormComponent>
   </div>
-
-  <FormComponent :submit="form_submit" class="form">
-    <FirstNameComponent />
-    <LastNameComponent />
-    <OptionsComponent show_anonym show_warnings />
-
-    <button
-      v-if="!loading"
-      id="button_submit"
-      class="btn btn-primary form-submit"
-      data-bs-placement="bottom"
-      type="submit"
-    >
-      {{ $t('common.form.submit') }}
-    </button>
-
-    <button
-      v-if="loading"
-      id="button_loading"
-      class="btn btn-primary form-submit"
-      disabled
-      type="submit"
-    >
-      <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-      {{ $t('common.form.loading') }}
-    </button>
-  </FormComponent>
 </template>
 
 <script lang="ts">
@@ -84,7 +86,7 @@ export default defineComponent({
           id
           challenge
         }
-    ;  }
+      }
     `)
 
     return {
@@ -101,8 +103,8 @@ export default defineComponent({
 }
 
 .form {
-  margin: 30px auto 0;
-  width: 400px;
+  margin: 0 auto;
+  width: min(400px, 90vw);
 
   display: flex;
   flex-direction: column;
@@ -111,5 +113,10 @@ export default defineComponent({
 
 .form-submit {
   margin-top: 20px;
+}
+
+.content {
+  margin: 20px auto 30px;
+  width: min(600px, 90vw);
 }
 </style>

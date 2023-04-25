@@ -132,6 +132,7 @@
             </ul>
           </div>
           <select
+            style="max-width: 132px"
             v-model="$i18n.locale"
             aria-label="Select Lang"
             class="form-select"

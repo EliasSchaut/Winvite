@@ -4,7 +4,7 @@
       <div class="mb-3">
         <h5 class="card-title">{{ user.first_name + ' ' + user.last_name }}</h5>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary mb-2 me-2"
           data-bs-target="#modal_profile"
           data-bs-toggle="modal"
           type="button"
@@ -12,7 +12,7 @@
         >
           {{ $t('profile.button.profile') }}
         </button>
-        <button class="btn btn-secondary ms-2" @click.prevent="copy_to_clipboard(user.challenge)">
+        <button class="btn btn-secondary mb-2" @click.prevent="copy_to_clipboard(user.challenge)">
           <span class="d-flex flex-row align-items-center">
             <span>{{ $t('profile.button.login_link') }}&nbsp;</span>
             <img alt="copy_img" src="@/assets/svg/intersect.svg" />
