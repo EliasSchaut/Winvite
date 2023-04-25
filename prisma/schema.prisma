@@ -145,4 +145,6 @@ model GuestShifts {
   guest         Guest       @relation(fields: [guest_id], references: [id], onDelete: Cascade)
   shift_slot_id Int
   shift_slot    ShiftsSlots @relation(fields: [shift_slot_id], references: [id], onDelete: Cascade)
+
+  @@unique([guest_id, shift_slot_id])
 }

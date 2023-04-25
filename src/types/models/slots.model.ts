@@ -29,7 +29,7 @@ export class SlotsModel {
   @Field(() => Number, {
     description:
       'Number of free slots, than has not be assigned to participants.',
-    nullable: tru,
+    nullable: true,
   })
   free_spots?: number;
 }

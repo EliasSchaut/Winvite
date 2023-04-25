@@ -123,7 +123,9 @@
       "want_help": "You want to help me with my birthday? Very good! Then sign up for a shift here!"
     },
     "table": {
+      "info": "Info",
       "stand": "Stand",
+      "take_slot": "Take",
       "time": "Time",
       "used_spots": "Occupied"
     },

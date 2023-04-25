@@ -123,7 +123,9 @@
       "want_help": "Du willst mir bei meinem Geburtstag unter die Arme greifen? Sehr gut! Dann trage dich gerne hier in eine Schicht ein!"
     },
     "table": {
+      "info": "Info",
       "stand": "Stand",
+      "take_slot": "Nehmen",
       "time": "Zeit",
       "used_spots": "Belegt"
     },
