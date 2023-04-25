@@ -1,5 +1,6 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { OptionModel } from '@/types/models/option.model';
+import { SlotsModel } from '@/types/models/slots.model';
 
 @ObjectType()
 export class GuestModel {
@@ -25,6 +26,13 @@ export class GuestModel {
 
   @Field(() => [OptionModel], {
     description: 'The options the guest has selected.',
+    nullable: true,
   })
   options?: OptionModel[];
+
+  @Field(() => [SlotsModel], {
+    description: 'The shift slots the guest has selected.',
+    nullable: true,
+  })
+  shift_slots?: SlotsModel[];
 }

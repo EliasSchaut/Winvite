@@ -7,6 +7,7 @@ import { GraphQLError } from 'graphql/error';
 import { GuestUpdateInputModel } from '@/types/models/inputs/guest_update.input';
 import { CtxType } from '@/types/common/ctx.type';
 import { OptionModel } from '@/types/models/option.model';
+import { SlotsModel } from '@/types/models/slots.model';
 
 @Injectable()
 export class GuestsService {
@@ -64,6 +65,37 @@ export class GuestsService {
     });
   }
 
+  async find_shifts_by_guest(ctx: CtxType): Promise<SlotsModel[]> {
+    const shift = await this.prisma.guest.findUnique({
+      where: { id: ctx.guest_id },
+      select: {
+        guest_shifts: {
+          select: {
+            shift_slot: {
+              select: {
+                id: true,
+                start: true,
+                end: true,
+              },
+            },
+          },
+        },
+      },
+    });
+    if (!shift) {
+      throw new GraphQLError(ctx.i18n.t('auth.invalid.token'), {
+        extensions: { code: 'UNAUTHORIZED' },
+      });
+    }
+    return shift.guest_shifts.map((shift) => {
+      return {
+        id: shift.shift_slot.id,
+        start: shift.shift_slot.start,
+        end: shift.shift_slot.end,
+      };
+    });
+  }
+
   async add_guest(guest_input_data: GuestInputModel, ctx: CtxType) {
     return this.prisma.guest
       .create({
@@ -107,6 +139,18 @@ export class GuestsService {
         },
       };
       delete guest_update_data.option_ids;
+    }
+
+    if (guest_update_data.shift_slot_ids) {
+      (guest_update_data as Prisma.GuestUpdateInput).guest_shifts = {
+        deleteMany: { guest_id: ctx.guest_id },
+        createMany: {
+          data: guest_update_data.shift_slot_ids.map((shift_slot_id) => ({
+            shift_slot_id: shift_slot_id,
+          })),
+        },
+      };
+      delete guest_update_data.shift_slot_ids;
     }
 
     return this.prisma.guest

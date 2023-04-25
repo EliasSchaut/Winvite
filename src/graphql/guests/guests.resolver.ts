@@ -102,4 +102,17 @@ export class GuestsResolver {
       guest_id: guest.id,
     });
   }
+
+  @ResolveField()
+  async shift_slots(
+    @Parent() guest: GuestModel,
+    @ServerID() server_id: number,
+    @I18n() i18n: I18nContext<I18nTranslations>,
+  ) {
+    return this.guestsService.find_shifts_by_guest({
+      server_id,
+      i18n,
+      guest_id: guest.id,
+    });
+  }
 }

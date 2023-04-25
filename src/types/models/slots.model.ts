@@ -22,12 +22,14 @@ export class SlotsModel {
 
   @Field(() => Number, {
     description: 'Number of participants that can be assigned to this slot.',
+    nullable: true,
   })
-  num_of_participants!: number;
+  num_of_participants?: number;
 
   @Field(() => Number, {
     description:
       'Number of free slots, than has not be assigned to participants.',
+    nullable: tru,
   })
-  free_spots!: number;
+  free_spots?: number;
 }
