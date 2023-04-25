@@ -17,7 +17,6 @@ async function bootstrap() {
             `'unsafe-inline'`,
             'data:',
             'https://cdn.jsdelivr.net',
-            'https://fonts.googleapis.com',
           ],
           scriptSrc: ["'self'", "https: 'unsafe-inline'", "'unsafe-eval'"],
           objectSrc: ["'self'"],

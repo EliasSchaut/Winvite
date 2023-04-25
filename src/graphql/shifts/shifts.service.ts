@@ -45,8 +45,10 @@ export class ShiftsService {
               select: { id: true },
             },
           },
+          orderBy: { id: 'asc' },
         },
       },
+      orderBy: { id: 'asc' },
     });
     if (!shift) {
       throw new GraphQLError(ctx.i18n.t('shifts.invalid.without_slots'), {

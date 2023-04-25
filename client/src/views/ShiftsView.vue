@@ -19,7 +19,7 @@
         <!-- Aufbau -->
         <tbody v-for="shift in shifts">
           <tr v-for="(slot, number) in shift.slots" class="align-middle">
-            <td>
+            <td v-if="number === 0" :rowspan="shift.slots.length">
               <button
                 class="btn btn-secondary"
                 data-bs-target="#shifts_modal"
