@@ -1,27 +1,34 @@
-import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core';
-import { DefaultApolloClient, provideApolloClient } from '@vue/apollo-composable';
-import { createApp, h, provide } from 'vue';
-import App from './App.vue';
-import router from '@/router/router';
+import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
+import { DefaultApolloClient, provideApolloClient } from '@vue/apollo-composable'
+import { createApp, h, provide } from 'vue'
+import App from './App.vue'
+import router from '@/router/router'
 
 // ------------
 // Plugins setup
 // ------------
-import '@/plugins/bootstrap';
-import '@/assets/css/main.css';
+import '@/plugins/bootstrap'
+import '@/assets/css/main.css'
 // ------------
+// Lang setup
+// ------------
+import { createI18n } from 'vue-i18n'
+import en from '@/locales/en.json'
+import de from '@/locales/de.json'
+import dayjs from 'dayjs'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
+import 'dayjs/locale/de'
+import 'dayjs/locale/en'
+import { store } from '@/util/store'
+// ------------
+
 // ------------
 // Apollo setup
 // ------------
-import en from '@/locales/en.json';
-import de from '@/locales/de.json';
-import { createI18n } from 'vue-i18n';
-
-type MessageSchema = typeof en
 const httpLink = createHttpLink({
   uri: 'http://localhost:3000/graphql'
-});
-const cache = new InMemoryCache();
+})
+const cache = new InMemoryCache()
 const apollo_client = new ApolloClient({
   link: httpLink,
   headers: {
@@ -29,12 +36,11 @@ const apollo_client = new ApolloClient({
     accept_language: localStorage.getItem('lang') || 'en'
   },
   cache
-});
+})
 // ------------
 
-// ------------
-// Lang setup
-// ------------
+type MessageSchema = typeof en
+
 const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
   locale: localStorage.getItem('lang') || 'en',
   fallbackLocale: 'en',
@@ -42,17 +48,20 @@ const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
     en: en,
     de: de
   }
-});
-export const get_locale: () => string = () => i18n.global.locale as string;
+})
+export const get_locale: () => string = () => i18n.global.locale as string
+dayjs.extend(localizedFormat)
+dayjs.locale(get_locale())
 // ------------
 
 const app = createApp({
   setup() {
-    provide(DefaultApolloClient, apollo_client);
-    provideApolloClient(apollo_client);
+    provide(DefaultApolloClient, apollo_client)
+    provideApolloClient(apollo_client)
   },
   render: () => h(App)
-});
-app.use(i18n);
-app.use(router);
-app.mount('#app');
+})
+app.use(i18n)
+app.use(router)
+if (typeof localStorage.getItem('barrier_token') === 'string') store.logged_in = true
+app.mount('#app')

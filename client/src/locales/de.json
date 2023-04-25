@@ -115,5 +115,18 @@
       "get_user_data": "Alle Benutzerdaten abrufen",
       "title": "Optionen"
     }
+  },
+  "shifts": {
+    "choose": {
+      "please_log_in": "Du musst dafür angemeldet bzw. registriert sein!",
+      "title": "Wähle deine Schicht!",
+      "want_help": "Du willst mir bei meinem Geburtstag unter die Arme greifen? Sehr gut! Dann trage dich gerne hier in eine Schicht ein!"
+    },
+    "table": {
+      "stand": "Stand",
+      "time": "Zeit",
+      "used_spots": "Belegt"
+    },
+    "title": "Schichtplan"
   }
 }

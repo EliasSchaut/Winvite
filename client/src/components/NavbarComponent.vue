@@ -25,14 +25,14 @@
             <router-link class="nav-link" to="/guests">{{ $t('nav.guests') }}</router-link>
           </li>
           <li class="nav-item">
-            <router-link class="nav-link" to="/shiftings">{{ $t('nav.shiftings') }}</router-link>
+            <router-link class="nav-link" to="/shifts">{{ $t('nav.shiftings') }}</router-link>
           </li>
           <li>
             <router-link class="nav-link" to="/privacy">{{ $t('nav.privacy') }}</router-link>
           </li>
           <li>
             <a class="nav-link" href="https://github.com/EliasSchaut/Winvite" target="_blank"
-            >GitHub</a
+              >GitHub</a
             >
           </li>
         </ul>
@@ -150,10 +150,10 @@
             {{ $t('nav.profile') }}
           </router-link>
           <router-link v-if="store.logged_in" class="btn btn-danger" to="/logout" type="button"
-          >{{ $t('nav.logout') }}
+            >{{ $t('nav.logout') }}
           </router-link>
           <router-link v-if="!store.logged_in" class="btn btn-success" to="/join" type="button"
-          >{{ $t('nav.join') }}
+            >{{ $t('nav.join') }}
           </router-link>
         </div>
       </div>
@@ -162,30 +162,34 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
-import { store } from '@/util/store';
+import { defineComponent, ref } from 'vue'
+import { store } from '@/util/store'
+import dayjs from 'dayjs'
+import 'dayjs/locale/de'
+import 'dayjs/locale/en'
 
 export default defineComponent({
   name: 'NavbarComponent',
   data() {
     return {
       lang: ref(this.$i18n.locale || 'en')
-    };
+    }
   },
   setup() {
     return {
       store
-    };
+    }
   },
   methods: {
-    change_lang: function(event: any) {
-      const new_lang = event.target.value as 'en' | 'de';
-      this.store.hide_alert();
-      localStorage.setItem('lang', new_lang);
-      this.$i18n.locale = new_lang;
+    change_lang: function (event: any) {
+      const new_lang = event.target.value as 'en' | 'de'
+      this.store.hide_alert()
+      dayjs.locale(new_lang)
+      localStorage.setItem('lang', new_lang)
+      this.$i18n.locale = new_lang
     }
   }
-});
+})
 </script>
 
 <style scoped>

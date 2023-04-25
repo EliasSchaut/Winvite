@@ -1,12 +1,12 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import HomeView from '@/views/HomeView.vue';
-import ProfileView from '@/views/ProfileView.vue';
-import PrivacyView from '@/views/PrivacyView.vue';
-import DetailsView from '@/views/DetailsView.vue';
-import ShiftingsView from '@/views/ShiftingsView.vue';
-import GuestsView from '@/views/GuestsView.vue';
-import JoinView from '@/views/JoinView.vue';
-import { log_out } from '@/util/graphql';
+import { createRouter, createWebHistory } from 'vue-router'
+import HomeView from '@/views/HomeView.vue'
+import ProfileView from '@/views/ProfileView.vue'
+import PrivacyView from '@/views/PrivacyView.vue'
+import DetailsView from '@/views/DetailsView.vue'
+import ShiftsView from '@/views/ShiftsView.vue'
+import GuestsView from '@/views/GuestsView.vue'
+import JoinView from '@/views/JoinView.vue'
+import { log_out } from '@/util/graphql'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,9 +22,9 @@ const router = createRouter({
       component: DetailsView
     },
     {
-      path: '/shiftings',
-      name: 'shiftings',
-      component: ShiftingsView
+      path: '/shifts',
+      name: 'shifts',
+      component: ShiftsView
     },
     {
       path: '/guests',
@@ -51,11 +51,11 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.path === '/logout') {
-    log_out();
-    return router.push('/');
+    log_out()
+    return router.push('/')
   } else {
-    return next();
+    return next()
   }
 })
 
-export default router;
+export default router
