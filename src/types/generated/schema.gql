@@ -166,5 +166,5 @@ input GuestUpdateInputModel {
   option_ids: [Int!]
 
   """The shift_slots the guest has selected."""
-  shift_slot_ids: [Int!]!
+  shift_slot_ids: [Int!]
 }

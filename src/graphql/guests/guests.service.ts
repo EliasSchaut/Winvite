@@ -134,7 +134,6 @@ export class GuestsService {
         createMany: {
           data: guest_update_data.option_ids.map((option_id) => ({
             option_id: option_id,
-            server_id: ctx.server_id,
           })),
         },
       };

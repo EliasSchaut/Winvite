@@ -37,6 +37,7 @@ export class GuestUpdateInputModel {
 
   @Field(() => [Int], {
     description: 'The shift_slots the guest has selected.',
+    nullable: true,
   })
   shift_slot_ids?: number[];
 }
