@@ -43,6 +43,10 @@
     "title": "Gästeliste"
   },
   "home": {
+    "details": {
+      "intro": "Lies auch weitere Informationen zur Party in den ",
+      "link": "Details"
+    },
     "join": {
       "button": "JETZT ANMELDEN",
       "title": "Registriere dich jetzt!"

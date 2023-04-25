@@ -3,31 +3,31 @@
 import { Path } from 'nestjs-i18n';
 
 export type I18nTranslations = {
-  auth: {
-    invalid: {
-      no_token: string;
-      token: string;
-      challenge: string;
+    "auth": {
+        "invalid": {
+            "no_token": string;
+            "token": string;
+            "challenge": string;
+        };
     };
-  };
-  guests: {
-    invalid: {
-      duplication: string;
-      internal: {
-        create: string;
-        update: string;
-      };
+    "guests": {
+        "invalid": {
+            "duplication": string;
+            "internal": {
+                "create": string;
+                "update": string;
+            };
+        };
     };
-  };
-  options: {
-    invalid: {
-      not_found: string;
+    "options": {
+        "invalid": {
+            "not_found": string;
+        };
     };
-  };
-  shifts: {
-    invalid: {
-      without_slots: string;
+    "shifts": {
+        "invalid": {
+            "without_slots": string;
+        };
     };
-  };
 };
 export type I18nPath = Path<I18nTranslations>;

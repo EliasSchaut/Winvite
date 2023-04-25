@@ -43,6 +43,10 @@
     "title": "Guestlist"
   },
   "home": {
+    "details": {
+      "intro": "Read also more information about the party in the ",
+      "link": "details"
+    },
     "join": {
       "button": "JOIN NOW",
       "title": "Register now!"

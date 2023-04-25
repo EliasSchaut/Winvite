@@ -9,59 +9,62 @@
     </p>
 
     <div class="adds">
-      <AdComponent v-for="ad in ads"
-                   :content="ad.content"
-                   :img="ad.img as string"
-                   :link="ad.link as string"
-                   :title="ad.title" />
+      <AdComponent
+        v-for="ad in ads"
+        :content="ad.content"
+        :img="ad.img as string"
+        :link="ad.link as string"
+        :title="ad.title"
+      />
     </div>
 
     <p class="capture center huge handwritten">
-      <b>{{ $t('home.join.title') }}</b>
+      <b v-if="!store.logged_in">{{ $t('home.join.title') }}</b>
+      <b v-else>{{ $t('shifts.choose.title') }}</b>
     </p>
+    <p v-if="!store.logged_in" class="center">
+      {{ $t('home.details.intro') }}
+      <router-link to="/details">{{ $t('home.details.link') }}</router-link
+      >!
+    </p>
+    <p v-else class="center">{{ $t('shifts.choose.want_help') }}</p>
 
-    <div class="arrows">
-      <img
-        id="arrow-down"
-        alt="arrow-down"
-        class="arrow"
-        src="@/assets/svg/arrow-down-circle-fill.svg"
-      />
-      <div>
-        <img
-          id="arrow-right"
-          alt="arrow-right"
-          class="arrow"
-          src="@/assets/svg/arrow-right-circle-fill.svg"
-        />
-        <router-link class="btn btn-success join_margin" to="/join" type="button">
-          {{ $t('home.join.button') }}
-        </router-link>
-        <img
-          id="arrow-left"
-          alt="arrow-left"
-          class="arrow"
-          src="@/assets/svg/arrow-left-circle-fill.svg"
-        />
-      </div>
-      <img id="arrow-up" alt="arrow-up" class="arrow" src="@/assets/svg/arrow-up-circle-fill.svg" />
-    </div>
+    <BigButtonComponent>
+      <router-link
+        v-if="!store.logged_in"
+        class="btn btn-success join_margin"
+        to="/join"
+        type="button"
+      >
+        {{ $t('home.join.button') }}
+      </router-link>
+      <router-link v-else class="btn btn-success join_margin" to="/shifts" type="button">
+        {{ $t('shifts.choose.title') }}
+      </router-link>
+    </BigButtonComponent>
   </div>
 </template>
 
 <script lang="ts">
-import { query } from '@/util/graphql';
-import gql from 'graphql-tag';
-import { defineComponent, ref, watch } from 'vue';
-import type { AdModel } from '@/types/models/ad.model';
-import { get_locale } from '@/main';
-import AdComponent from '@/components/AdComponent.vue';
+import { query } from '@/util/graphql'
+import gql from 'graphql-tag'
+import { defineComponent, ref, watch } from 'vue'
+import type { AdModel } from '@/types/models/ad.model'
+import { get_locale } from '@/main'
+import AdComponent from '@/components/AdComponent.vue'
+import BigButtonComponent from '@/components/BigButtonComponent.vue'
+import { store } from '@/util/store'
 
 export default defineComponent({
   name: 'HomeView',
-  components: { AdComponent },
+  computed: {
+    store() {
+      return store
+    }
+  },
+  components: { BigButtonComponent, AdComponent },
   setup() {
-    const ads = ref<AdModel[]>([]);
+    const ads = ref<AdModel[]>([])
     query(gql`
       query ads {
         ads {
@@ -70,9 +73,10 @@ export default defineComponent({
           link
           img
         }
-      }`).then((data) => {
-      ads.value = data.ads;
-    });
+      }
+    `).then((data) => {
+      ads.value = data.ads
+    })
 
     watch(get_locale, () => {
       query(gql`
@@ -81,36 +85,37 @@ export default defineComponent({
             title
             content
           }
-        }`).then((data) => {
+        }
+      `).then((data) => {
         ads.value = ads.value.map((ad, i) => {
-          ad.content = data.ads[i].content;
-          ad.title = data.ads[i].title;
-          return ad;
-        });
-      });
-    });
+          ad.content = data.ads[i].content
+          ad.title = data.ads[i].title
+          return ad
+        })
+      })
+    })
 
     return {
       ads
-    };
+    }
   }
-});
+})
 </script>
 
 <style scoped>
 .video {
-    display: flex;
-    flex-direction: column;
-    width: min(800px, 90vw);
-    margin: 30px 0;
-    align-self: center;
+  display: flex;
+  flex-direction: column;
+  width: min(800px, 90vw);
+  margin: 30px 0;
+  align-self: center;
 }
 
 .adds {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-content: center;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-content: center;
 }
 </style>
