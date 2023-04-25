@@ -26,7 +26,7 @@ import { store } from '@/util/store'
 // Apollo setup
 // ------------
 const httpLink = createHttpLink({
-  uri: 'http://localhost:3000/graphql'
+  uri: `${window.location.origin}/graphql`
 })
 const cache = new InMemoryCache()
 const apollo_client = new ApolloClient({
