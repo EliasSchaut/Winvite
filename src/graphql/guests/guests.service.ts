@@ -97,6 +97,7 @@ export class GuestsService {
   }
 
   async add_guest(guest_input_data: GuestInputModel, ctx: CtxType) {
+    console.log(guest_input_data);
     return this.prisma.guest
       .create({
         data: {
@@ -108,7 +109,6 @@ export class GuestsService {
             createMany: {
               data: guest_input_data.option_ids.map((option_id) => ({
                 option_id: option_id,
-                server_id: ctx.server_id,
               })),
             },
           },

@@ -58,6 +58,14 @@ export default defineComponent({
     async form_submit(event: Event) {
       const form_data = new FormData(event.target as HTMLFormElement)
       this.loading = true
+      console.log({
+        guest_input_data: {
+          first_name: form_data.get('first_name'),
+          last_name: form_data.get('last_name'),
+          anonymous: form_data.get('anonymous') === 'on',
+          option_ids: form_data.getAll('options').map((option_id) => Number(option_id))
+        }
+      })
       this.add_guest({
         guest_input_data: {
           first_name: form_data.get('first_name'),
