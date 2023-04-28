@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="form-intro">
-      <p class="big handwritten">
+      <p class="huge handwritten">
         <b>{{ $t('join.title') }}</b>
       </p>
       <p>{{ $t('join.subtitle') }}</p>
@@ -76,10 +76,7 @@ export default defineComponent({
       })
         .then((res) => {
           const challenge = res!.data.guest.challenge
-          store.show_alert(
-            'success',
-            this.$t('join.success', { link: `${window.location.origin}/profile/${challenge}` })
-          )
+          store.show_alert('success', this.$t('join.success'))
           log_in(challenge).then(() => this.$router.push(`/profile`))
         })
         .finally(() => {

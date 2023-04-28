@@ -116,11 +116,18 @@ type ShiftModel {
   slots: [SlotsModel!]!
 }
 
-"""Server Informations"""
+"""Server Information"""
 type ServerModel {
   id: Int!
+
+  """Visible title of the server"""
   title: String!
+
+  """Unique name of the server"""
+  name: String!
   desc: String
+
+  """Video path for server"""
   video: String
 }
 

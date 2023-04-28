@@ -1,22 +1,6 @@
-// ------------
-// Plugins setup
-// ------------
-import '@/plugins/bootstrap'
-import '@/assets/css/main.css'
-// ------------
-// ------------
-// Server info setup
-// ------------
-import { store } from '@/util/store'
-// ------------
-// ------------
-// Apollo setup
-// ------------
 import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
 import { DefaultApolloClient, provideApolloClient } from '@vue/apollo-composable'
-// ------------
-// Lang setup
-// ------------
+
 import { createI18n } from 'vue-i18n'
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
@@ -24,13 +8,22 @@ import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat'
 import 'dayjs/locale/de'
 import 'dayjs/locale/en'
-// ------------
-// Vue setup
-// ------------
+
 import { createApp, h, provide } from 'vue'
 import App from './App.vue'
 import router from '@/router/router'
+import { store } from '@/util/store'
 
+// ------------
+// Plugins setup
+// ------------
+import '@/plugins/bootstrap'
+import '@/assets/css/main.css'
+// ------------
+
+// ------------
+// Apollo setup
+// ------------
 const httpLink = createHttpLink({
   uri: `${window.location.origin}/graphql`
 })
@@ -44,6 +37,10 @@ const apollo_client = new ApolloClient({
   cache
 })
 // ------------
+
+// ------------
+// Lang setup
+// ------------
 type MessageSchema = typeof en
 const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
   locale: localStorage.getItem('lang') || 'en',
@@ -56,6 +53,10 @@ const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
 export const get_locale: () => string = () => i18n.global.locale as string
 dayjs.extend(localizedFormat)
 dayjs.locale(get_locale())
+// ------------
+
+// ------------
+// Vue setup
 // ------------
 const app = createApp({
   setup() {

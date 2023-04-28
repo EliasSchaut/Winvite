@@ -14,6 +14,7 @@ export class ServerService {
       select: {
         id: true,
         title: true,
+        name: true,
         desc: true,
         video: true,
       },

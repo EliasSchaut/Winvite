@@ -58,7 +58,7 @@
   },
   "join": {
     "subtitle": "This automatically puts you on the guest list and you're in!",
-    "success": "You have successfully logged in! Your login link is: <b><a href=\"{link}\">{link}</a></b><br><br>Please note this link, because you need it to change your data in other browsers or devices afterwards! You can only access this link via already logged in browsers!",
+    "success": "You have successfully registered and logged in!<br><br>Note: To log in in other browsers or devices, copy a login link via the button below!",
     "title": "Sign up!"
   },
   "nav": {

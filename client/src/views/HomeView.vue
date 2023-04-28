@@ -1,7 +1,7 @@
 <template>
   <div class="content">
-    <div class="video">
-      <video controls src="/vid/was_geht.mp4" volume="0.5"></video>
+    <div v-if="store.server.video" class="video">
+      <video controls :src="`/vid/${store.server.name}/${store.server.video}`" volume="0.5"></video>
     </div>
 
     <p class="capture center huge handwritten">

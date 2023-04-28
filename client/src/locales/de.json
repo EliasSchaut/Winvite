@@ -58,7 +58,7 @@
   },
   "join": {
     "subtitle": "Damit stehst du automatisch auf der Gästeliste und bist dabei!",
-    "success": "Du hast dich erfolgreich angemeldet! Dein Anmeldelink ist: <b><a href=\"{link}\">{link}</a></b><br><br>Bitte notiere dir diesen Link, da du ihn brauchst, um in anderen Browsern oder Geräten deine Daten nachträglich zu ändern! Du kannst diesen Link nur über bereits angemeldete Browser abrufen!",
+    "success": "Du hast dich erfolgreich registriert und angemeldet!<br><br>Hinweis: Um dich in anderen Browsern oder Geräten anzumelden, kopiere über den Butten unten einen Anmeldelink!",
     "title": "Melde dich an!"
   },
   "nav": {

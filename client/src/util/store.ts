@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive } from 'vue'
 
 export const store = reactive({
   logged_in: false,
@@ -10,42 +10,48 @@ export const store = reactive({
     msg: '',
     type: 'success'
   },
+  server: {
+    title: '',
+    name: '',
+    desc: '',
+    video: ''
+  },
 
   update_loading(loading: boolean) {
-    this.loading = loading;
+    this.loading = loading
   },
 
   generate_type(http_code: number) {
     if (http_code >= 200 && http_code < 300) {
-      return 'success';
+      return 'success'
     } else if (http_code >= 400 && http_code < 500) {
-      return 'warning';
+      return 'warning'
     } else if (http_code >= 500 && http_code < 600) {
-      return 'danger';
+      return 'danger'
     } else {
-      return 'info';
+      return 'info'
     }
   },
 
   show_alert(type: 'info' | 'danger' | 'warning' | 'success', msg: string) {
-    this.alert.type = type;
-    this.alert.msg = msg;
-    this.alert.show = true;
+    this.alert.type = type
+    this.alert.msg = msg
+    this.alert.show = true
   },
 
   hide_alert() {
-    this.alert.show = false;
+    this.alert.show = false
   },
 
   update_theme(theme: string) {
-    localStorage.setItem('theme', theme);
-    this.theme = theme;
+    localStorage.setItem('theme', theme)
+    this.theme = theme
     if (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       document.documentElement.setAttribute('data-bs-theme', 'dark')
       this.theme_without_auto = 'dark'
     } else {
-      this.theme_without_auto = theme === 'auto' ? 'light' : theme;
-      document.documentElement.setAttribute('data-bs-theme', theme);
+      this.theme_without_auto = theme === 'auto' ? 'light' : theme
+      document.documentElement.setAttribute('data-bs-theme', theme)
     }
   }
 })
@@ -57,7 +63,7 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () 
 })
 
 function get_theme() {
-  const theme = localStorage.getItem('theme');
+  const theme = localStorage.getItem('theme')
   if (theme) {
     return theme
   }

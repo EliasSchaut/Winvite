@@ -20,6 +20,7 @@ export class DetailsService {
             },
           },
         },
+        orderBy: { id: 'asc' },
       })
     ).map((detail) => {
       return {

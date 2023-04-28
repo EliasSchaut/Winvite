@@ -19,6 +19,7 @@ export class OptionsService {
           },
           id: true,
         },
+        orderBy: { id: 'asc' },
       })
     ).map((option) => {
       return {

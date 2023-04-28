@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top">
     <div class="container-fluid">
-      <router-link class="navbar-brand" to="/">Winvite</router-link>
+      <router-link class="navbar-brand" to="/">{{ store.server.title }}</router-link>
       <button
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
