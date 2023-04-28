@@ -9,6 +9,6 @@ export class I18nLangResolver implements I18nResolver {
   ): Promise<string | string[] | undefined> | string | string[] | undefined {
     const gql_ctx = GqlExecutionContext.create(ctx);
     const req = gql_ctx.getContext().req;
-    return req.headers.accept_language;
+    return req.headers['accept-language'];
   }
 }
