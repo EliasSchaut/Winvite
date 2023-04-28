@@ -16,7 +16,6 @@
           </tr>
         </thead>
 
-        <!-- Aufbau -->
         <tbody v-for="shift in shifts">
           <tr v-for="(slot, number) in shift.slots" class="align-middle">
             <td v-if="number === 0" :rowspan="shift.slots.length">
@@ -124,16 +123,13 @@ export default defineComponent({
       if (this.user_slots.includes(slot_id)) {
         this.user_slots.splice(this.user_slots.indexOf(slot_id), 1)
       } else {
-        this.user_slots.push(Number(slot_id))
+        this.user_slots.push(slot_id)
       }
-      console.log(this.user_slots)
 
       this.update_shifts({
-        shift_slots: this.user_slots
+        shift_slots: this.user_slots.map((slot) => Number(slot))
       }).then((res: any) => {
-        console.log(res.data)
-        this.user_slots = res.data.update_guest.shift_slots!.map((slot: { id: number }) => slot.id)
-
+        this.user_slots = res.data.update_guest.shift_slots.map((slot: { id: number }) => slot.id)
         query(gql`
           query {
             shifts {
@@ -143,13 +139,13 @@ export default defineComponent({
             }
           }
         `).then((data) => {
-          this.shifts = this.shifts.map((shift: ShiftModel) => {
+          this.shifts = this.shifts.map((shift: ShiftModel, shift_index: number) => {
             return {
               ...shift,
-              slots: shift.slots.map((slot: any, index: number) => {
+              slots: shift.slots.map((slot: any, slot_index: number) => {
                 return {
                   ...slot,
-                  free_spots: data.shifts[index].slots[index].free_spots
+                  free_spots: data.shifts[shift_index].slots[slot_index].free_spots
                 }
               })
             }
@@ -160,7 +156,7 @@ export default defineComponent({
   },
   setup() {
     const shifts = ref<ShiftModel[]>([])
-    const user_slots = ref<number[]>([])
+    const user_slots = ref<Number[]>([])
     const update_shifts = mutation(gql`
       mutation update_guest($shift_slots: [Int!]!) {
         update_guest(guest_update_data: { shift_slot_ids: $shift_slots }) {

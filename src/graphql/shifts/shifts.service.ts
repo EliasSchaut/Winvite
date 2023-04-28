@@ -20,6 +20,7 @@ export class ShiftsService {
             select: { name: true, desc: true },
           },
         },
+        orderBy: { id: 'asc' },
       })
     ).map((shift) => {
       return {

@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <div class="form-intro">
-      <p class="big">
+      <p class="big handwritten">
         <b>{{ $t('join.title') }}</b>
       </p>
       <p>{{ $t('join.subtitle') }}</p>
