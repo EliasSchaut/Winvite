@@ -11,17 +11,19 @@ datasource db {
 }
 
 model Server {
-  id           Int       @id @default(autoincrement())
-  created_at   DateTime  @default(now())
-  updated_at   DateTime  @default(now()) @updatedAt
-  server_name  String    @unique
-  server_host  String    @unique
-  server_video String?
-  guests       Guest[]
-  options      Options[]
-  Shiftings    Shifts[]
-  Ads          Ads[]
-  Details      Details[]
+  id         Int       @id @default(autoincrement())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  name       String    @unique
+  title      String
+  desc       String?
+  host       String    @unique
+  video      String?
+  guests     Guest[]
+  options    Options[]
+  Shiftings  Shifts[]
+  Ads        Ads[]
+  Details    Details[]
 }
 
 model Guest {

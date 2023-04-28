@@ -116,8 +116,19 @@ type ShiftModel {
   slots: [SlotsModel!]!
 }
 
+"""Server Informations"""
+type ServerModel {
+  id: Int!
+  title: String!
+  desc: String
+  video: String
+}
+
 type Query {
   sign_in(challenge: String!): AuthModel!
+
+  """Get Server Informations"""
+  server: ServerModel!
 
   """Get all guests information."""
   guests: GuestsModel!
