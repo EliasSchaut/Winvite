@@ -22,6 +22,25 @@ import '@/assets/css/main.css'
 // ------------
 
 // ------------
+// Lang setup
+// ------------
+const default_locale =
+  localStorage.getItem('lang') || (navigator.language === 'de-DE' ? 'de' : 'en')
+type MessageSchema = typeof en
+const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
+  locale: default_locale,
+  fallbackLocale: 'en',
+  messages: {
+    en: en,
+    de: de
+  }
+})
+export const get_locale: () => string = () => i18n.global.locale as string
+dayjs.extend(localizedFormat)
+dayjs.locale(get_locale())
+// ------------
+
+// ------------
 // Apollo setup
 // ------------
 const httpLink = createHttpLink({
@@ -32,27 +51,10 @@ const apollo_client = new ApolloClient({
   link: httpLink,
   headers: {
     authorization: localStorage.getItem('barrier_token') || '',
-    accept_language: localStorage.getItem('lang') || 'en'
+    accept_language: default_locale
   },
   cache
 })
-// ------------
-
-// ------------
-// Lang setup
-// ------------
-type MessageSchema = typeof en
-const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
-  locale: localStorage.getItem('lang') || 'en',
-  fallbackLocale: 'en',
-  messages: {
-    en: en,
-    de: de
-  }
-})
-export const get_locale: () => string = () => i18n.global.locale as string
-dayjs.extend(localizedFormat)
-dayjs.locale(get_locale())
 // ------------
 
 // ------------
