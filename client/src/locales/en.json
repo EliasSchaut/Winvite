@@ -86,11 +86,11 @@
     },
     "privacy": {
       "access": {
-        "body": "Only the above-mentioned operator of this website has access to all data. The password provided is only stored in encrypted form and cannot be viewed. The e-mail address is only used for communication with the user and is not passed on to third parties. The respective given name is publicly viewable! If a user account is deleted, all data associated with this account will also be deleted. This also includes the film suggestions and film choices that the user has made.",
+        "body": "Only the above-mentioned operator of this website has access to all data. The respective given name is publicly viewable, if not set anonym! If a user account is deleted, all data associated with this account will also be deleted. This also includes the set shifts and options.",
         "title": "Who has access to my data and why?"
       },
       "cookies": {
-        "body": "This website does not use analytical tracking of any kind. This website uses cookies. These are small text files that the web browser stores on the end device. Cookies help to make the website more user-friendly, effective and secure. Some cookies are \"session cookies.\" Such cookies are deleted by themselves at the end of the browser session. In contrast, other cookies remain on your terminal device until they are manually deleted by yourself. Such cookies help to reuse settings made when returning to the website. With a modern web browser, the setting of cookies can be monitored, restricted or prevented. Many web browsers can be configured to automatically delete cookies when the program is closed. Disabling cookies may result in limited functionality of the website.",
+        "body": "This website does not use analytical tracking of any kind. This website uses cookies. These are small text files that the web browser stores on the end device. Cookies help to make the website more user-friendly, effective, and secure. Some cookies are \"session cookies.\" Such cookies are deleted by themselves at the end of the browser session. In contrast, other cookies remain on your terminal device until they are manually deleted by yourself. Such cookies help to reuse settings made when returning to the website. Remember the Word Disco. With a modern web browser, the setting of cookies can be monitored, restricted, or prevented. Many web browsers can be configured to automatically delete cookies when the program is closed. Disabling cookies may result in limited functionality of the website.",
         "title": "Analytics/Cookies/External Resources etc.?"
       },
       "registration": {
