@@ -1,7 +1,12 @@
 <template>
   <div class="content">
     <div v-if="store.server.video" class="video">
-      <video controls :src="`/vid/${store.server.name}/${store.server.video}`" volume="0.5"></video>
+      <video
+        controls
+        :src="`/vid/${store.server.name}/${store.server.video}`"
+        volume="0.5"
+        preload="metadata"
+      ></video>
     </div>
 
     <p class="capture center huge handwritten">
