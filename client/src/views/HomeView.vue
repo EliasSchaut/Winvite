@@ -6,6 +6,7 @@
         :src="`/vid/${store.server.name}/${store.server.video}`"
         volume="0.5"
         preload="metadata"
+        playsinline
       ></video>
     </div>
 
