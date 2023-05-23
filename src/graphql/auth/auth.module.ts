@@ -4,6 +4,7 @@ import { PrismaService } from '@/common/db/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthResolver } from '@/graphql/auth/auth.resolver';
 import { AuthGuard } from '@/graphql/auth/auth.guard';
+import { AuthAdminGuard } from '@/graphql/auth/auth_admin.guard';
 
 @Module({
   imports: [
@@ -12,7 +13,13 @@ import { AuthGuard } from '@/graphql/auth/auth.guard';
       signOptions: { expiresIn: process.env.JWT_EXPIRATION as string },
     }),
   ],
-  providers: [AuthService, AuthGuard, AuthResolver, PrismaService],
+  providers: [
+    AuthService,
+    AuthGuard,
+    AuthAdminGuard,
+    AuthResolver,
+    PrismaService,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

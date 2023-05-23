@@ -2,6 +2,7 @@ import { reactive } from 'vue'
 
 export const store = reactive({
   logged_in: false,
+  is_admin: false,
   loading: false,
   theme: 'auto',
   theme_without_auto: 'dark',

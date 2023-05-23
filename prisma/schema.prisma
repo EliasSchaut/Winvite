@@ -35,6 +35,7 @@ model Guest {
   first_name    String
   last_name     String
   anonymous     Boolean        @default(false)
+  is_admin      Boolean        @default(false)
   challenge     String         @unique @default(cuid())
   guest_options GuestOptions[]
   guest_shifts  GuestShifts[]

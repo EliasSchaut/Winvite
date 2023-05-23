@@ -7,7 +7,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { join } from 'path';
 
 import { config_validation_schema } from '@/common/validation/config.validation';
-import { GuestsModule } from '@/graphql/guests/guests.module';
+import { GuestModule } from '@/graphql/guest/guest.module';
 import { OptionsModule } from '@/graphql/options/options.module';
 import { AuthModule } from '@/graphql/auth/auth.module';
 import { I18nLangResolver } from '@/common/middleware/i18n.resolver';
@@ -15,10 +15,7 @@ import { AdsModule } from '@/graphql/ads/ads.module';
 import { DetailsModule } from '@/graphql/details/details.module';
 import { ShiftsModule } from '@/graphql/shifts//shifts.module';
 import { ServerModule } from '@/graphql/server/server.module';
-
-console.log(
-  join(__dirname, '..', 'src', 'types', 'generated', 'i18n.generated.ts'),
-);
+import { GuestlistModule } from '@/graphql/guestlist/guestlist.module';
 
 @Module({
   imports: [
@@ -62,7 +59,8 @@ console.log(
     }),
     AuthModule,
     ServerModule,
-    GuestsModule,
+    GuestlistModule,
+    GuestModule,
     OptionsModule,
     AdsModule,
     DetailsModule,

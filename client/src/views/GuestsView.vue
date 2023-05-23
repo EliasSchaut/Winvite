@@ -31,10 +31,10 @@
 <script lang="ts">
 import { ref } from 'vue'
 import gql from 'graphql-tag'
-import type { GuestsModel } from '@/types/models/guests.model'
+import type { GuestlistModel } from '@/types/models/guestlist.model'
 import { query } from '@/util/graphql'
 
-const gql_guests = ref<GuestsModel>({ count: 0, guests: [] })
+const gql_guests = ref<GuestlistModel>({ count: 0, guests: [] })
 
 export default {
   name: 'GuestsView',
@@ -46,7 +46,7 @@ export default {
   mounted() {
     query(gql`
       query get_guests {
-        guests {
+        guestlist {
           count
           guests {
             first_name

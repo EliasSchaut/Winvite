@@ -62,14 +62,6 @@ type GuestModel {
   shift_slots: [SlotsModel!]
 }
 
-type GuestsModel {
-  """All guests."""
-  guests: [GuestModel!]!
-
-  """Count of all guests."""
-  count: Int!
-}
-
 type AuthModel {
   """The barrier token."""
   barrier_token: String!
@@ -131,14 +123,33 @@ type ServerModel {
   video: String
 }
 
+type NameModel {
+  """First name of the guest."""
+  first_name: String!
+
+  """Last name of the guest."""
+  last_name: String!
+}
+
+type GuestlistModel {
+  """All non anonym guests names."""
+  guests: [NameModel!]!
+
+  """Count of all guests."""
+  count: Int!
+}
+
 type Query {
   sign_in(challenge: String!): AuthModel!
 
   """Get Server Informations"""
   server: ServerModel!
 
-  """Get all guests information."""
-  guests: GuestsModel!
+  """Get all public guests information."""
+  guestlist: GuestlistModel!
+
+  """Get all guests information. Need admin permission."""
+  guests_full: [GuestModel!]!
 
   """Get specific guest information."""
   guest: GuestModel!

@@ -5,7 +5,6 @@ import { createI18n } from 'vue-i18n'
 import en from '@/locales/en.json'
 import de from '@/locales/de.json'
 import dayjs from 'dayjs'
-import localizedFormat from 'dayjs/plugin/localizedFormat'
 import 'dayjs/locale/de'
 import 'dayjs/locale/en'
 
@@ -19,6 +18,7 @@ import { store } from '@/util/store'
 // ------------
 import '@/plugins/bootstrap'
 import '@/assets/css/main.css'
+import localizedFormat from 'dayjs/plugin/localizedFormat'
 // ------------
 
 // ------------
