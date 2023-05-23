@@ -18,6 +18,11 @@ export class GuestModel {
   })
   anonymous!: boolean;
 
+  @Field(() => Boolean, {
+    description: 'If the guest is an admin.',
+  })
+  is_admin!: boolean;
+
   @Field(() => String, {
     description:
       'The challenge of the guest, the user has to provide to authenticate.',

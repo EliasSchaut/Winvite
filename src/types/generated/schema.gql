@@ -52,6 +52,9 @@ type GuestModel {
   """If the guests wants to be displayed publicly."""
   anonymous: Boolean!
 
+  """If the guest is an admin."""
+  is_admin: Boolean!
+
   """The challenge of the guest, the user has to provide to authenticate."""
   challenge: String!
 
@@ -65,6 +68,9 @@ type GuestModel {
 type AuthModel {
   """The barrier token."""
   barrier_token: String!
+
+  """Indicates if guest is admin."""
+  is_admin: Boolean!
 }
 
 """An ad is describing one feature of the event."""

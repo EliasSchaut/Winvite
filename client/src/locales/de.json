@@ -29,6 +29,9 @@
       "understood": "Verstanden!",
       "warning": "Achtung!"
     },
+    "table": {
+      "total": "Summe"
+    },
     "theme": {
       "auto": "Auto",
       "dark": "Dunkel",
@@ -62,6 +65,7 @@
     "title": "Melde dich an!"
   },
   "nav": {
+    "admin": "Admin",
     "details": "Details",
     "guests": "Gäste",
     "history": "Verlauf",

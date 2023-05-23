@@ -30,11 +30,11 @@
     <div class="table-responsive">
       <table :id="id" class="table table-striped table-bordered table-active">
         <thead>
-        <tr class="table-dark align-middle">
-          <th
-            v-for="(column, index) in head"
-            v-if="sortable"
-            @click="(e) => {
+          <tr class="table-dark align-middle">
+            <th
+              v-for="(column, index) in head"
+              v-if="sortable"
+              @click="(e) => {
                 for(i = 0; i < head.length; i++) {
                   if (i !== index) {
                     sort_dir[i] = 'none';
@@ -45,28 +45,28 @@
                 current_sort_cell = (e.currentTarget as HTMLTableCellElement).cellIndex;
                 current_sort_dir = sort_dir[index];
               }"
-          >
-            <div class="d-flex justify-content-between flex-row">
-              <div />
-              <div v-html="column" class="me-1" />
-              <img
-                v-if="sort_dir[index] === 'asc'"
-                alt="sort_icon_down"
-                src="../assets/svg/sort-alpha-down.svg"
-              />
-              <img
-                v-else-if="sort_dir[index] === 'desc'"
-                alt="sort_icon_up"
-                src="../assets/svg/sort-alpha-up.svg"
-              />
-              <img v-else alt="sort_icon_none" src="../assets/svg/filter.svg" />
-            </div>
-          </th>
-          <th v-else v-for="column in head" v-html="column" />
-        </tr>
+            >
+              <div class="d-flex justify-content-between flex-row">
+                <div />
+                <div v-html="column" class="me-1" />
+                <img
+                  v-if="sort_dir[index] === 'asc'"
+                  alt="sort_icon_down"
+                  src="../assets/svg/sort-alpha-down.svg"
+                />
+                <img
+                  v-else-if="sort_dir[index] === 'desc'"
+                  alt="sort_icon_up"
+                  src="../assets/svg/sort-alpha-up.svg"
+                />
+                <img v-else alt="sort_icon_none" src="../assets/svg/filter.svg" />
+              </div>
+            </th>
+            <th v-else v-for="column in head" v-html="column" />
+          </tr>
         </thead>
         <tbody style="text-align: center; vertical-align: middle">
-        <slot />
+          <slot />
         </tbody>
       </table>
     </div>
@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'TableComponent',
@@ -89,11 +89,11 @@ export default defineComponent({
       filter_values: this.get_filter_cookie(),
       first_update: true,
       loop_update: true
-    };
+    }
   },
   setup(props) {
-    let current_sort_cell = 1;
-    let current_sort_dir = 'asc';
+    let current_sort_cell = 1
+    let current_sort_dir = 'asc'
 
     if (props.sort_default.length === 2) {
       current_sort_cell = props.sort_default[0] as number
@@ -113,16 +113,16 @@ export default defineComponent({
       }
     }
     if (this.sortable) {
-      this.sort(this.current_sort_cell, this.current_sort_dir);
+      this.sort(this.current_sort_cell, this.current_sort_dir)
     }
     if (this.first_update) {
-      this.loop_update = false;
-      this.first_update = false;
+      this.loop_update = false
+      this.first_update = false
     }
   },
   props: {
     head: {
-      type: Array,
+      type: Array<string>,
       required: true
     },
     id: {
@@ -148,65 +148,69 @@ export default defineComponent({
   },
   methods: {
     sort(cell_index: number, sort_dir: string) {
-      const table = document.getElementById(this.id) as HTMLTableElement;
-      const rows = table.rows;
-      let not_sorted = true;
+      const table = document.getElementById(this.id) as HTMLTableElement
+      const rows = table.rows
+      let not_sorted = true
 
       // BubbleSort
       while (not_sorted) {
-        not_sorted = false;
+        not_sorted = false
 
         for (let i = 1; i < rows.length - 1; i++) {
-          let x = rows[i].getElementsByTagName('td')[cell_index] as HTMLElement;
-          let y = rows[i + 1].getElementsByTagName('td')[cell_index] as HTMLElement;
+          let x = rows[i].getElementsByTagName('td')[cell_index] as HTMLElement
+          let y = rows[i + 1].getElementsByTagName('td')[cell_index] as HTMLElement
 
           if (sort_dir === 'asc') {
-            if (x.title.toLowerCase() > y.title.toLowerCase()) {
-              ;(rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i]);
-              not_sorted = true;
+            if (
+              (x.dataset.sort as string).toLowerCase() > (y.dataset.sort as string).toLowerCase()
+            ) {
+              ;(rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i])
+              not_sorted = true
             }
           } else if (sort_dir === 'desc') {
-            if (x.title.toLowerCase() < y.title.toLowerCase()) {
-              ;(rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i]);
-              not_sorted = true;
+            if (
+              (x.dataset.sort as string).toLowerCase() < (y.dataset.sort as string).toLowerCase()
+            ) {
+              ;(rows[i].parentNode as ParentNode).insertBefore(rows[i + 1], rows[i])
+              not_sorted = true
             }
           }
         }
       }
     },
     filter(table_id: string, cell_index: number, set_visible: boolean) {
-      const table = document.getElementById(table_id) as HTMLTableElement;
-      const rows = table.rows;
+      const table = document.getElementById(table_id) as HTMLTableElement
+      const rows = table.rows
 
       for (const row of rows) {
-        const td = row.cells[cell_index];
-        td.style.display = set_visible ? '' : 'none';
+        const td = row.cells[cell_index]
+        td.style.display = set_visible ? '' : 'none'
       }
-      this.filter_values[cell_index] = set_visible;
-      this.set_filter_cookie(this.filter_values);
+      this.filter_values[cell_index] = set_visible
+      this.set_filter_cookie(this.filter_values)
     },
     filter_all() {
       for (let i = 0; i < this.filter_values.length; i++) {
-        this.filter(this.id, i, this.filter_values[i]);
+        this.filter(this.id, i, this.filter_values[i])
       }
     },
     get_filter_cookie(): boolean[] {
-      const filter_cookie = localStorage.getItem('table_filter_' + this.id);
+      const filter_cookie = localStorage.getItem('table_filter_' + this.id)
       if (filter_cookie) {
-        const filter = JSON.parse(filter_cookie) as boolean[];
+        const filter = JSON.parse(filter_cookie) as boolean[]
         if (filter.length === this.head.length) {
-          return filter;
+          return filter
         }
       }
 
       if (this.filter_default.length) {
-        return this.filter_default as boolean[];
+        return this.filter_default as boolean[]
       } else {
-        return Array(this.head.length).fill(true) as boolean[];
+        return Array(this.head.length).fill(true) as boolean[]
       }
     },
     set_filter_cookie(filter_values: boolean[]) {
-      localStorage.setItem('table_filter_' + this.id, JSON.stringify(filter_values));
+      localStorage.setItem('table_filter_' + this.id, JSON.stringify(filter_values))
     }
   }
 })

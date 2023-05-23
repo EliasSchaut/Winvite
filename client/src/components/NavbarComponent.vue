@@ -35,6 +35,9 @@
               >GitHub</a
             >
           </li>
+          <li v-if="store.is_admin" class="nav-item">
+            <router-link class="nav-link" to="/admin">{{ $t('nav.admin') }}</router-link>
+          </li>
         </ul>
 
         <div class="d-flex justify-content-end">

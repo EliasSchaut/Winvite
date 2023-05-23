@@ -1,9 +1,9 @@
 <template>
   <nav>
     <div class="nav nav-tabs" role="tablist">
-      <router-link
+      <a
         v-for="tab in tabs"
-        :to="'/admin/' + tab.id"
+        :href="'/admin/' + tab.id"
         :class="active === tab.id ? 'nav-link active' : 'nav-link'"
         :id="'nav-tab-' + tab.id"
         data-bs-toggle="tab"
@@ -11,8 +11,9 @@
         role="tab"
         :aria-controls="'tab-' + tab.id"
         :aria-selected="active === tab.id"
+        @click="changeTab(tab.id)"
         >{{ tab.name }}
-      </router-link>
+      </a>
     </div>
   </nav>
   <div class="tab-content">
@@ -41,8 +42,13 @@ export default defineComponent({
       required: true
     }
   },
+  methods: {
+    changeTab(tab_id: string) {
+      const route = this.$route.matched[0].path.split(':')[0] + tab_id
+      window.history.pushState({}, '', route)
+    }
+  },
   mounted() {
-    console.log(this.$route.params.tab)
     if (this.$route.params.tab !== '') this.active = this.$route.params.tab as string
   },
   setup(props) {

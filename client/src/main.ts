@@ -28,6 +28,7 @@ const default_locale =
   localStorage.getItem('lang') || (navigator.language === 'de-DE' ? 'de' : 'en')
 type MessageSchema = typeof en
 const i18n = createI18n<[MessageSchema], 'en' | 'de'>({
+  legacy: false,
   locale: default_locale,
   fallbackLocale: 'en',
   messages: {
@@ -69,6 +70,11 @@ const app = createApp({
 })
 app.use(i18n)
 app.use(router)
-if (typeof localStorage.getItem('barrier_token') === 'string') store.logged_in = true
+if (typeof localStorage.getItem('barrier_token') === 'string') {
+  store.logged_in = true
+  if (typeof localStorage.getItem('is_admin') === 'string') {
+    store.is_admin = true
+  }
+}
 app.mount('#app')
 // ------------

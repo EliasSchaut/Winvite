@@ -22,13 +22,7 @@ export class GuestService {
   async find_all(ctx: CtxType): Promise<GuestModel[]> {
     return this.prisma.guest.findMany({
       where: { server_id: ctx.server_id },
-      select: {
-        id: true,
-        first_name: true,
-        last_name: true,
-        anonymous: true,
-        challenge: true,
-      },
+      orderBy: { first_name: 'asc' },
     });
   }
 

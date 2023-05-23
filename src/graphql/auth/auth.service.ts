@@ -14,7 +14,7 @@ export class AuthService {
 
   async sign_in(challenge: string, ctx: CtxType): Promise<AuthModel> {
     const guest = await this.prisma.guest.findUnique({
-      select: { id: true },
+      select: { id: true, is_admin: true },
       where: { challenge: challenge },
     });
 
@@ -27,6 +27,7 @@ export class AuthService {
     const payload = { username: guest.id, sub: null };
     return {
       barrier_token: await this.jwtService.signAsync(payload),
+      is_admin: guest.is_admin,
     };
   }
 }
