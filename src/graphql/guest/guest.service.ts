@@ -10,15 +10,8 @@ import { OptionModel } from '@/types/models/option.model';
 import { SlotsModel } from '@/types/models/slots.model';
 
 @Injectable()
-export class GuestsService {
+export class GuestService {
   constructor(private readonly prisma: PrismaService) {}
-
-  async find_all_public(ctx: CtxType): Promise<GuestModel[]> {
-    return this.prisma.guest.findMany({
-      where: { server_id: ctx.server_id, anonymous: false },
-      orderBy: { first_name: 'asc' },
-    });
-  }
 
   async find_by_id(ctx: CtxType): Promise<GuestModel | null> {
     return this.prisma.guest.findUnique({
@@ -26,19 +19,17 @@ export class GuestsService {
     });
   }
 
-  async count_all(ctx: CtxType) {
-    return this.prisma.guest.count({
-      where: { server_id: ctx.server_id },
-    });
-  }
-
-  async find_all(ctx: CtxType) {
+  async find_all(ctx: CtxType): Promise<GuestModel[]> {
     return this.prisma.guest.findMany({
       where: { server_id: ctx.server_id },
+      orderBy: { first_name: 'asc' },
     });
   }
 
-  async find_options_by_guest(ctx: CtxType): Promise<OptionModel[]> {
+  async find_options_by_guest(
+    guest_id: number,
+    ctx: CtxType,
+  ): Promise<OptionModel[]> {
     const guest_options = await this.prisma.guestOptions.findMany({
       select: {
         option: {
@@ -52,7 +43,7 @@ export class GuestsService {
           },
         },
       },
-      where: { guest_id: ctx.guest_id },
+      where: { guest_id: guest_id },
     });
 
     return guest_options.map((option) => {
@@ -65,9 +56,12 @@ export class GuestsService {
     });
   }
 
-  async find_shifts_by_guest(ctx: CtxType): Promise<SlotsModel[]> {
+  async find_shifts_by_guest(
+    guest_id: number,
+    ctx: CtxType,
+  ): Promise<SlotsModel[]> {
     const shift = await this.prisma.guest.findUnique({
-      where: { id: ctx.guest_id },
+      where: { id: guest_id },
       select: {
         guest_shifts: {
           select: {
@@ -97,7 +91,6 @@ export class GuestsService {
   }
 
   async add_guest(guest_input_data: GuestInputModel, ctx: CtxType) {
-    console.log(guest_input_data);
     return this.prisma.guest
       .create({
         data: {

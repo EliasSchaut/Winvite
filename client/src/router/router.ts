@@ -7,6 +7,7 @@ import ShiftsView from '@/views/ShiftsView.vue'
 import GuestsView from '@/views/GuestsView.vue'
 import JoinView from '@/views/JoinView.vue'
 import { log_out } from '@/util/graphql'
+import AdminView from '@/views/AdminView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -45,6 +46,11 @@ const router = createRouter({
       path: '/privacy',
       name: 'privacy',
       component: PrivacyView
+    },
+    {
+      path: '/admin/:tab?',
+      name: 'admin',
+      component: AdminView
     }
   ]
 })

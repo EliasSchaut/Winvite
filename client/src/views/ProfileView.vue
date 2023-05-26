@@ -196,6 +196,7 @@ export default defineComponent({
             first_name
             last_name
             anonymous
+            is_admin
             challenge
             options {
               id
@@ -230,6 +231,7 @@ export default defineComponent({
       first_name: '‎',
       last_name: '‎',
       anonymous: false,
+      is_admin: false,
       options: []
     })
 

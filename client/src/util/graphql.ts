@@ -72,12 +72,17 @@ export async function log_in(challenge: string) {
         query sign_in {
           sign_in(challenge: "${challenge}") {
             barrier_token
+            is_admin
           }
         }
       `)
   if (data.sign_in.barrier_token !== null) {
     localStorage.setItem('barrier_token', data.sign_in.barrier_token)
     store.logged_in = true
+    if (data.sign_in.is_admin) {
+      localStorage.setItem('is_admin', 'true')
+      store.is_admin = true
+    }
     return true
   }
   return false
@@ -85,5 +90,7 @@ export async function log_in(challenge: string) {
 
 export function log_out() {
   localStorage.removeItem('barrier_token')
+  localStorage.removeItem('is_admin')
   store.logged_in = false
+  store.is_admin = false
 }
