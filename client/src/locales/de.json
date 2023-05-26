@@ -134,6 +134,7 @@
       "want_help": "Du willst mir bei meinem Geburtstag unter die Arme greifen? Sehr gut! Dann trage dich gerne hier in eine Schicht ein! Du erhältst kurz vor der Veranstaltung eine Mitteilung mit genaueren Anweisungen."
     },
     "table": {
+      "free": "Nicht belegt",
       "info": "Info",
       "stand": "Stand",
       "take_slot": "Nehmen",

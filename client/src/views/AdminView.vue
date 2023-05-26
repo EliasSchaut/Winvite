@@ -15,7 +15,7 @@
         {
           id: 'shifts',
           name: $t('nav.shiftings'),
-          component: NotImplementedComponent
+          component: AdminShiftsView
         }
       ]"
     />
@@ -28,10 +28,14 @@ import CardComponent from '@/components/CardComponent.vue'
 import NotImplementedComponent from '@/components/err/NotImplementedComponent.vue'
 import TabComponent from '@/components/TabComponent.vue'
 import AdminGuestView from '@/views/admin_tabs/AdminGuestView.vue'
+import AdminShiftsView from '@/views/admin_tabs/AdminShiftsView.vue'
 
 export default defineComponent({
   name: 'AdminView',
   computed: {
+    AdminShiftsView() {
+      return AdminShiftsView
+    },
     AdminGuestView() {
       return AdminGuestView
     },

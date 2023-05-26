@@ -15,6 +15,14 @@ type OptionModel {
   warning: String
 }
 
+type NameModel {
+  """First name of the guest."""
+  first_name: String!
+
+  """Last name of the guest."""
+  last_name: String!
+}
+
 """
 Represents a time slot for a shift, which can be acquired by multiple participants.
 """
@@ -33,6 +41,9 @@ type SlotsModel {
 
   """Number of free slots, than has not be assigned to participants."""
   free_spots: Float
+
+  """Guests that have acquired this slot."""
+  acquired_from_guests: [NameModel!]
 }
 
 """
@@ -127,14 +138,6 @@ type ServerModel {
 
   """Video path for server"""
   video: String
-}
-
-type NameModel {
-  """First name of the guest."""
-  first_name: String!
-
-  """Last name of the guest."""
-  last_name: String!
 }
 
 type GuestlistModel {

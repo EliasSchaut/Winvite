@@ -55,7 +55,7 @@ export default {
         }
       }
     `).then((data) => {
-      gql_guests.value = data.guests
+      gql_guests.value = data.guestlist
     })
   }
 }

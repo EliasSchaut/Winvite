@@ -18,12 +18,25 @@ export class ShiftsResolver {
     return this.shiftsService.find_all_shifts({ server_id, i18n });
   }
 
-  @ResolveField(() => [ShiftModel])
+  @ResolveField(() => [SlotsModel])
   async slots(
     @Parent() shift: ShiftModel,
     @ServerID() server_id: number,
     @I18n() i18n: I18nContext<I18nTranslations>,
   ): Promise<SlotsModel[]> {
-    return this.shiftsService.find_all_slots(shift.id, { server_id, i18n });
+    const slots = await this.shiftsService.find_all_slots(shift.id, {
+      server_id,
+      i18n,
+    });
+    await Promise.all(
+      slots.map(async (slot) => {
+        slot.acquired_from_guests =
+          await this.shiftsService.find_all_acquired_from_guests(slot.id, {
+            server_id,
+            i18n,
+          });
+      }),
+    );
+    return slots;
   }
 }

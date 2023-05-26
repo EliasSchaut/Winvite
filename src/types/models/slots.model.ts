@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { NameModel } from '@/types/models/name.model';
 
 @ObjectType({
   description:
@@ -32,4 +33,10 @@ export class SlotsModel {
     nullable: true,
   })
   free_spots?: number;
+
+  @Field(() => [NameModel], {
+    nullable: true,
+    description: 'Guests that have acquired this slot.',
+  })
+  acquired_from_guests?: NameModel[];
 }

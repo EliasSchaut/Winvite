@@ -3,6 +3,10 @@
     <tr v-for="guest in guests">
       <td :data-sort="guest.first_name">{{ guest.first_name }}</td>
       <td :data-sort="guest.last_name">{{ guest.last_name }}</td>
+      <td :data-sort="guest.anonymous ? 0 : 1">
+        <img v-if="guest.anonymous" alt="check_icon" src="@/assets/svg/check-circle.svg" />
+        <img v-else alt="cross_icon" src="@/assets/svg/x-circle.svg" />
+      </td>
       <td
         v-for="option_id in option_ids"
         :data-sort="(guest.options!.find((option) => option.id === option_id)) ? 0 : 1"
@@ -21,6 +25,9 @@
     <tr>
       <td>
         <b>{{ $t('common.table.total') }}</b>
+      </td>
+      <td>
+        {{ guests!.filter((guest) => guest.anonymous).length }}
       </td>
       <td v-for="option in option_ids">
         {{
@@ -47,10 +54,11 @@ export default defineComponent({
     const { t } = useI18n()
     const guests = ref<[GuestModel]>()
     const option_ids = ref<number[]>()
-    const option_names = ref<string[]>([' '])
+    const option_names = ref<string[]>([' ', t('common.guest.anonym')])
     const table_head = ref<string[]>([
       t('common.form.first_name.label'),
-      t('common.form.last_name.label')
+      t('common.form.last_name.label'),
+      t('common.guest.anonym')
     ])
 
     query(gql`
@@ -59,6 +67,7 @@ export default defineComponent({
           id
           first_name
           last_name
+          anonymous
           options {
             id
           }

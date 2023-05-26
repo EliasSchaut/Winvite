@@ -4,6 +4,7 @@ import { CtxType } from '@/types/common/ctx.type';
 import { ShiftModel } from '@/types/models/shift.model';
 import { SlotsModel } from '@/types/models/slots.model';
 import { GraphQLError } from 'graphql/error';
+import { NameModel } from '@/types/models/name.model';
 
 @Injectable()
 export class ShiftsService {
@@ -65,5 +66,31 @@ export class ShiftsService {
         free_spots: slot.num_of_participants - slot.guest_shifts.length,
       };
     });
+  }
+
+  async find_all_acquired_from_guests(
+    slot_id: number,
+    ctx: CtxType,
+  ): Promise<NameModel[]> {
+    const data = (
+      await this.prisma.guestShifts.findMany({
+        where: { shift_slot_id: slot_id },
+        select: {
+          guest: {
+            select: {
+              first_name: true,
+              last_name: true,
+            },
+          },
+        },
+      })
+    ).map((guest) => {
+      return {
+        first_name: guest.guest.first_name,
+        last_name: guest.guest.last_name,
+      };
+    });
+    console.log(data);
+    return data;
   }
 }
