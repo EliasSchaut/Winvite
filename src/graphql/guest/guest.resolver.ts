@@ -6,9 +6,8 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { GuestsService } from '@/graphql/guests/guests.service';
+import { GuestService } from '@/graphql/guest/guest.service';
 import { GuestModel } from '@/types/models/guest.model';
-import { GuestsModel } from '@/types/models/guests.model';
 import { GuestInputModel } from '@/types/models/inputs/guest.input';
 import { AuthGuard } from '@/graphql/auth/auth.guard';
 import { UseGuards } from '@nestjs/common';
@@ -17,28 +16,23 @@ import { GuestUpdateInputModel } from '@/types/models/inputs/guest_update.input'
 import { ServerID } from '@/common/decorators/server.decorator';
 import { I18n, I18nContext } from 'nestjs-i18n';
 import { I18nTranslations } from '@/types/generated/i18n.generated';
+import { AuthAdminGuard } from '@/graphql/auth/auth_admin.guard';
 
 @Resolver(() => GuestModel)
-export class GuestsResolver {
-  constructor(private readonly guestsService: GuestsService) {}
+export class GuestResolver {
+  constructor(private readonly guestsService: GuestService) {}
 
-  @Query(() => GuestsModel, {
-    name: 'guests',
-    description: 'Get all guests information.',
+  @UseGuards(AuthAdminGuard)
+  @Query(() => [GuestModel], {
+    name: 'guests_full',
+    description: 'Get all guests information. Need admin permission.',
   })
-  async guests(
+  async guests_full(
     @ServerID() server_id: number,
     @I18n() i18n: I18nContext<I18nTranslations>,
-  ): Promise<GuestsModel> {
-    const guests = await this.guestsService.find_all_public({
-      server_id,
-      i18n,
-    });
-    const count = await this.guestsService.count_all({
-      server_id,
-      i18n,
-    });
-    return { guests, count };
+    @UserID() guest_id: number,
+  ): Promise<GuestModel[]> {
+    return this.guestsService.find_all({ server_id, i18n, guest_id });
   }
 
   @UseGuards(AuthGuard)
@@ -96,10 +90,9 @@ export class GuestsResolver {
     @ServerID() server_id: number,
     @I18n() i18n: I18nContext<I18nTranslations>,
   ) {
-    return this.guestsService.find_options_by_guest({
+    return this.guestsService.find_options_by_guest(guest.id, {
       server_id,
       i18n,
-      guest_id: guest.id,
     });
   }
 
@@ -109,10 +102,9 @@ export class GuestsResolver {
     @ServerID() server_id: number,
     @I18n() i18n: I18nContext<I18nTranslations>,
   ) {
-    return this.guestsService.find_shifts_by_guest({
+    return this.guestsService.find_shifts_by_guest(guest.id, {
       server_id,
       i18n,
-      guest_id: guest.id,
     });
   }
 }

@@ -1,4 +1,4 @@
-schema: /src/types/generated/schema.gql
+schema: ./src/types/generated/schema.gql
 extensions:
   endpoints:
     Default GraphQL Endpoint:

@@ -29,6 +29,9 @@
       "understood": "Verstanden!",
       "warning": "Achtung!"
     },
+    "table": {
+      "total": "Summe"
+    },
     "theme": {
       "auto": "Auto",
       "dark": "Dunkel",
@@ -62,6 +65,7 @@
     "title": "Melde dich an!"
   },
   "nav": {
+    "admin": "Admin",
     "details": "Details",
     "guests": "Gäste",
     "history": "Verlauf",
@@ -130,6 +134,7 @@
       "want_help": "Du willst mir bei meinem Geburtstag unter die Arme greifen? Sehr gut! Dann trage dich gerne hier in eine Schicht ein! Du erhältst kurz vor der Veranstaltung eine Mitteilung mit genaueren Anweisungen."
     },
     "table": {
+      "free": "Nicht belegt",
       "info": "Info",
       "stand": "Stand",
       "take_slot": "Nehmen",

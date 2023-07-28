@@ -8,7 +8,7 @@ import { I18nContext } from 'nestjs-i18n';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private jwtService: JwtService) {}
+  constructor(protected readonly jwtService: JwtService) {}
 
   async canActivate(ctx: ExecutionContext): Promise<boolean> {
     const i18n = I18nContext.current();
