@@ -30,3 +30,5 @@ profile:
 
 #Specify Qodana linter for analysis
 linter: jetbrains/qodana-js:latest
+include:
+  - name: CheckDependencyLicenses
